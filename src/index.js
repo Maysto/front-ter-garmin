@@ -1,15 +1,11 @@
-const express = require('express')
-const app = express()
-const path = require('path')
-const serveStatic = require('serve-static')
-const history = require('connect-history-api-fallback')
-const port = process.env.PORT || 8080
+const express = require('express');
+const serveStatic = require('serve-static');
+const path = require('path');
 
-app.use(history({
-    // OPTIONAL: Includes more verbose logging
-    verbose: true
-}))
+const app = express();
 
-app.use('/', serveStatic(path.join(__dirname, '/dist')))
+app.use('/',serveStatic(path.join(__dirname,'/dist')));
 
-app.listen(port, () => console.log(`Example app listening on port ${port}, link : http://localhost:${port}`))
+const port = process.env.PORT || 8090;
+
+app.listen(port);
