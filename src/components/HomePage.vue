@@ -86,33 +86,33 @@
                         </h4>
                         <v-form ref="form" v-model="form" class="pa-4 pt-6">
                           <v-text-field
-                            v-model="prenom"
+                            v-model="User.prenom"
                             label="Prénom"
                             name="Name"
                             type="text"
                             color="blue darken-1"
                             :rules="[rules.required]"
-                             prepend-icon="mdi-account"
+                            prepend-icon="mdi-account"
                           />
                           <v-text-field
-                            v-model="nom"
+                            v-model="User.nom"
                             label="Nom"
                             name="Name"
                             type="text"
                             color="blue darken-1"
                             :rules="[rules.required]"
-                             prepend-icon="mdi-account"
+                            prepend-icon="mdi-account"
                           />
                           <v-text-field
-                            v-model="telephone"
+                            v-model="User.telephone"
                             label="Téléphone"
                             name="Name"
                             type="text"
                             color="blue darken-1"
-                             prepend-icon="mdi-phone"
+                            prepend-icon="mdi-phone"
                           />
                           <v-text-field
-                            v-model="email"
+                            v-model="User.email"
                             :rules="[rules.email]"
                             label="Email"
                             name="Email"
@@ -122,7 +122,7 @@
                           />
 
                           <v-text-field
-                            v-model="password"
+                            v-model="User.password"
                             :rules="[rules.password, rules.length(6)]"
                             id="password"
                             label="Mot de passe"
@@ -172,22 +172,37 @@ export default {
         "Le mot de passe doit contenir au moins 6 caracteres, une majuscule, une minuscule et un caractère numérique",
       required: (v) => !!v || "Ce champ est requis",
     },
-    email: undefined,
-    nom: undefined,
-    prenom: undefined,
-    password: undefined,
-    telephone: undefined,
     value: true,
     body: {},
     form: false,
     isLoading: false,
+    BASEURL: "https://ter-garmin.herokuapp.com/api/users",
+    User: { prenom: "", nom: "", email: "", password: "", telephone: "" },
   }),
   props: {
     source: String,
   },
   methods: {
-    createUser: function() {
-      "";
+    createUser: async function () {
+      this.body = {
+        firstname: this.User.prenom,
+        lastname: this.User.nom,
+        email: this.User.email,
+        telephone: this.User.telephone,
+        password: this.User.password,
+      };
+
+      const result = await fetch(this.BASEURL + "/register", {
+        method: "POST",
+        body: JSON.stringify(this.body),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      if (result.ok) {
+        alert("Inscription réussie : Bienvenue à vous M(me) " + this.nom);
+      }
     },
   },
 };
