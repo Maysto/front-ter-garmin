@@ -45,10 +45,7 @@
                           color="blue darken-1"
                           dark
                           v-on:click="loginUser"
-                        >
-                          <router-link :to="'/Dashboard/'"
-                            >Connexion
-                          </router-link>
+                        > Connexion
                         </v-btn>
                       </div>
                     </v-col>
@@ -186,6 +183,7 @@ export default {
     BASEURL: "https://ter-garmin.herokuapp.com/api/users",
     User: { prenom: "", nom: "", email: "", password: "", telephone: "" },
     Connection: { email: "", password: "" },
+    token: undefined
   }),
   props: {
     source: String,
@@ -218,17 +216,25 @@ export default {
         password: this.Connection.password,
       };
 
-      const res = await fetch(this.BASEURL + "/login", {
+      await fetch(this.BASEURL + "/login", {
         method: "POST",
         body: JSON.stringify(this.body),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
+      })
+      .then(res => {
+        if (res.ok) {
+          res.json().then(data => {
+            this.$session.start();
+            this.$session.set("token", data.token);
+            this.$router.replace({name: "Dashboard"});
+          })
+        } else {
+          alert("Bad credentials")
+        }
       });
-      if (res.ok) {
-        alert("You are logged in, Redirecting to your Dashboard");
-      }
     },
   },
 };

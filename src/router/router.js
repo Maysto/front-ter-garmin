@@ -4,6 +4,10 @@ import NavBar from "../components/NavBar";
 import HomePage from "../components/HomePage";
 import About from "../components/About";
 import Dashboard from "../components/Dashboard/Dashboard"
+import VueSession from 'vue-session'
+
+
+Vue.use(VueSession)
 
 Vue.use(VueRouter);
 

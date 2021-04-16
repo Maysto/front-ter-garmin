@@ -15,7 +15,7 @@
     >
 
       <v-card-text class="py-2 white--text text-center">
-        {{ new Date().getFullYear() }} — <strong>Projet Garmin TER</strong>
+        {{ new Date().getFullYear() }} — <strong>Projet TER</strong>
       </v-card-text>
     </v-card>
   </v-footer>
