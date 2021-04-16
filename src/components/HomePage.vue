@@ -17,6 +17,7 @@
                         </h1>
                         <v-form>
                           <v-text-field
+                            v-model="Connection.email"
                             label="Email"
                             name="Email"
                             :rules="[rules.email]"
@@ -25,6 +26,7 @@
                             prepend-icon="mdi-email"
                           />
                           <v-text-field
+                            v-model="Connection.password"
                             :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
                             @click:append="() => (value = !value)"
                             :type="value ? 'password' : 'text'"
@@ -38,11 +40,16 @@
                         <h3 class="text-center mt-4">Mot de passe oublié ?</h3>
                       </v-card-text>
                       <div class="text-center mt-3">
-                        <v-btn rounded color="blue darken-1" dark>
+                        <v-btn
+                          rounded
+                          color="blue darken-1"
+                          dark
+                          v-on:click="loginUser"
+                        >
                           <router-link :to="'/Dashboard/'"
                             >Connexion
-                          </router-link></v-btn
-                        >
+                          </router-link>
+                        </v-btn>
                       </div>
                     </v-col>
                     <v-col cols="12" md="4" class="blue darken-1">
@@ -178,6 +185,7 @@ export default {
     isLoading: false,
     BASEURL: "https://ter-garmin.herokuapp.com/api/users",
     User: { prenom: "", nom: "", email: "", password: "", telephone: "" },
+    Connection: { email: "", password: "" },
   }),
   props: {
     source: String,
@@ -196,12 +204,30 @@ export default {
         method: "POST",
         body: JSON.stringify(this.body),
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
       });
       if (result.ok) {
         alert("Inscription réussie : Bienvenue à vous M(me) " + this.nom);
+      }
+    },
+    loginUser: async function () {
+      this.body = {
+        email: this.Connection.email,
+        password: this.Connection.password,
+      };
+
+      const res = await fetch(this.BASEURL + "/login", {
+        method: "POST",
+        body: JSON.stringify(this.body),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.ok) {
+        alert("You are logged in, Redirecting to your Dashboard");
       }
     },
   },
