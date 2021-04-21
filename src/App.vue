@@ -1,6 +1,8 @@
 <template>
   <v-app id="app">
-    <router-view />
+    <v-content class="ma-4">
+      <router-view></router-view>
+      </v-content>
     <Footer />
   </v-app>
 </template>
