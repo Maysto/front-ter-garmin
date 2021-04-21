@@ -4,7 +4,7 @@
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="8">
-            <v-card class="elevation-12">
+            <v-card class="elevation-12" color="#F5F5F5">
               <v-window v-model="step">
                 <v-window-item :value="1">
                   <v-row>
@@ -45,7 +45,8 @@
                           color="blue darken-1"
                           dark
                           v-on:click="loginUser"
-                        > Connexion
+                        >
+                          Connexion
                         </v-btn>
                       </div>
                     </v-col>
@@ -109,15 +110,18 @@
                           />
                           <v-text-field
                             v-model="User.telephone"
+                            :rules="[rules.phoneNumber(10)]"
                             label="Téléphone"
                             name="Name"
-                            type="text"
+                            type="number"
+                            min="0"
+                            max="99"
                             color="blue darken-1"
                             prepend-icon="mdi-phone"
                           />
                           <v-text-field
                             v-model="User.email"
-                            :rules="[rules.email]"
+                            :rules="[rules.email, rules.required]"
                             label="Email"
                             name="Email"
                             type="text"
@@ -127,7 +131,11 @@
 
                           <v-text-field
                             v-model="User.password"
-                            :rules="[rules.password, rules.length(6)]"
+                            :rules="[
+                              rules.password,
+                              rules.length(6),
+                              rules.required,
+                            ]"
                             id="password"
                             label="Mot de passe"
                             name="password"
@@ -171,6 +179,9 @@ export default {
       length: (len) => (v) =>
         (v || "").length >= len ||
         `Longueur de caractères non valable, obligatoire ${len}`,
+      phoneNumber: (taille) => (v) =>
+        (v || "").toString().length <= taille.toString() ||
+        `Longueurs non valable, obligatoire ${taille.toString()}`,
       password: (v) =>
         !!(v || "").match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/) ||
         "Le mot de passe doit contenir au moins 6 caracteres, une majuscule, une minuscule et un caractère numérique",
@@ -183,13 +194,13 @@ export default {
     BASEURL: "https://ter-garmin.herokuapp.com/api/users",
     User: { prenom: "", nom: "", email: "", password: "", telephone: "" },
     Connection: { email: "", password: "" },
-    token: undefined
+    token: undefined,
   }),
   props: {
     source: String,
   },
   methods: {
-    createUser: async function () {
+    createUser: async function() {
       this.body = {
         firstname: this.User.prenom,
         lastname: this.User.nom,
@@ -207,10 +218,12 @@ export default {
         },
       });
       if (result.ok) {
-        alert("Inscription réussie : Bienvenue à vous M(me) " + this.nom);
+        alert(
+          "Inscription réussie : Bienvenue à vous M(me) " + this.body.lastname
+        );
       }
     },
-    loginUser: async function () {
+    loginUser: async function() {
       this.body = {
         email: this.Connection.email,
         password: this.Connection.password,
@@ -223,19 +236,24 @@ export default {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-      })
-      .then(res => {
+      }).then((res) => {
         if (res.ok) {
-          res.json().then(data => {
+          res.json().then((data) => {
             this.$session.start();
             this.$session.set("token", data.token);
-            this.$router.replace({name: "Dashboard"});
-          })
+            this.$router.replace({ name: "Dashboard" });
+          });
         } else {
-          alert("Bad credentials")
+          alert("Bad credentials");
         }
       });
     },
   },
 };
 </script>
+
+<style scoped>
+#accueil {
+  background-color: lightblue;
+}
+</style>

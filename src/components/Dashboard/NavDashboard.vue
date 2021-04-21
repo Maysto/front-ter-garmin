@@ -6,7 +6,7 @@
         <span class="font-weight-light">Dashboard</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn text>
+      <v-btn @click="disconnect" text>
         <span>Exit</span>
         <v-icon right>mdi-exit-to-app</v-icon>
       </v-btn>
@@ -26,5 +26,11 @@ export default {
   data: () => ({
     drawer: true,
   }),
+  methods: {
+    disconnect() {
+      this.$session.destroy();
+      this.$router.replace({ name: "HomePage" });
+    },
+  },
 };
 </script>

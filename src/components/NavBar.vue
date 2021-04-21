@@ -1,6 +1,6 @@
 <template>
   <v-app id="nav">
-    <v-app-bar color="gray" style="flex: 0" flat>
+    <v-app-bar style="flex: 0" flat color="#F5F5F5">
       <v-tabs centered class=" mt-4; tabs" color="black" v-model="activeTab">
         <v-tab
           class="tab"
