@@ -14,7 +14,7 @@
     <v-navigation-drawer v-model="drawer" app class="blue">
       <v-layout column align-center>
         <v-flex class="mt-5">
-          <p class="white--text subheading mt-1 text-center">Username</p>
+          <p class="white--text subheading mt-1 text-center">{{ this.user.firstname }} {{ this.user.lastname }}</p>
         </v-flex>
       </v-layout>
       <v-list flat>
@@ -40,8 +40,9 @@
 <script>
 export default {
   data: () => ({
+    user: {},
     drawer: true,
-        links: [
+    links: [
       { icon: "mdi-account", text: "Serge", route: "Dashboard" },
       { icon: "mdi-account", text: "Ginette", route: "Dashboard" },
       { icon: "mdi-account", text: "Thierry", route: "Dashboard" },
@@ -52,6 +53,26 @@ export default {
       this.$session.destroy();
       this.$router.replace({ name: "HomePage" });
     },
+    async getInfos() {
+      let token = this.$session.get("token");
+      const header = new Headers();
+      header.append("Authorization", token);
+      return fetch("https://ter-garmin.herokuapp.com/api/users/Dashboard", {
+        method: "GET",
+        headers: header,
+      })
+        .then((response) => {
+          response.json().then((response) => {
+            this.user = response.user;
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+  },
+  mounted() {
+    this.getInfos();
   },
 };
 </script>
