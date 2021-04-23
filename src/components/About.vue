@@ -3,11 +3,16 @@
     <v-container>
       <v-row class="justify-center">
         <v-col cols="8">
-          <v-card>
+          <v-card color="#EFE5DB ">
             <v-card-title class="justify-center"> PROJET TER </v-card-title>
+            <v-row>
+              <v-col align="center">
+                A faire : Description du projet
+              </v-col>
+            </v-row>
             <v-carousel
               cycle
-              height="400"
+              height="450"
               hide-delimiter-background
               show-arrows-on-hover
             >
@@ -19,21 +24,27 @@
               </v-carousel-item>
             </v-carousel>
             <v-card-title class="justify-center"> Encadrant </v-card-title>
-            <v-card-text>
-              <v-row >
-                <v-col align="center">
-                  Monsieur Gilles MENEZ
-                </v-col>
-              </v-row>
-            </v-card-text>
-            <v-card-title class="justify-center" > Éleves </v-card-title>
-              <v-card-text>
-              <v-row >
-                <v-col align="center">
-                  Raphael BOLIER - Guilhem FABRE--SAUTEREY - Corentin GARNIER - Rémi LONGIN
-                </v-col>
-              </v-row>
-            </v-card-text>
+            <v-row>
+              <v-col align="center">
+                Monsieur Gilles MENEZ
+              </v-col>
+            </v-row>
+            <v-card-title class="justify-center"> Éleves </v-card-title>
+            <v-row>
+              <v-col align="center">
+                Raphael BOLIER - Guilhem FABRE--SAUTEREY - Corentin GARNIER -
+                Rémi LONGIN
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col align="center">
+                <v-img
+                  src="../assets/miage_logo.png"
+                  max-height="300"
+                  max-width="300"
+                ></v-img>
+              </v-col>
+            </v-row>
           </v-card>
         </v-col>
       </v-row>
@@ -47,19 +58,22 @@ export default {
     return {
       items: [
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
+          src: "https://i.ibb.co/Kwdvtgv/Best-GPS-for-Seniors.jpg",
         },
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg",
+          src: "https://i.ibb.co/dMS8Znn/Seniors-at-Laptop.jpg",
         },
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg",
-        },
-        {
-          src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
+          src: "https://i.ibb.co/r5jmb2T/Young-physician-wearing-white-coat-explaining-senior-patients-how-to-use-mobile-application-in-order.jpg",
         },
       ],
     };
   },
 };
 </script>
+
+<style scoped>
+#about {
+  background-color: #add8e6;
+}
+</style>
