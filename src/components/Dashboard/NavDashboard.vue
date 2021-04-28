@@ -14,7 +14,12 @@
     <v-navigation-drawer v-model="drawer" app class="blue">
       <v-layout column align-center>
         <v-flex class="mt-5">
-          <p class="white--text subheading mt-1 text-center">{{ this.user.firstname }} {{ this.user.lastname }}</p>
+          <p class="white--text subheading mt-1 text-center">
+            {{ this.user.firstname }} {{ this.user.lastname }}
+          </p>
+        </v-flex>
+        <v-flex class="mt-4 mb-4">
+          <PopupRelative />
         </v-flex>
       </v-layout>
       <v-list flat>
@@ -38,6 +43,7 @@
 </template>
 
 <script>
+import PopupRelative from "../Relative/PopupRelative.vue";
 export default {
   data: () => ({
     user: {},
@@ -48,6 +54,9 @@ export default {
       { icon: "mdi-account", text: "Thierry", route: "Dashboard" },
     ],
   }),
+  components: {
+    PopupRelative,
+  },
   methods: {
     disconnect() {
       this.$session.destroy();
