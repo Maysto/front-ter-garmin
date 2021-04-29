@@ -20,7 +20,7 @@
                             v-model="Connection.email"
                             label="Email"
                             name="Email"
-                            :rules="[rules.email]"
+                            :rules="[rules.email, rules.space]"
                             type="text"
                             color="blue darken-1"
                             prepend-icon="mdi-email"
@@ -96,7 +96,7 @@
                             name="Name"
                             type="text"
                             color="blue darken-1"
-                            :rules="[rules.required]"
+                            :rules="[rules.required, rules.space,rules.letter]"
                             prepend-icon="mdi-account"
                           />
                           <v-text-field
@@ -105,12 +105,12 @@
                             name="Name"
                             type="text"
                             color="blue darken-1"
-                            :rules="[rules.required]"
+                            :rules="[rules.required, rules.space,rules.letter]"
                             prepend-icon="mdi-account"
                           />
                           <v-text-field
                             v-model="User.telephone"
-                            :rules="[rules.phoneNumber(10)]"
+                            :rules="[rules.phoneNumber(10), rules.space]"
                             label="Téléphone"
                             name="Name"
                             type="number"
@@ -121,7 +121,7 @@
                           />
                           <v-text-field
                             v-model="User.email"
-                            :rules="[rules.email, rules.required]"
+                            :rules="[rules.email, rules.required, rules.space]"
                             label="Email"
                             name="Email"
                             type="text"
@@ -135,6 +135,7 @@
                               rules.password,
                               rules.length(6),
                               rules.required,
+                              rules.space,
                             ]"
                             id="password"
                             label="Mot de passe"
@@ -179,9 +180,12 @@ export default {
       length: (len) => (v) =>
         (v || "").length >= len ||
         `Longueur de caractères non valable, obligatoire ${len}`,
+      letter: (v) => isNaN(v) || "chiffres interdits",
+      space: (v) => (v || "").indexOf(" ") < 0 || "espaces interdits",
       phoneNumber: (taille) => (v) =>
-        (v || "").toString().length <= taille.toString() ||
-        `Longueurs non valable, obligatoire ${taille.toString()}`,
+        ((v || "").toString().length <= taille.toString() &&
+          (v || "").toString() > 0) ||
+        `Veuillez rentrer un nombre correct`,
       password: (v) =>
         !!(v || "").match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/) ||
         "Le mot de passe doit contenir au moins 6 caracteres, une majuscule, une minuscule et un caractère numérique",

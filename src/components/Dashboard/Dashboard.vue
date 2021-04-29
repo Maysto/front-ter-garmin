@@ -1,15 +1,34 @@
 <template>
-  <div class="team">
-    <v-flex>
-      <NavDashboard />
-    </v-flex>
+  <v-app id="dashboard">
     <v-container>
+      <v-flex>
+        <NavDashboard />
+      </v-flex>
+      <v-flex>
+        <v-card class="text-center mt-0 mb-0">
+          <v-card-title class="layout justify-center">Arouf Gangsta</v-card-title>
+          <v-list>
+            <v-list-item class="mt-n6">
+              <v-list-item-title class="teal--text">Age</v-list-item-title>
+              <v-list-item-title class="teal--text">Sexe</v-list-item-title>
+              <v-list-item-title class="teal--text">Taille</v-list-item-title>
+              <v-list-item-title class="teal--text">Poids</v-list-item-title>
+            </v-list-item>
+            <v-list-item class="mt-n4 mb-n4">
+              <v-list-item-subtitle>42</v-list-item-subtitle>
+              <v-list-item-subtitle>Homme</v-list-item-subtitle>
+              <v-list-item-subtitle>170 cm</v-list-item-subtitle>
+              <v-list-item-subtitle>60 Kg</v-list-item-subtitle>
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </v-flex>
       <v-row>
         <v-col cols="12" sm="4">
           <v-card>
             <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-                    <h4>Sleeping Time</h4>
-                    <v-spacer></v-spacer>
+              <h4>Sleeping Time</h4>
+              <v-spacer></v-spacer>
               <v-chip-group
                 v-model="selection3"
                 active-class="teal accent-4 white--text"
@@ -17,19 +36,18 @@
                 <v-chip @click="Sleeptoday()">Today</v-chip>
 
                 <v-chip @click="Sleepweek()">Week</v-chip>
-
               </v-chip-group>
-                  </v-app-bar>
-                  <v-progress-circular
-                    rotate="-90"
-                    size="100"
-                    width="15"
-                    :value="valSleep"
-                    color="teal"
-                    class="mt-n5 ml-5 mb-2"
-                  >
-                    {{valSleepH / 10}}/{{valSleepTotal}}
-                  </v-progress-circular>
+            </v-app-bar>
+            <v-progress-circular
+              rotate="-90"
+              size="100"
+              width="15"
+              :value="valSleep"
+              color="teal"
+              class="mt-n5 ml-5 mb-2"
+            >
+              {{ valSleepH / 10 }}/{{ valSleepTotal }}
+            </v-progress-circular>
           </v-card>
         </v-col>
 
@@ -140,7 +158,6 @@
               <v-chip-group
                 v-model="selection2"
                 active-class="teal  accent-4 white--text"
-                
               >
                 <v-chip @click="BPMtoday()">Today</v-chip>
 
@@ -167,7 +184,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -186,25 +203,23 @@ export default {
     selection3: 3,
   }),
   methods: {
-    BPMtoday: function () {
+    BPMtoday: function() {
       this.valueBPM = [2, 3, 4, 5, 10];
     },
-    BPMweek: function () {
+    BPMweek: function() {
       this.valueBPM = [9, 5, 6, 4, 2, 1];
     },
-    BPMmonth: function () {
+    BPMmonth: function() {
       this.valueBPM = [1, 2, 3, 8, 3, 2, 1];
     },
-    Sleeptoday: function () {
+    Sleeptoday: function() {
       this.valSleep = 75;
-      this.valSleepH = 80,
-      this.valSleepTotal = 10;
+      (this.valSleepH = 80), (this.valSleepTotal = 10);
     },
-    Sleepweek: function () {
+    Sleepweek: function() {
       this.valSleep = 90;
-      this.valSleepH = this.valSleep*7,
-      this.valSleepTotal = 70;
-    }
+      (this.valSleepH = this.valSleep * 7), (this.valSleepTotal = 70);
+    },
   },
   components: {
     NavDashboard,
@@ -213,4 +228,7 @@ export default {
 </script>
 
 <style scoped>
+#dashboard {
+  background-color: #add8e6;
+}
 </style>

@@ -8,6 +8,7 @@
         <v-card-title class="justify-center">
           <h3>Nouveau proche</h3>
         </v-card-title>
+        <v-divider class="mt-4"></v-divider>
         <v-form class="px-3" ref="form">
           <v-row>
             <v-col>
@@ -17,7 +18,7 @@
                 type="text"
                 color="blue darken-1"
                 prepend-icon="mdi-account"
-                :rules="[rules.required]"
+                :rules="[rules.required,rules.space,rules.letter]"
               />
             </v-col>
             <v-col>
@@ -27,7 +28,7 @@
                 type="text"
                 color="blue darken-1"
                 prepend-icon="mdi-account"
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.space,rules.letter]"
               />
             </v-col>
           </v-row>
@@ -40,7 +41,7 @@
                 min="0"
                 color="blue darken-1"
                 prepend-icon="mdi-calendar"
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.length(3)]"
               />
             </v-col>
             <v-col>
@@ -64,7 +65,7 @@
                 prepend-icon="mdi-weight-kilogram"
                 suffix="kg"
                 min="0"
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.poids(3)]"
               />
             </v-col>
             <v-col>
@@ -76,7 +77,7 @@
                 color="blue darken-1"
                 prepend-icon="mdi-human-male-height"
                 suffix="cm"
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.taille(3)]"
               />
             </v-col>
           </v-row>
@@ -107,6 +108,23 @@ export default {
     sexe: ["Homme", "Femme", "Autre"],
     rules: {
       required: (v) => !!v || "Ce champ est requis",
+      letter: (v) => isNaN(v) || "chiffres interdits",
+      space: (v) => (v || "").indexOf(" ") < 0 || "espaces interdits",
+      length: (taille) => (v) =>
+        ((v || "").toString().length <= taille.toString() &&
+          (v || "").toString() > 0 &&
+          (v || "").toString() <= 125) ||
+        `Veuillez rentrer un nombre correct`,
+      taille: (taille) => (v) =>
+        ((v || "").toString().length <= taille.toString() &&
+          (v || "").toString() > 0 &&
+          (v || "").toString() <= 250) ||
+        `Veuillez rentrer un nombre correct`,
+      poids: (taille) => (v) =>
+        ((v || "").toString().length <= taille.toString() &&
+          (v || "").toString() > 0 &&
+          (v || "").toString() <= 200) ||
+        `Veuillez rentrer un nombre correct`,
     },
   }),
 };
