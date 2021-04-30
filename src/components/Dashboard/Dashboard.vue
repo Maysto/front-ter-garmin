@@ -33,9 +33,10 @@
               <h3>Temps de sommeil</h3>
               <v-spacer></v-spacer>
               <v-chip-group
-                v-model="selection3"
+                v-model="selection2"
                 active-class="teal accent-4 white--text"
                 class="ma-8"
+                mandatory
               >
                 <v-chip @click="Sleeptoday()">Aujourd'hui</v-chip>
 
@@ -61,14 +62,14 @@
               <h3>Nombre de pas</h3>
               <v-spacer></v-spacer>
               <v-chip-group
-                v-model="selection3"
+                v-model="selection4"
                 active-class="teal accent-4 white--text"
                 class="ma-8"
                 mandatory
               >
-                <v-chip @click="Sleeptoday()">Aujourd'hui</v-chip>
+                <v-chip>Aujourd'hui</v-chip>
 
-                <v-chip @click="Sleepweek()">Semaine</v-chip>
+                <v-chip>Semaine</v-chip>
               </v-chip-group>
             </v-app-bar>
           </v-card>
@@ -83,10 +84,11 @@
                 v-model="selection3"
                 active-class="teal accent-4 white--text"
                 class="ma-8"
+                mandatory
               >
-                <v-chip @click="Sleeptoday()">Aujourd'hui</v-chip>
+                <v-chip>Aujourd'hui</v-chip>
 
-                <v-chip @click="Sleepweek()">Semaine</v-chip>
+                <v-chip>Semaine</v-chip>
               </v-chip-group>
             </v-app-bar>
           </v-card>
@@ -136,14 +138,14 @@
               <h3>Calories</h3>
               <v-spacer></v-spacer>
               <v-chip-group
-                v-model="selection3"
+                v-model="selection5"
                 active-class="teal accent-4 white--text"
                 class="ma-8"
                 mandatory
               >
-                <v-chip @click="Sleeptoday()">Aujourd'hui</v-chip>
+                <v-chip>Aujourd'hui</v-chip>
 
-                <v-chip @click="Sleepweek()">Semaine</v-chip>
+                <v-chip>Semaine</v-chip>
               </v-chip-group>
             </v-app-bar>
           </v-card>
@@ -155,14 +157,14 @@
               <h3>Stress</h3>
               <v-spacer></v-spacer>
               <v-chip-group
-                v-model="selection3"
+                v-model="selection6"
                 active-class="teal accent-4 white--text"
                 class="ma-8"
                 mandatory
               >
-                <v-chip @click="Sleeptoday()">Aujourd'hui</v-chip>
+                <v-chip>Aujourd'hui</v-chip>
 
-                <v-chip @click="Sleepweek()">Semaine</v-chip>
+                <v-chip>Semaine</v-chip>
               </v-chip-group>
             </v-app-bar>
           </v-card>
@@ -180,28 +182,31 @@ export default {
     drawer: true,
     valueBPM: [2, 3, 4, 5, 10],
     value: [2, 2, 5, 2, 2],
-    valSleep: 75,
-    valSleepH: 30,
+    valSleep: 80,
+    valSleepH: 80,
     valSleepTotal: 10,
-    selection: 1,
-    selection2: 2,
-    selection3: 3,
+    selection: 0,
+    selection2: 0,
+    selection3: 0,
+    selection4: 0,
+    selection5: 0,
+    selection6: 0,
   }),
   methods: {
-    BPMtoday: function() {
+    BPMtoday: function () {
       this.valueBPM = [2, 3, 4, 5, 10];
     },
-    BPMweek: function() {
+    BPMweek: function () {
       this.valueBPM = [9, 5, 6, 4, 2, 1];
     },
-    BPMmonth: function() {
+    BPMmonth: function () {
       this.valueBPM = [1, 2, 3, 8, 3, 2, 1];
     },
-    Sleeptoday: function() {
-      this.valSleep = 75;
-      (this.valSleepH = 80), (this.valSleepTotal = 10);
+    Sleeptoday: function () {
+      this.valSleep = 80;
+      (this.valSleepH = this.valSleep), (this.valSleepTotal = 10);
     },
-    Sleepweek: function() {
+    Sleepweek: function () {
       this.valSleep = 90;
       (this.valSleepH = this.valSleep * 7), (this.valSleepTotal = 70);
     },

@@ -7,8 +7,10 @@
             <v-card-title class="justify-center"> PROJET TER </v-card-title>
             <v-row>
               <v-col align="center">
-                A faire : Description du projet
-              </v-col>
+                Notre projet porte sur les personnes agées et le suivit de leur état de forme grace à une montre connectée.<br>
+                Pour cela vous devrez créer un compte. Une fois le compte créer il faudra ajouter un proche en rentrant toute ses informtations ainsi que l'identifiant de la montre.
+                Une fois ceci fait vous pourrez consulter en temps réel l'activité de vos proches.
+                </v-col>
             </v-row>
             <v-carousel
               cycle

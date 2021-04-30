@@ -29,7 +29,7 @@ export default {
   name: "App",
   data() {
     return {
-      activeTab: ``,
+      activeTab: 0,
       tabs: [
         { name: "Accueil", route: `/HomePage` },
         { name: "A propos", route: `/About` },
