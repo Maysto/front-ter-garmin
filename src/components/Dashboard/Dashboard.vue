@@ -6,36 +6,40 @@
       </v-flex>
       <v-flex>
         <v-card class="text-center mt-0 mb-0">
-          <v-card-title class="layout justify-center">Arouf Gangsta</v-card-title>
+          <v-card-title class="layout justify-center"
+            >Arouf Gangsta</v-card-title
+          >
           <v-list>
             <v-list-item class="mt-n6">
-              <v-list-item-title class="teal--text">Age</v-list-item-title>
-              <v-list-item-title class="teal--text">Sexe</v-list-item-title>
-              <v-list-item-title class="teal--text">Taille</v-list-item-title>
-              <v-list-item-title class="teal--text">Poids</v-list-item-title>
-            </v-list-item>
-            <v-list-item class="mt-n4 mb-n4">
-              <v-list-item-subtitle>42</v-list-item-subtitle>
-              <v-list-item-subtitle>Homme</v-list-item-subtitle>
-              <v-list-item-subtitle>170 cm</v-list-item-subtitle>
-              <v-list-item-subtitle>60 Kg</v-list-item-subtitle>
+              <v-list-item-title class="teal--text">Age : 45</v-list-item-title>
+              <v-list-item-title class="teal--text"
+                >Sexe : Homme</v-list-item-title
+              >
+              <v-list-item-title class="teal--text"
+                >Taille : 175cm</v-list-item-title
+              >
+              <v-list-item-title class="teal--text"
+                >Poids : 56kg</v-list-item-title
+              >
             </v-list-item>
           </v-list>
         </v-card>
       </v-flex>
-      <v-row>
-        <v-col cols="12" sm="4">
+      <v-row cols="12">
+        <v-col sm="4" xs="3">
           <v-card>
             <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-              <h4>Sleeping Time</h4>
+              <v-icon large>mdi-weather-night </v-icon>
+              <h3>Temps de sommeil</h3>
               <v-spacer></v-spacer>
               <v-chip-group
                 v-model="selection3"
                 active-class="teal accent-4 white--text"
+                class="ma-8"
               >
-                <v-chip @click="Sleeptoday()">Today</v-chip>
+                <v-chip @click="Sleeptoday()">Aujourd'hui</v-chip>
 
-                <v-chip @click="Sleepweek()">Week</v-chip>
+                <v-chip @click="Sleepweek()">Semaine</v-chip>
               </v-chip-group>
             </v-app-bar>
             <v-progress-circular
@@ -50,82 +54,62 @@
             </v-progress-circular>
           </v-card>
         </v-col>
-
-        <v-col cols="12" sm="4">
+        <v-col sm="4" xs="3">
           <v-card>
             <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-              <h5>Statistics of your health</h5>
+              <v-icon large>mdi-shoe-print </v-icon>
+              <h3>Nombre de pas</h3>
               <v-spacer></v-spacer>
-              <v-btn color="teal" text
-                >2019
-                <v-icon right> mdi-chevron-down </v-icon>
-              </v-btn>
-              <v-btn color="teal" rounded dark depressed>Year</v-btn>
-              <v-btn text>Mounth</v-btn>
-              <v-btn text>Day</v-btn>
+              <v-chip-group
+                v-model="selection3"
+                active-class="teal accent-4 white--text"
+                class="ma-8"
+                mandatory
+              >
+                <v-chip @click="Sleeptoday()">Aujourd'hui</v-chip>
+
+                <v-chip @click="Sleepweek()">Semaine</v-chip>
+              </v-chip-group>
             </v-app-bar>
-            <template>
-              <v-sparkline
-                :value="[0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0]"
-                color="teal"
-                :smooth="10 || false"
-                :padding="8"
-                :line-width="2"
-                :stroke-linecap="'round'"
-                :fill="false"
-                :type="'trend'"
-                :auto-line-width="false"
-                auto-draw
-              ></v-sparkline>
-            </template>
           </v-card>
         </v-col>
-
-        <v-col cols="12" sm="4">
+        <v-col sm="4" xs="3">
           <v-card>
             <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-              <h5>Statistics of your health</h5>
+              <v-icon large>mdi-map-marker-distance </v-icon>
+              <h3>Distance parcourue</h3>
               <v-spacer></v-spacer>
-              <v-btn color="teal" text
-                >2019
-                <v-icon right> mdi-chevron-down </v-icon>
-              </v-btn>
-              <v-btn color="teal" rounded dark depressed>Year</v-btn>
-              <v-btn text>Mounth</v-btn>
-              <v-btn text>Day</v-btn>
+              <v-chip-group
+                v-model="selection3"
+                active-class="teal accent-4 white--text"
+                class="ma-8"
+              >
+                <v-chip @click="Sleeptoday()">Aujourd'hui</v-chip>
+
+                <v-chip @click="Sleepweek()">Semaine</v-chip>
+              </v-chip-group>
             </v-app-bar>
-            <template>
-              <v-sparkline
-                :value="value"
-                color="teal"
-                :smooth="10 || false"
-                :padding="8"
-                :line-width="2"
-                :stroke-linecap="'round'"
-                :fill="false"
-                :type="'trend'"
-                :auto-line-width="false"
-                auto-draw
-              ></v-sparkline>
-            </template>
           </v-card>
         </v-col>
-
-        <v-col cols="12" sm="6">
+      </v-row>
+      <v-row cols="12">
+        <v-col sm="5" xs="3">
           <v-card>
             <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
               <v-icon large>mdi-heart-pulse </v-icon>
-              <h2>BPM</h2>
+              <h3>Rythme cardiaque</h3>
               <v-spacer></v-spacer>
               <v-chip-group
                 v-model="selection"
                 active-class="teal accent-4 white--text"
+                class="ma-8"
+                mandatory
               >
-                <v-chip @click="BPMtoday()">Today</v-chip>
+                <v-chip @click="BPMtoday()">Aujourd'hui</v-chip>
 
-                <v-chip @click="BPMweek()">Week</v-chip>
+                <v-chip @click="BPMweek()">Semaine</v-chip>
 
-                <v-chip @click="BPMmonth()">Month</v-chip>
+                <v-chip @click="BPMmonth()">Mois</v-chip>
               </v-chip-group>
             </v-app-bar>
             <template>
@@ -145,41 +129,42 @@
             </template>
           </v-card>
         </v-col>
-
-        <v-col cols="12" sm="6">
+        <v-col sm="3">
           <v-card>
             <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-              <h5>Statistics of your health</h5>
+              <v-icon large>mdi-food</v-icon>
+              <h3>Calories</h3>
               <v-spacer></v-spacer>
-              <v-btn color="teal" text
-                >2019
-                <v-icon right> mdi-chevron-down </v-icon>
-              </v-btn>
               <v-chip-group
-                v-model="selection2"
-                active-class="teal  accent-4 white--text"
+                v-model="selection3"
+                active-class="teal accent-4 white--text"
+                class="ma-8"
+                mandatory
               >
-                <v-chip @click="BPMtoday()">Today</v-chip>
+                <v-chip @click="Sleeptoday()">Aujourd'hui</v-chip>
 
-                <v-chip @click="BPMweek()">Week</v-chip>
-
-                <v-chip @click="BPMmonth()">Month</v-chip>
+                <v-chip @click="Sleepweek()">Semaine</v-chip>
               </v-chip-group>
             </v-app-bar>
-            <template>
-              <v-sparkline
-                :value="[0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0]"
-                color="teal"
-                :smooth="10 || false"
-                :padding="8"
-                :line-width="2"
-                :stroke-linecap="'round'"
-                :fill="false"
-                :type="'trend'"
-                :auto-line-width="false"
-                auto-draw
-              ></v-sparkline>
-            </template>
+          </v-card>
+        </v-col>
+        <v-col sm="3">
+          <v-card>
+            <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
+              <v-icon large>mdi-flash-alert-outline</v-icon>
+              <h3>Stress</h3>
+              <v-spacer></v-spacer>
+              <v-chip-group
+                v-model="selection3"
+                active-class="teal accent-4 white--text"
+                class="ma-8"
+                mandatory
+              >
+                <v-chip @click="Sleeptoday()">Aujourd'hui</v-chip>
+
+                <v-chip @click="Sleepweek()">Semaine</v-chip>
+              </v-chip-group>
+            </v-app-bar>
           </v-card>
         </v-col>
       </v-row>

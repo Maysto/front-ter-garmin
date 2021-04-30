@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <v-app-bar class="grey lighten-1" dark app>
+    <v-app-bar color="#F5F5F5" class="black--text" app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="text-uppercase">
         <span class="font-weight-light">Dashboard</span>
@@ -28,7 +28,7 @@
           :key="link.text"
           router
           :to="link.route"
-          active-class="border"
+          active-class="blue"
         >
           <v-list-item-action>
             <v-icon>{{ link.icon }}</v-icon>

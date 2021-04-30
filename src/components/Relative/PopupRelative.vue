@@ -90,7 +90,7 @@
             <v-btn color="blue darken-1" text @click="dialog = false"
               >Fermer</v-btn
             >
-            <v-btn color="green" text outlined @click="submit">Valider</v-btn>
+            <v-btn color="green" text outlined>Valider</v-btn>
           </v-card-actions>
         </v-form>
       </v-card>
