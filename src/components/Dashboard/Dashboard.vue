@@ -2,24 +2,24 @@
   <v-app id="dashboard">
     <v-container>
       <v-flex>
-        <NavDashboard />
+        <NavDashboard v-bind:relative="relative"/>
       </v-flex>
       <v-flex>
         <v-card class="text-center mt-0 mb-0">
           <v-card-title class="layout justify-center"
-            >Arouf Gangsta</v-card-title
+            >{{relative.prenom}} {{relative.nom}}</v-card-title
           >
           <v-list>
             <v-list-item class="mt-n6">
-              <v-list-item-title class="teal--text">Age : 45</v-list-item-title>
+              <v-list-item-title class="teal--text">Age : {{relative.age}}</v-list-item-title>
               <v-list-item-title class="teal--text"
-                >Sexe : Homme</v-list-item-title
+                >Sexe : {{relative.sexe}}</v-list-item-title
               >
               <v-list-item-title class="teal--text"
-                >Taille : 175cm</v-list-item-title
+                >Taille : {{relative.taille}} cm</v-list-item-title
               >
               <v-list-item-title class="teal--text"
-                >Poids : 56kg</v-list-item-title
+                >Poids : {{relative.poids}} kg</v-list-item-title
               >
             </v-list-item>
           </v-list>
@@ -191,6 +191,7 @@ export default {
     selection4: 0,
     selection5: 0,
     selection6: 0,
+    relative:{ prenom: "", nom: "", age: "", sexe: "", poids: "",taille:"" },
   }),
   methods: {
     BPMtoday: function () {

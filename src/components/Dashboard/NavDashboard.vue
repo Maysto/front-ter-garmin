@@ -26,16 +26,17 @@
       <v-list flat>
         <v-list-item
           v-for="link in links"
-          :key="link.text"
+          :key="link.text[0]"
           router
           :to="link.route"
           active-class="blue"
+          @click="showData(link)"
         >
           <v-list-item-action>
             <v-icon>{{ link.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>{{ link.text }}</v-list-item-title>
+            <v-list-item-title>{{ link.text[0]}}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -53,6 +54,11 @@ export default {
   }),
   components: {
     PopupRelative,
+  },
+  props:{
+    relative:{
+      type: Object,
+    },
   },
   methods: {
     disconnect() {
@@ -75,6 +81,14 @@ export default {
         .catch((error) => {
           console.error(error);
         });
+    },
+    showData(tab){
+      this.relative.prenom = tab.text[0]
+      this.relative.nom = tab.text[1]
+      this.relative.age = tab.text[2]
+      this.relative.sexe = tab.text[3]
+      this.relative.poids = tab.text[4]
+      this.relative.taille = tab.text[5]
     },
   },
   mounted() {

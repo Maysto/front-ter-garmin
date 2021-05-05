@@ -157,8 +157,9 @@ export default {
   },
   methods: {
     createRelative() {
-      let newRelative = { icon: "mdi-account", text: this.relatives.prenom, route: "Dashboard" };
+      let newRelative = { icon: "mdi-account", text: [this.relatives.prenom,this.relatives.nom,this.relatives.age,this.relatives.sexe,this.relatives.poids,this.relatives.taille], route: "Dashboard" };
       this.links.push(newRelative);
+      this.dialog = false;
     },
   },
 };
