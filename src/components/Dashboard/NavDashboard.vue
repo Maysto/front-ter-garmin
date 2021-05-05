@@ -19,7 +19,8 @@
           </p>
         </v-flex>
         <v-flex class="mt-4 mb-4">
-          <PopupRelative />
+          <PopupRelative v-bind:links="links"
+          />
         </v-flex>
       </v-layout>
       <v-list flat>
@@ -48,11 +49,7 @@ export default {
   data: () => ({
     user: {},
     drawer: true,
-    links: [
-      { icon: "mdi-account", text: "Serge", route: "Dashboard" },
-      { icon: "mdi-account", text: "Ginette", route: "Dashboard" },
-      { icon: "mdi-account", text: "Thierry", route: "Dashboard" },
-    ],
+    links: [],
   }),
   components: {
     PopupRelative,

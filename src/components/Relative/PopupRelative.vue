@@ -9,32 +9,35 @@
           <h3>Nouveau proche</h3>
         </v-card-title>
         <v-divider class="mt-4"></v-divider>
-        <v-form class="px-3" ref="form">
+        <v-form class="px-3" ref="form" v-model="form">
           <v-row>
             <v-col>
               <v-text-field
+                v-model="relatives.nom"
                 label="Nom"
                 name="lastname"
                 type="text"
                 color="blue darken-1"
                 prepend-icon="mdi-account"
-                :rules="[rules.required,rules.space,rules.letter]"
+                :rules="[rules.required, rules.space, rules.letter]"
               />
             </v-col>
             <v-col>
               <v-text-field
+                v-model="relatives.prenom"
                 label="Prenom"
                 name="firstname"
                 type="text"
                 color="blue darken-1"
                 prepend-icon="mdi-account"
-                :rules="[rules.required, rules.space,rules.letter]"
+                :rules="[rules.required, rules.space, rules.letter]"
               />
             </v-col>
           </v-row>
           <v-row>
             <v-col>
               <v-text-field
+                v-model="relatives.age"
                 label="Age"
                 name="age"
                 type="number"
@@ -46,6 +49,7 @@
             </v-col>
             <v-col>
               <v-select
+                v-model="relatives.sexe"
                 label="Sexe"
                 name="sexe"
                 :items="sexe"
@@ -58,6 +62,7 @@
           <v-row>
             <v-col>
               <v-text-field
+                v-model="relatives.poids"
                 label="Poids"
                 name="weight"
                 type="number"
@@ -70,6 +75,7 @@
             </v-col>
             <v-col>
               <v-text-field
+                v-model="relatives.taille"
                 label="Taille"
                 name="height"
                 type="number"
@@ -90,7 +96,14 @@
             <v-btn color="blue darken-1" text @click="dialog = false"
               >Fermer</v-btn
             >
-            <v-btn color="green" text outlined>Valider</v-btn>
+            <v-btn
+              color="green"
+              text
+              outlined
+              @click="createRelative"
+              :disabled="!form"
+              >Valider</v-btn
+            >
           </v-card-actions>
         </v-form>
       </v-card>
@@ -100,10 +113,20 @@
 
 <script>
 export default {
+  name: "Test",
   data: () => ({
     dialog: false,
     title: "",
     content: "",
+    form: false,
+    relatives: {
+      prenom: "",
+      nom: "",
+      age: "",
+      sexe: "",
+      poids: "",
+      taille: "",
+    },
     inputRules: [(v) => v.length >= 3 || "Minimum lenght is 3 charachters"],
     sexe: ["Homme", "Femme", "Autre"],
     rules: {
@@ -127,5 +150,16 @@ export default {
         `Veuillez rentrer un nombre correct`,
     },
   }),
+  props: {
+    links: {
+      type: Array,
+    },
+  },
+  methods: {
+    createRelative() {
+      let newRelative = { icon: "mdi-account", text: this.relatives.prenom, route: "Dashboard" };
+      this.links.push(newRelative);
+    },
+  },
 };
 </script>
