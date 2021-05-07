@@ -89,9 +89,7 @@
           </v-row>
           <v-divider class="mt-12"></v-divider>
           <v-card-actions>
-            <v-btn color="red" text @click="$refs.form.reset()">
-              Reset
-            </v-btn>
+            <v-btn color="red" text @click="$refs.form.reset()"> Reset </v-btn>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="dialog = false"
               >Fermer</v-btn
@@ -149,6 +147,7 @@ export default {
           (v || "").toString() <= 200) ||
         `Veuillez rentrer un nombre correct`,
     },
+    BASEURL: "https://ter-garmin.herokuapp.com/api/relatives",
   }),
   props: {
     links: {
@@ -156,10 +155,43 @@ export default {
     },
   },
   methods: {
-    createRelative() {
-      let newRelative = { icon: "mdi-account", text: [this.relatives.prenom,this.relatives.nom,this.relatives.age,this.relatives.sexe,this.relatives.poids,this.relatives.taille], route: "Dashboard" };
-      this.links.push(newRelative);
-      this.dialog = false;
+    createRelative: async function () {
+      this.body = {
+        firstname: this.relatives.prenom,
+        lastname: this.relatives.nom,
+        age: this.relatives.age,
+        gender: this.relatives.sexe,
+        weight: this.relatives.poids,
+        height: this.relatives.taille,
+      };
+
+      const result = await fetch(this.BASEURL + "/addOne", {
+        method: "POST",
+        body: JSON.stringify(this.body),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      if (result.ok) {
+        let newRelative = {
+          icon: "mdi-account",
+          text: [
+            this.relatives.prenom,
+            this.relatives.nom,
+            this.relatives.age,
+            this.relatives.sexe,
+            this.relatives.poids,
+            this.relatives.taille,
+          ],
+          route: "Dashboard",
+        };
+        this.links.push(newRelative);
+        this.dialog = false;
+        alert(
+          "Inscription réussie : Bienvenue à vous M(me) " + this.body.lastname
+        );
+      }
     },
   },
 };
