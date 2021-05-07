@@ -169,42 +169,51 @@ export default {
         height: this.relatives.taille,
       };
 
-      await fetch(this.BASEURL + "/addOne", {
+      const result = await fetch(this.BASEURL + "/addOne", {
         method: "POST",
         body: JSON.stringify(this.body),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-      }).then((result) => {
-        result.json().then((resJS) => {
-          this.relativeID = resJS.relativeID;
-        });
       });
-      //   if (result.ok) {
-      //     let newRelative = {
-      //       icon: "mdi-account",
-      //       text: [
-      //         this.relatives.prenom,
-      //         this.relatives.nom,
-      //         this.relatives.age,
-      //         this.relatives.sexe,
-      //         this.relatives.poids,
-      //         this.relatives.taille,
-      //       ],
-      //       route: "Dashboard",
-      //     };
-      //     this.links.push(newRelative);
-      //     this.dialog = false;
-      //     alert("Ajout de : " + this.body.firstname + " reussi");
-      //   }
+      if (result.ok) {
+        // recuperer l'id et l'ajouter dans le tableau dans le back
+        this.dialog = false;
+        this.getRelatives();
+        alert("Ajout de : " + this.body.firstname + " reussi");
+      }
     },
     getRelatives: async function() {
-      let url = this.BASEURL + "/getOne";
-      fetch(url)
+      let url2 = `http://localhost:5000/api/users/${window.email}`;
+
+      fetch(url2)
         .then((responseJSON) => {
-          responseJSON.json().then((resJS) => {
-            this.listrelatives = resJS.data;
+          responseJSON.json().then((user) => {
+            user.relatives.forEach((r) => {
+              let url = `http://localhost:5000/api/relatives/${r}`;
+              fetch(url)
+                .then((response) => {
+                  response.json().then((relative) => {
+                    let newRelative = {
+                      icon: "mdi-account",
+                      text: [
+                        relative.firstname,
+                        relative.lastname,
+                        relative.age,
+                        relative.gender,
+                        relative.weight,
+                        relative.height,
+                      ],
+                      route: "Dashboard",
+                    };
+                    this.links.push(newRelative);
+                  });
+                })
+                .catch(function(err) {
+                  console.log(err);
+                });
+            });
           });
         })
         .catch(function(err) {

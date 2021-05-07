@@ -251,6 +251,8 @@ export default {
           alert("Bad credentials");
         }
       });
+
+      window.email = this.body.email;
     },
   },
 };
