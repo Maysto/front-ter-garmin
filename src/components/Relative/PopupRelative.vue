@@ -125,6 +125,7 @@ export default {
       poids: "",
       taille: "",
     },
+    relativeID: "",
     inputRules: [(v) => v.length >= 3 || "Minimum lenght is 3 charachters"],
     sexe: ["Homme", "Femme", "Autre"],
     rules: {
@@ -154,8 +155,11 @@ export default {
       type: Array,
     },
   },
+  mounted() {
+    this.getRelatives();
+  },
   methods: {
-    createRelative: async function () {
+    createRelative: async function() {
       this.body = {
         firstname: this.relatives.prenom,
         lastname: this.relatives.nom,
@@ -165,33 +169,47 @@ export default {
         height: this.relatives.taille,
       };
 
-      const result = await fetch(this.BASEURL + "/addOne", {
+      await fetch(this.BASEURL + "/addOne", {
         method: "POST",
         body: JSON.stringify(this.body),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
+      }).then((result) => {
+        result.json().then((resJS) => {
+          this.relativeID = resJS.relativeID;
+        });
       });
-      if (result.ok) {
-        let newRelative = {
-          icon: "mdi-account",
-          text: [
-            this.relatives.prenom,
-            this.relatives.nom,
-            this.relatives.age,
-            this.relatives.sexe,
-            this.relatives.poids,
-            this.relatives.taille,
-          ],
-          route: "Dashboard",
-        };
-        this.links.push(newRelative);
-        this.dialog = false;
-        alert(
-          "Ajout de : " + this.body.firstname + " reussi"
-        );
-      }
+      //   if (result.ok) {
+      //     let newRelative = {
+      //       icon: "mdi-account",
+      //       text: [
+      //         this.relatives.prenom,
+      //         this.relatives.nom,
+      //         this.relatives.age,
+      //         this.relatives.sexe,
+      //         this.relatives.poids,
+      //         this.relatives.taille,
+      //       ],
+      //       route: "Dashboard",
+      //     };
+      //     this.links.push(newRelative);
+      //     this.dialog = false;
+      //     alert("Ajout de : " + this.body.firstname + " reussi");
+      //   }
+    },
+    getRelatives: async function() {
+      let url = this.BASEURL + "/getOne";
+      fetch(url)
+        .then((responseJSON) => {
+          responseJSON.json().then((resJS) => {
+            this.listrelatives = resJS.data;
+          });
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
     },
   },
 };
