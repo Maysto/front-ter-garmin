@@ -4,12 +4,13 @@
       <v-row class="justify-center">
         <v-col cols="8">
           <v-card color="#EFE5DB ">
-            <v-card-title class="justify-center"> PROJET TER </v-card-title>
+            <v-card-title class="justify-center blue--text"> PROJET TER </v-card-title>
             <v-row>
               <v-col align="center">
-                Notre projet porte sur les personnes agées et le suivit de leur état de forme grace à une montre connectée.<br>
-                Pour cela vous devrez créer un compte. Une fois le compte créer il faudra ajouter un proche en rentrant toute ses informtations ainsi que l'identifiant de la montre.
-                Une fois ceci fait vous pourrez consulter en temps réel l'activité de vos proches.
+                Ce projet consiste à mettre en place un service d'aide à la surveillance de personnes âgées, isolées... en utilisant des produits et un framework de Garmin<br>
+                Il vous suffira alors d'avoir une montre garmin et de créer un compte sur le site afin de suivre l'état de santé du porteur de la montre et de visualiser ses différentes activités,
+                tout cela à distance.
+
                 </v-col>
             </v-row>
             <v-carousel
@@ -25,13 +26,13 @@
               >
               </v-carousel-item>
             </v-carousel>
-            <v-card-title class="justify-center"> Encadrant </v-card-title>
+            <v-card-title class="justify-center blue--text"> Encadrant </v-card-title>
             <v-row>
               <v-col align="center">
                 Monsieur Gilles MENEZ
               </v-col>
             </v-row>
-            <v-card-title class="justify-center"> Éleves </v-card-title>
+            <v-card-title class="justify-center blue--text"> Éleves </v-card-title>
             <v-row>
               <v-col align="center">
                 Raphael BOLIER - Guilhem FABRE--SAUTEREY - Corentin GARNIER -

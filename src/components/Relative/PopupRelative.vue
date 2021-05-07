@@ -189,7 +189,7 @@ export default {
         this.links.push(newRelative);
         this.dialog = false;
         alert(
-          "Inscription réussie : Bienvenue à vous M(me) " + this.body.lastname
+          "Ajout de : " + this.body.firstname + " reussi"
         );
       }
     },
