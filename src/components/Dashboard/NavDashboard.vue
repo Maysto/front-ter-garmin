@@ -36,7 +36,7 @@
             <v-icon>{{ link.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>{{ link.text[0]}}</v-list-item-title>
+            <v-list-item-title>{{ link.text[0] }} {{ link.text[1] }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

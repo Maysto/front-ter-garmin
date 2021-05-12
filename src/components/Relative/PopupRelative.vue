@@ -161,6 +161,7 @@ export default {
   methods: {
     createRelative: async function() {
       this.body = {
+        userEmail: window.email,
         firstname: this.relatives.prenom,
         lastname: this.relatives.nom,
         age: this.relatives.age,
@@ -168,6 +169,8 @@ export default {
         weight: this.relatives.poids,
         height: this.relatives.taille,
       };
+
+      console.log(this.body);
 
       const result = await fetch(this.BASEURL + "/addOne", {
         method: "POST",
@@ -185,13 +188,13 @@ export default {
       }
     },
     getRelatives: async function() {
-      let url2 = `http://localhost:5000/api/users/${window.email}`;
+      let url2 = `https://ter-garmin.herokuapp.com/api/users/${window.email}`;
 
       fetch(url2)
         .then((responseJSON) => {
           responseJSON.json().then((user) => {
             user.relatives.forEach((r) => {
-              let url = `http://localhost:5000/api/relatives/${r}`;
+              let url = `https://ter-garmin.herokuapp.com/api/relatives/${r._id}`;
               fetch(url)
                 .then((response) => {
                   response.json().then((relative) => {
