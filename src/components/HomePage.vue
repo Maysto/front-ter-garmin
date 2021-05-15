@@ -252,7 +252,7 @@ export default {
         }
       });
 
-    window.email = this.body.email;
+    localStorage.email = this.body.email;
     },
   },
 };

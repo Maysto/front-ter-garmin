@@ -113,6 +113,7 @@
 export default {
   name: "Test",
   data: () => ({
+    user: {},
     dialog: false,
     title: "",
     content: "",
@@ -125,7 +126,6 @@ export default {
       poids: "",
       taille: "",
     },
-    relativeID: "",
     inputRules: [(v) => v.length >= 3 || "Minimum lenght is 3 charachters"],
     sexe: ["Homme", "Femme", "Autre"],
     rules: {
@@ -155,13 +155,10 @@ export default {
       type: Array,
     },
   },
-  mounted() {
-    this.getRelatives();
-  },
   methods: {
     createRelative: async function() {
       this.body = {
-        userEmail: window.email,
+        userEmail: localStorage.email,
         firstname: this.relatives.prenom,
         lastname: this.relatives.nom,
         age: this.relatives.age,
@@ -169,8 +166,6 @@ export default {
         weight: this.relatives.poids,
         height: this.relatives.taille,
       };
-
-      console.log(this.body);
 
       const result = await fetch(this.BASEURL + "/addOne", {
         method: "POST",
@@ -181,48 +176,17 @@ export default {
         },
       });
       if (result.ok) {
-        // recuperer l'id et l'ajouter dans le tableau dans le back
         this.dialog = false;
-        this.getRelatives();
+        let newRelative = {
+          icon: "mdi-account",
+          text: [this.body.firstname, this.body.lastname, this.body.age, this.body.gender, this.body.weight, this.body.height],
+          route: "Dashboard",
+        };
+        this.links.push(newRelative);
         alert("Ajout de : " + this.body.firstname + " reussi");
       }
     },
-    getRelatives: async function() {
-      let url2 = `https://ter-garmin.herokuapp.com/api/users/${window.email}`;
 
-      fetch(url2)
-        .then((responseJSON) => {
-          responseJSON.json().then((user) => {
-            user.relatives.forEach((r) => {
-              let url = `https://ter-garmin.herokuapp.com/api/relatives/${r._id}`;
-              fetch(url)
-                .then((response) => {
-                  response.json().then((relative) => {
-                    let newRelative = {
-                      icon: "mdi-account",
-                      text: [
-                        relative.firstname,
-                        relative.lastname,
-                        relative.age,
-                        relative.gender,
-                        relative.weight,
-                        relative.height,
-                      ],
-                      route: "Dashboard",
-                    };
-                    this.links.push(newRelative);
-                  });
-                })
-                .catch(function(err) {
-                  console.log(err);
-                });
-            });
-          });
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
-    },
   },
 };
 </script>

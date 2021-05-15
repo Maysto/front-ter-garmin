@@ -14,7 +14,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Accueil",
+
     component: NavBar,
     children: [
       { path: "/", redirect: "/HomePage" },

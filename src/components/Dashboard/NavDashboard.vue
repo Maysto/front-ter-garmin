@@ -19,8 +19,7 @@
           </p>
         </v-flex>
         <v-flex class="mt-4 mb-4">
-          <PopupRelative v-bind:links="links"
-          />
+          <PopupRelative v-bind:links="links" />
         </v-flex>
       </v-layout>
       <v-list flat>
@@ -36,7 +35,9 @@
             <v-icon>{{ link.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>{{ link.text[0] }} {{ link.text[1] }}</v-list-item-title>
+            <v-list-item-title
+              >{{ link.text[0] }} {{ link.text[1] }}</v-list-item-title
+            >
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -55,8 +56,8 @@ export default {
   components: {
     PopupRelative,
   },
-  props:{
-    relative:{
+  props: {
+    relative: {
       type: Object,
     },
   },
@@ -82,17 +83,53 @@ export default {
           console.error(error);
         });
     },
-    showData(tab){
-      this.relative.prenom = tab.text[0]
-      this.relative.nom = tab.text[1]
-      this.relative.age = tab.text[2]
-      this.relative.sexe = tab.text[3]
-      this.relative.poids = tab.text[4]
-      this.relative.taille = tab.text[5]
+    showData(tab) {
+      this.relative.prenom = tab.text[0];
+      this.relative.nom = tab.text[1];
+      this.relative.age = tab.text[2];
+      this.relative.sexe = tab.text[3];
+      this.relative.poids = tab.text[4];
+      this.relative.taille = tab.text[5];
+    },
+    getRelatives: async function() {
+      let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
+      fetch(url2)
+        .then((responseJSON) => {
+          responseJSON.json().then((user) => {
+            user.relatives.forEach((r) => {
+              let url = `https://ter-garmin.herokuapp.com/api/relatives/${r._id}`;
+              fetch(url)
+                .then((response) => {
+                  response.json().then((relative) => {
+                    let newRelative = {
+                      icon: "mdi-account",
+                      text: [
+                        relative.firstname,
+                        relative.lastname,
+                        relative.age,
+                        relative.gender,
+                        relative.weight,
+                        relative.height,
+                      ],
+                      route: "Dashboard",
+                    };
+                    this.links.push(newRelative);
+                  });
+                })
+                .catch(function(err) {
+                  console.log(err);
+                });
+            });
+          });
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
     },
   },
   mounted() {
     this.getInfos();
+    this.getRelatives();
   },
 };
 </script>
