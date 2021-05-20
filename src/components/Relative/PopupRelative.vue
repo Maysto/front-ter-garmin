@@ -87,6 +87,42 @@
               />
             </v-col>
           </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="relatives.consSecret"
+                label="Code Consumer Secret"
+                name="consSecret"
+                type="text"
+                color="blue darken-1"
+                prepend-icon="mdi-book-check-outline"
+                append-outer-icon="mdi-help-circle"
+                @click:append-outer="dialogbis = true"
+                :rules="[rules.required]"
+              />
+              <v-dialog v-model="dialogbis" max-width="380">
+                <v-card>
+                  <v-card-title class="headline">
+                    Où trouver son code consumer secret ?
+                  </v-card-title>
+                  <v-card-text>
+                    Depuis le téléphone de la personne que vous voullez suivre,
+                    lancer l'application Garmin puis...
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="green darken-1"
+                      text
+                      @click="dialogbis = false"
+                    >
+                      Ok
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-col>
+          </v-row>
           <v-divider class="mt-12"></v-divider>
           <v-card-actions>
             <v-btn color="red" text @click="$refs.form.reset()"> Reset </v-btn>
@@ -115,6 +151,7 @@ export default {
   data: () => ({
     user: {},
     dialog: false,
+    dialogbis: false,
     title: "",
     content: "",
     form: false,
@@ -125,6 +162,7 @@ export default {
       sexe: "",
       poids: "",
       taille: "",
+      consSecret: "",
     },
     inputRules: [(v) => v.length >= 3 || "Minimum lenght is 3 charachters"],
     sexe: ["Homme", "Femme", "Autre"],
@@ -156,7 +194,7 @@ export default {
     },
   },
   methods: {
-    createRelative: async function() {
+    createRelative: async function () {
       this.body = {
         userEmail: localStorage.email,
         firstname: this.relatives.prenom,
@@ -165,6 +203,7 @@ export default {
         gender: this.relatives.sexe,
         weight: this.relatives.poids,
         height: this.relatives.taille,
+        consumerSecret: this.relative.consSecret
       };
 
       const result = await fetch(this.BASEURL + "/addOne", {
@@ -179,14 +218,21 @@ export default {
         this.dialog = false;
         let newRelative = {
           icon: "mdi-account",
-          text: [this.body.firstname, this.body.lastname, this.body.age, this.body.gender, this.body.weight, this.body.height],
+          text: [
+            this.body.firstname,
+            this.body.lastname,
+            this.body.age,
+            this.body.gender,
+            this.body.weight,
+            this.body.height,
+            this.body.consumerSecret,
+          ],
           route: "Dashboard",
         };
         this.links.push(newRelative);
         alert("Ajout de : " + this.body.firstname + " reussi");
       }
     },
-
   },
 };
 </script>
