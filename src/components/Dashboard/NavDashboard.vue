@@ -29,7 +29,10 @@
           router
           :to="link.route"
           active-class="blue"
-          @click="showData(link)"
+          @click="
+            showData(link);
+            setDemarrage();
+          "
         >
           <v-list-item-action>
             <v-icon>{{ link.icon }}</v-icon>
@@ -59,6 +62,10 @@ export default {
   props: {
     relative: {
       type: Object,
+    },
+    demarrage: {
+      type: Boolean,
+      required: true,
     },
   },
   methods: {
@@ -91,7 +98,7 @@ export default {
       this.relative.poids = tab.text[4];
       this.relative.taille = tab.text[5];
     },
-    getRelatives: async function() {
+    getRelatives: async function () {
       let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       fetch(url2)
         .then((responseJSON) => {
@@ -116,15 +123,20 @@ export default {
                     this.links.push(newRelative);
                   });
                 })
-                .catch(function(err) {
+                .catch(function (err) {
                   console.log(err);
                 });
             });
           });
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log(err);
         });
+    },
+    setDemarrage() {
+      let mydemarrage = this.demarrage
+      mydemarrage = true;
+      this.$emit("update-demarrage", mydemarrage);
     },
   },
   mounted() {
