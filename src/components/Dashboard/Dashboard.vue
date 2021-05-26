@@ -2,7 +2,11 @@
   <v-app id="dashboard">
     <v-container>
       <v-flex>
-        <NavDashboard v-bind:relative="relative" :demarrage="demarrage" @update-demarrage="update"/>
+        <NavDashboard
+          v-bind:relative="relative"
+          :demarrage="demarrage"
+          @update-demarrage="update"
+        />
       </v-flex>
       <v-flex v-if="demarrage">
         <v-flex>

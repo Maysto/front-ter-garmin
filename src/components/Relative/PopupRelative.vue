@@ -6,108 +6,134 @@
       </template>
       <v-card>
         <v-card-title class="justify-center">
-          <h3>Nouveau proche</h3>
+          <h3>Choisissez comment ajouter votre proche :</h3>
+          <v-chip-group v-model="selec" class="ma-8" mandatory>
+            <v-chip @click="setNouveau()">Nouveau proche</v-chip>
+            <v-chip @click="setExist()">Proche deja existant</v-chip>
+          </v-chip-group>
         </v-card-title>
         <v-divider class="mt-4"></v-divider>
         <v-form class="px-3" ref="form" v-model="form">
-          <v-row>
+          <div v-if="this.nouveau">
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="relatives.nom"
+                  label="Nom"
+                  name="lastname"
+                  type="text"
+                  color="blue darken-1"
+                  prepend-icon="mdi-account"
+                  :rules="[rules.required, rules.space, rules.letter]"
+                />
+              </v-col>
+              <v-col>
+                <v-text-field
+                  v-model="relatives.prenom"
+                  label="Prenom"
+                  name="firstname"
+                  type="text"
+                  color="blue darken-1"
+                  prepend-icon="mdi-account"
+                  :rules="[rules.required, rules.space, rules.letter]"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="relatives.age"
+                  label="Age"
+                  name="age"
+                  type="number"
+                  min="0"
+                  color="blue darken-1"
+                  prepend-icon="mdi-calendar"
+                  :rules="[rules.required, rules.length(3)]"
+                />
+              </v-col>
+              <v-col>
+                <v-select
+                  v-model="relatives.sexe"
+                  label="Sexe"
+                  name="sexe"
+                  :items="sexe"
+                  color="blue darken-1"
+                  prepend-icon="mdi-gender-transgender"
+                  :rules="[rules.required]"
+                ></v-select>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="relatives.poids"
+                  label="Poids"
+                  name="weight"
+                  type="number"
+                  color="blue darken-1"
+                  prepend-icon="mdi-weight-kilogram"
+                  suffix="kg"
+                  min="0"
+                  :rules="[rules.required, rules.poids(3)]"
+                />
+              </v-col>
+              <v-col>
+                <v-text-field
+                  v-model="relatives.taille"
+                  label="Taille"
+                  name="height"
+                  type="number"
+                  min="0"
+                  color="blue darken-1"
+                  prepend-icon="mdi-human-male-height"
+                  suffix="cm"
+                  :rules="[rules.required, rules.taille(3)]"
+                />
+              </v-col>
+            </v-row>
+            <v-divider class="mt-12"></v-divider>
+            <v-card-actions>
+              <v-btn color="red" text @click="$refs.form.reset()">
+                Reset
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="dialog = false"
+                >Fermer</v-btn
+              >
+              <v-btn
+                color="green"
+                text
+                outlined
+                @click="createRelative"
+                :disabled="!form"
+                >Valider</v-btn
+              >
+            </v-card-actions>
+          </div>
+          <div v-if="this.exist">
             <v-col>
               <v-text-field
-                v-model="relatives.nom"
-                label="Nom"
-                name="lastname"
+                v-model="existR.id"
+                label="ID"
+                name="id"
                 type="text"
                 color="blue darken-1"
                 prepend-icon="mdi-account"
-                :rules="[rules.required, rules.space, rules.letter]"
-              />
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model="relatives.prenom"
-                label="Prenom"
-                name="firstname"
-                type="text"
-                color="blue darken-1"
-                prepend-icon="mdi-account"
-                :rules="[rules.required, rules.space, rules.letter]"
-              />
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="relatives.age"
-                label="Age"
-                name="age"
-                type="number"
-                min="0"
-                color="blue darken-1"
-                prepend-icon="mdi-calendar"
-                :rules="[rules.required, rules.length(3)]"
-              />
-            </v-col>
-            <v-col>
-              <v-select
-                v-model="relatives.sexe"
-                label="Sexe"
-                name="sexe"
-                :items="sexe"
-                color="blue darken-1"
-                prepend-icon="mdi-gender-transgender"
-                :rules="[rules.required]"
-              ></v-select>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="relatives.poids"
-                label="Poids"
-                name="weight"
-                type="number"
-                color="blue darken-1"
-                prepend-icon="mdi-weight-kilogram"
-                suffix="kg"
-                min="0"
-                :rules="[rules.required, rules.poids(3)]"
-              />
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model="relatives.taille"
-                label="Taille"
-                name="height"
-                type="number"
-                min="0"
-                color="blue darken-1"
-                prepend-icon="mdi-human-male-height"
-                suffix="cm"
-                :rules="[rules.required, rules.taille(3)]"
-              />
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="relatives.consSecret"
-                label="Code Consumer Secret"
-                name="consSecret"
-                type="text"
-                color="blue darken-1"
-                prepend-icon="mdi-book-check-outline"
                 append-outer-icon="mdi-help-circle"
                 @click:append-outer="dialogbis = true"
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.space, rules.letter]"
               />
               <v-dialog v-model="dialogbis" max-width="380">
                 <v-card>
                   <v-card-title class="headline">
-                    Où trouver son code consumer secret ?
+                    Où trouver l'ID du proche ?
                   </v-card-title>
                   <v-card-text>
-                    Depuis le téléphone de la personne que vous voullez suivre,
-                    lancer l'application Garmin puis...
+                    Demander a votre proche ayant deja ajouté la personne a
+                    surveiller en question de vous donner l'ID de ce dernier.<br />
+                    Pour cela il devra selectionner la personne voulue dans son
+                    dashboard et cliquer sur le bouton ID en haut de la page.
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
@@ -122,23 +148,30 @@
                 </v-card>
               </v-dialog>
             </v-col>
-          </v-row>
-          <v-divider class="mt-12"></v-divider>
-          <v-card-actions>
-            <v-btn color="red" text @click="$refs.form.reset()"> Reset </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false"
-              >Fermer</v-btn
-            >
-            <v-btn
-              color="green"
-              text
-              outlined
-              @click="createRelative"
-              :disabled="!form"
-              >Valider</v-btn
-            >
-          </v-card-actions>
+            <v-card-actions>
+              <v-btn color="red" text @click="$refs.form.reset()">
+                Reset
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="
+                  setNouveau();
+                  dialog = false;
+                "
+                >Fermer</v-btn
+              >
+              <v-btn
+                color="green"
+                text
+                outlined
+                @click="addExistRelative"
+                :disabled="!form"
+                >Valider</v-btn
+              >
+            </v-card-actions>
+          </div>
         </v-form>
       </v-card>
     </v-dialog>
@@ -155,6 +188,10 @@ export default {
     title: "",
     content: "",
     form: false,
+    exist: false,
+    nouveau: true,
+    selec: 0,
+    relative1: {},
     relatives: {
       prenom: "",
       nom: "",
@@ -162,7 +199,9 @@ export default {
       sexe: "",
       poids: "",
       taille: "",
-      consSecret: "",
+    },
+    existR: {
+      id: "",
     },
     inputRules: [(v) => v.length >= 3 || "Minimum lenght is 3 charachters"],
     sexe: ["Homme", "Femme", "Autre"],
@@ -203,7 +242,6 @@ export default {
         gender: this.relatives.sexe,
         weight: this.relatives.poids,
         height: this.relatives.taille,
-        consumerSecret: this.relative.consSecret
       };
 
       const result = await fetch(this.BASEURL + "/addOne", {
@@ -225,7 +263,6 @@ export default {
             this.body.gender,
             this.body.weight,
             this.body.height,
-            this.body.consumerSecret,
           ],
           route: "Dashboard",
         };
@@ -233,6 +270,64 @@ export default {
         alert("Ajout de : " + this.body.firstname + " reussi");
       }
     },
+    setNouveau() {
+      this.exist = false;
+      this.nouveau = true;
+    },
+    setExist() {
+      this.exist = true;
+      this.nouveau = false;
+    },
+    addExistRelative: async function () {
+      this.body = {
+        id: this.existR.id,
+      };
+      let token = this.$session.get("token");
+      let url = `https://ter-garmin.herokuapp.com/api/relatives/`;
+      await fetch(url)
+        .then((response) => {
+          response.json().then((relative) => {
+            relative.forEach((r) => {
+              if (this.body.id == r._id) {
+                this.relative1 = r;
+                console.log(this.relative1);
+                let newRelative = {
+                  icon: "mdi-account",
+                  text: [
+                    this.relative1.firstname,
+                    this.relative1.lastname,
+                    this.relative1.age,
+                    this.relative1.gender,
+                    this.relative1.weight,
+                    this.relative1.height,
+                  ],
+                  route: "Dashboard",
+                };
+                console.log(newRelative);
+                this.links.push(newRelative);
+              }
+            });
+          });
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+      let body2 = {
+        relatives: this.links
+      }
+      console.log(body2);
+      await fetch("https://ter-garmin.herokuapp.com/api/users" + "/update", {
+        method: "POST",
+        body: JSON.stringify(body2),
+        headers: {
+          Authorization: token,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+    },
   },
 };
 </script>
+
+             
