@@ -6,6 +6,10 @@
         <span class="font-weight-light">Dashboard</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-btn @click="getPremium" text>
+        <span>Premium</span>
+        <v-icon right>mdi-star</v-icon>
+      </v-btn>
       <v-btn @click="disconnect" text>
         <span>Exit</span>
         <v-icon right>mdi-exit-to-app</v-icon>
@@ -14,14 +18,18 @@
     <v-navigation-drawer v-model="drawer" app class="blue">
       <v-layout column align-center>
         <v-flex class="mt-5">
-          <p class="white--text subheading mt-1 text-center">
+          <v-icon v-if="this.user.premium === true">mdi-star</v-icon>
+          <span class="white--text subheading mt-1 text-center">
             {{ this.user.firstname }} {{ this.user.lastname }}
-          </p>
+          </span>
         </v-flex>
         <v-flex class="mt-4 mb-4">
           <PopupRelative v-bind:links="links" />
         </v-flex>
       </v-layout>
+      <p class="white--text subheading mt-1 text-center">
+        Liste de vos proches :
+      </p>
       <v-list flat>
         <v-list-item
           v-for="link in links"
@@ -38,9 +46,9 @@
             <v-icon>{{ link.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title
-              >{{ link.text[0] }} {{ link.text[1] }}</v-list-item-title
-            >
+            <v-list-item-title>
+              {{ link.text[0] }} {{ link.text[1] }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -72,6 +80,27 @@ export default {
     disconnect() {
       this.$session.destroy();
       this.$router.replace({ name: "HomePage" });
+    },
+
+    async getPremium() {
+      this.user.premium = true;
+      let body = {
+        _id: this.user._id,
+        premium: this.user.premium
+      }
+      let token = this.$session.get("token");
+      const res = await fetch("https://ter-garmin.herokuapp.com/api/users/update", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Authorization": token,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.ok) {
+        console.log("You're a premium member !")
+      }
     },
     async getInfos() {
       let token = this.$session.get("token");
@@ -134,7 +163,7 @@ export default {
         });
     },
     setDemarrage() {
-      let mydemarrage = this.demarrage
+      let mydemarrage = this.demarrage;
       mydemarrage = true;
       this.$emit("update-demarrage", mydemarrage);
     },
@@ -142,6 +171,7 @@ export default {
   mounted() {
     this.getInfos();
     this.getRelatives();
+    console.log(this.user)
   },
 };
 </script>
