@@ -14,6 +14,30 @@
             <v-card-title class="layout justify-center"
               >{{ relative.prenom }} {{ relative.nom }}</v-card-title
             >
+
+            <v-dialog v-model="dialog" max-width="380">
+              <template v-slot:activator="{ on }">
+                <v-btn v-on="on" color="error" @click="giveRelativeID"
+                  ><v-icon> mdi-share</v-icon></v-btn
+                >
+              </template>
+              <v-card>
+                <v-card-title class="justify-center blue--text">
+                  ID du proche 
+                </v-card-title>
+                <v-card-text class="text-center ">
+                  {{ relativeID }}
+                   </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+
+                  <v-btn color="green darken-1" text @click="dialog = false">
+                    Ok
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+
             <v-list>
               <v-list-item class="mt-n6">
                 <v-list-item-title class="teal--text"
@@ -202,28 +226,46 @@ export default {
     selection5: 0,
     selection6: 0,
     demarrage: false,
+    dialog: false,
     relative: { prenom: "", nom: "", age: "", sexe: "", poids: "", taille: "" },
+    relativeID: "",
   }),
   methods: {
-    BPMtoday: function () {
+    BPMtoday: function() {
       this.valueBPM = [2, 3, 4, 5, 10];
     },
-    BPMweek: function () {
+    BPMweek: function() {
       this.valueBPM = [9, 5, 6, 4, 2, 1];
     },
-    BPMmonth: function () {
+    BPMmonth: function() {
       this.valueBPM = [1, 2, 3, 8, 3, 2, 1];
     },
-    Sleeptoday: function () {
+    Sleeptoday: function() {
       this.valSleep = 80;
       (this.valSleepH = this.valSleep), (this.valSleepTotal = 10);
     },
-    Sleepweek: function () {
+    Sleepweek: function() {
       this.valSleep = 90;
       (this.valSleepH = this.valSleep * 7), (this.valSleepTotal = 70);
     },
     update(demarrage) {
       this.demarrage = demarrage;
+    },
+    giveRelativeID: async function() {
+      let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
+      await fetch(url)
+        .then((responseJSON) => {
+          responseJSON.json().then((user) => {
+            user.relatives.forEach((rel) => {
+              if (this.relative.prenom == rel.firstname) {
+                this.relativeID = rel._id;
+              }
+            });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
   components: {
