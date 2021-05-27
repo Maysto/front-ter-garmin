@@ -14,7 +14,7 @@
     <v-navigation-drawer v-model="drawer" app class="blue">
       <v-layout column align-center>
         <v-flex class="mt-5">
-          <v-icon v-if="this.user.premium === true" color="yellow darken-1">mdi-star</v-icon>
+          <v-icon v-if="new Date() <= this.user.premium" color="yellow darken-1">mdi-star</v-icon>
           <span class="white--text subheading mt-1 text-center">
             {{ this.user.firstname }} {{ this.user.lastname }}
           </span>

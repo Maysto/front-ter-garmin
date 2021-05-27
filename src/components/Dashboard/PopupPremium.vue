@@ -173,6 +173,7 @@ export default {
   methods: {
     select1mois() {
       this.selectOffre = {
+        tier: 1,
         nom: "1 Mois",
         prix: "9.99",
         text: "",
@@ -180,6 +181,7 @@ export default {
     },
     select3mois() {
       this.selectOffre = {
+        tier: 2,
         nom: "3 Mois",
         prix: "27.99",
         text: "Economisez 2€ !",
@@ -187,6 +189,7 @@ export default {
     },
     select6mois() {
       this.selectOffre = {
+        tier: 3,
         nom: "6 Mois",
         prix: "52.99",
         text: "Economisez 7€ !",
@@ -194,6 +197,7 @@ export default {
     },
     select1an() {
       this.selectOffre = {
+        tier: 4,
         nom: "1 An",
         prix: "99.99",
         text: "Economisez 20€ !",
@@ -208,11 +212,28 @@ export default {
       this.mois = true;
     },
     async getPremium() {
-      this.user.premium = true;
+      this.user.premium = new Date;
+      switch (this.selectOffre.tier) {
+        case 1:
+          this.user.premium.setMonth(this.user.premium.getMonth() + 1);
+          break;
+        case 2:
+          this.user.premium.setMonth(this.user.premium.getMonth() + 3);
+          break;
+        case 3:
+          this.user.premium.setMonth(this.user.premium.getMonth() + 6);
+          break;
+        case 4:
+          this.user.premium.setYear(this.user.premium.getYear() + 1);
+          break;
+        default:
+          break;
+      }
       let body = {
-        _id: this.user._id,
-        premium: this.user.premium,
+        email: this.user.email,
+        premiumDate: this.user.premium,
       };
+      console.log(body);
       let token = this.$session.get("token");
       const res = await fetch(
         "https://ter-garmin.herokuapp.com/api/users/updatePremium",
