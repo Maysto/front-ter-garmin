@@ -279,10 +279,6 @@ export default {
       this.nouveau = false;
     },
     addExistRelative: async function () {
-      this.body = {
-        email: localStorage.email,
-        id: this.existR.id,
-      };
       let url = `https://ter-garmin.herokuapp.com/api/relatives/${this.existR.id}`;
       await fetch(url)
         .then((response) => {
@@ -307,17 +303,20 @@ export default {
           console.log(err);
         });
 
-        /*let token = this.$session.get("token");
-        const header = new Headers();
-        header.append("Authorization", token);
-        console.log(this.body);
-        await fetch("http://localhost:5000/api/users/updateRelative", {
-          method: "POST",
-          headers: header,
-          body: this.body
-        });
-        NE MARCHE PAS POUR LE MOMENT
-        */
+      this.body = {
+        email: localStorage.email,
+        id: this.existR.id,
+      };
+      let token = this.$session.get("token");
+      const header = new Headers();
+      header.append("Authorization", token);
+      console.log(this.body);
+      await fetch("http://localhost:5000/api/users/updateRelative", {
+        method: "POST",
+        headers: header,
+        body: JSON.stringify(this.body),
+      });
+      console.log("fetched");
     },
   },
 };
