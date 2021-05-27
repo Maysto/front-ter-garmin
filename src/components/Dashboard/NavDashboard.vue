@@ -6,7 +6,6 @@
         <span class="font-weight-light">Dashboard</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-        <PopupPremium v-bind:user="user"/>
       <v-btn @click="disconnect" text>
         <span>Exit</span>
         <v-icon right>mdi-exit-to-app</v-icon>
@@ -15,10 +14,13 @@
     <v-navigation-drawer v-model="drawer" app class="blue">
       <v-layout column align-center>
         <v-flex class="mt-5">
-          <v-icon v-if="this.user.premium === true">mdi-star</v-icon>
+          <v-icon v-if="this.user.premium === true" color="yellow darken-1">mdi-star</v-icon>
           <span class="white--text subheading mt-1 text-center">
             {{ this.user.firstname }} {{ this.user.lastname }}
           </span>
+        </v-flex>
+        <v-flex class="mt-4 mb-4">
+          <PopupPremium v-bind:user="user"/>
         </v-flex>
         <v-flex class="mt-4 mb-4">
           <PopupRelative v-bind:links="links" />

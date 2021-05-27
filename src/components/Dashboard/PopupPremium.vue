@@ -2,14 +2,14 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="500px">
       <template v-slot:activator="{ on }">
-        <v-btn text v-on="on">
-          <span>Premium</span>
+        <v-btn outlined color="yellow darken-1" text v-on="on">
+          <span >Premium</span>
           <v-icon right>mdi-star</v-icon>
         </v-btn>
       </template>
       <div v-if="this.mois">
         <v-card class="mx-auto" max-width="500">
-          <v-card-title>
+          <v-card-title> 
             <h2 class="display-1">{{ this.selectOffre.nom }}</h2>
             <v-spacer></v-spacer>
             <span class="title">{{ this.selectOffre.prix }} €</span>
@@ -53,7 +53,7 @@
       <div v-if="this.pay">
         <v-form ref="form" v-model="form">
           <v-card>
-            <v-card-title class="justify-center">
+            <v-card-title class="justify-center blue darken-1 white--text">
               <h3>Enregistrez vos informations banquaire :</h3>
             </v-card-title>
             <v-col>
