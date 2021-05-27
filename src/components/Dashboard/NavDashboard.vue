@@ -86,20 +86,23 @@ export default {
       this.user.premium = true;
       let body = {
         _id: this.user._id,
-        premium: this.user.premium
-      }
+        premium: this.user.premium,
+      };
       let token = this.$session.get("token");
-      const res = await fetch("https://ter-garmin.herokuapp.com/api/users/update", {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-          "Authorization": token,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        "https://ter-garmin.herokuapp.com/api/users/updatePremium",
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            Authorization: token,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (res.ok) {
-        console.log("You're a premium member !")
+        console.log("You're a premium member !");
       }
     },
     async getInfos() {
@@ -129,38 +132,27 @@ export default {
     },
     getRelatives: async function () {
       let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
-      fetch(url2)
-        .then((responseJSON) => {
-          responseJSON.json().then((user) => {
-            user.relatives.forEach((r) => {
-              let url = `https://ter-garmin.herokuapp.com/api/relatives/${r._id}`;
-              fetch(url)
-                .then((response) => {
-                  response.json().then((relative) => {
-                    let newRelative = {
-                      icon: "mdi-account",
-                      text: [
-                        relative.firstname,
-                        relative.lastname,
-                        relative.age,
-                        relative.gender,
-                        relative.weight,
-                        relative.height,
-                      ],
-                      route: "Dashboard",
-                    };
-                    this.links.push(newRelative);
-                  });
-                })
-                .catch(function (err) {
-                  console.log(err);
-                });
-            });
+      await fetch(url2).then((responseJSON) => {
+        responseJSON.json().then((user) => {
+          user.relatives.forEach((rel) => {
+            let newRelative = {
+              icon: "mdi-account",
+              text: [
+                rel.firstname,
+                rel.lastname,
+                rel.age,
+                rel.gender,
+                rel.weight,
+                rel.height,
+              ],
+              route: "Dashboard",
+            };
+            this.links.push(newRelative);
           });
-        })
-        .catch(function (err) {
-          console.log(err);
         });
+      }).catch((err) => {
+        console.log(err);
+      });
     },
     setDemarrage() {
       let mydemarrage = this.demarrage;
@@ -171,7 +163,7 @@ export default {
   mounted() {
     this.getInfos();
     this.getRelatives();
-    console.log(this.user)
+    console.log(this.user);
   },
 };
 </script>

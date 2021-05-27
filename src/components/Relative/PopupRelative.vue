@@ -191,7 +191,7 @@ export default {
     exist: false,
     nouveau: true,
     selec: 0,
-    relative1: {},
+    relative1: [],
     relatives: {
       prenom: "",
       nom: "",
@@ -280,51 +280,44 @@ export default {
     },
     addExistRelative: async function () {
       this.body = {
+        email: localStorage.email,
         id: this.existR.id,
       };
-      let token = this.$session.get("token");
-      let url = `https://ter-garmin.herokuapp.com/api/relatives/`;
+      let url = `https://ter-garmin.herokuapp.com/api/relatives/${this.existR.id}`;
       await fetch(url)
         .then((response) => {
           response.json().then((relative) => {
-            relative.forEach((r) => {
-              if (this.body.id == r._id) {
-                this.relative1 = r;
-                console.log(this.relative1);
-                let newRelative = {
-                  icon: "mdi-account",
-                  text: [
-                    this.relative1.firstname,
-                    this.relative1.lastname,
-                    this.relative1.age,
-                    this.relative1.gender,
-                    this.relative1.weight,
-                    this.relative1.height,
-                  ],
-                  route: "Dashboard",
-                };
-                console.log(newRelative);
-                this.links.push(newRelative);
-              }
-            });
+            let newRelative = {
+              icon: "mdi-account",
+              text: [
+                relative.firstname,
+                relative.lastname,
+                relative.age,
+                relative.gender,
+                relative.weight,
+                relative.height,
+              ],
+              route: "Dashboard",
+            };
+            console.log(newRelative);
+            this.links.push(newRelative);
           });
         })
         .catch(function (err) {
           console.log(err);
         });
-      let body2 = {
-        relatives: this.links
-      }
-      console.log(body2);
-      await fetch("https://ter-garmin.herokuapp.com/api/users" + "/update", {
-        method: "POST",
-        body: JSON.stringify(body2),
-        headers: {
-          Authorization: token,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
+
+        /*let token = this.$session.get("token");
+        const header = new Headers();
+        header.append("Authorization", token);
+        console.log(this.body);
+        await fetch("http://localhost:5000/api/users/updateRelative", {
+          method: "POST",
+          headers: header,
+          body: this.body
+        });
+        NE MARCHE PAS POUR LE MOMENT
+        */
     },
   },
 };
