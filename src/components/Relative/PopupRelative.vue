@@ -130,7 +130,7 @@
                     Où trouver l'ID du proche ?
                   </v-card-title>
                   <v-card-text>
-                    Demander a votre proche ayant deja ajouté la personne a
+                    Demandez a votre proche ayant deja ajouté la personne a
                     surveiller en question de vous donner l'ID de ce dernier.<br />
                     Pour cela il devra selectionner la personne voulue dans son
                     dashboard et cliquer sur le bouton ID en haut de la page.
@@ -233,7 +233,7 @@ export default {
     },
   },
   methods: {
-    createRelative: async function () {
+    createRelative: async function() {
       this.body = {
         userEmail: localStorage.email,
         firstname: this.relatives.prenom,
@@ -278,7 +278,7 @@ export default {
       this.exist = true;
       this.nouveau = false;
     },
-    addExistRelative: async function () {
+    addExistRelative: async function() {
       let url = `https://ter-garmin.herokuapp.com/api/relatives/${this.existR.id}`;
       await fetch(url)
         .then((response) => {
@@ -295,31 +295,29 @@ export default {
               ],
               route: "Dashboard",
             };
-            console.log(newRelative);
             this.links.push(newRelative);
+            this.dialog = false;
+            this.updateUserRelative();
           });
         })
-        .catch(function (err) {
+        .catch(function(err) {
           console.log(err);
         });
+    },
 
-      this.body = {
-        email: localStorage.email,
-        id: this.existR.id,
-      };
-      let token = this.$session.get("token");
-      const header = new Headers();
-      header.append("Authorization", token);
-      console.log(this.body);
+    updateUserRelative: async function() {
       await fetch("http://localhost:5000/api/users/updateRelative", {
         method: "POST",
-        headers: header,
-        body: JSON.stringify(this.body),
+        body: JSON.stringify({
+          email: localStorage.email,
+          id: this.existR.id,
+        }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
       });
-      console.log("fetched");
     },
   },
 };
 </script>
-
-             

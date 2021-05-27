@@ -37,7 +37,6 @@
                             prepend-icon="mdi-lock"
                           />
                         </v-form>
-                        <h3 class="text-center mt-4">Mot de passe oublié ?</h3>
                       </v-card-text>
                       <div class="text-center mt-3">
                         <v-btn
