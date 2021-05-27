@@ -122,7 +122,7 @@
                 prepend-icon="mdi-account"
                 append-outer-icon="mdi-help-circle"
                 @click:append-outer="dialogbis = true"
-                :rules="[rules.required, rules.space, rules.letter]"
+                :rules="[rules.required, rules.space]"
               />
               <v-dialog v-model="dialogbis" max-width="380">
                 <v-card>

@@ -6,10 +6,7 @@
         <span class="font-weight-light">Dashboard</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn @click="getPremium" text>
-        <span>Premium</span>
-        <v-icon right>mdi-star</v-icon>
-      </v-btn>
+        <PopupPremium v-bind:user="user"/>
       <v-btn @click="disconnect" text>
         <span>Exit</span>
         <v-icon right>mdi-exit-to-app</v-icon>
@@ -58,6 +55,7 @@
 
 <script>
 import PopupRelative from "../Relative/PopupRelative.vue";
+import PopupPremium from "./PopupPremium.vue";
 export default {
   data: () => ({
     user: {},
@@ -66,6 +64,7 @@ export default {
   }),
   components: {
     PopupRelative,
+    PopupPremium,
   },
   props: {
     relative: {
@@ -75,35 +74,12 @@ export default {
       type: Boolean,
       required: true,
     },
+
   },
   methods: {
     disconnect() {
       this.$session.destroy();
       this.$router.replace({ name: "HomePage" });
-    },
-
-    async getPremium() {
-      this.user.premium = true;
-      let body = {
-        _id: this.user._id,
-        premium: this.user.premium,
-      };
-      let token = this.$session.get("token");
-      const res = await fetch(
-        "https://ter-garmin.herokuapp.com/api/users/updatePremium",
-        {
-          method: "POST",
-          body: JSON.stringify(body),
-          headers: {
-            Authorization: token,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (res.ok) {
-        console.log("You're a premium member !");
-      }
     },
     async getInfos() {
       let token = this.$session.get("token");
