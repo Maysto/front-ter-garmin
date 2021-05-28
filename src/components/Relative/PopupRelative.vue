@@ -105,7 +105,7 @@
                 color="green"
                 text
                 outlined
-                @click="createRelative"
+                @click="confirmRelative"
                 :disabled="!form"
                 >Valider</v-btn
               >
@@ -275,28 +275,28 @@ export default {
     //   xhr.send();
     // },
 
-    // confirmRelative: async function() {
-    //   var myHeaders = new Headers();
-    //   myHeaders.append(
-    //     "Authorization",
-    //     'OAuth oauth_nonce="zegzrhg%27g%27g", oauth_signature="Qv4%2B1sruthWL46QbW48m8bfk10c%3D", oauth_consumer_key="50658631-7f95-428e-995a-1d4a84f81255", oauth_timestamp="1622126398961", oauth_signature_method="HMAC-SHA1", oauth_version="1.0"'
-    //   );
+    confirmRelative: async function() {
+      // var myHeaders = new Headers();
+      // myHeaders.append(
+      //   "Authorization",
+      //   '&oauth_consumer_key%3D50658631-7f95-428e-995a-1d4a84f81255%26oauth_nonce%3D1622215716%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1622215716%26oauth_version%3D1.0'
+      // );
 
-    //   var requestOptions = {
-    //     method: "POST",
-    //     mode: 'no-cors',
-    //     headers: myHeaders,
-    //     redirect: "follow",
-    //   };
+      var requestOptions = {
+        method: "POST",
+        mode: 'no-cors',
+      };
 
-    //   fetch(
-    //     "https://connectapi.garmin.com/oauth-service/oauth/request_token",
-    //     requestOptions
-    //   )
-    //     .then((response) => response.text())
-    //     .then((result) => console.log(result))
-    //     .catch((error) => console.log("error", error));
-    // },
+      console.log(requestOptions);
+
+      fetch(
+        "https://connectapi.garmin.com/oauth-service/oauth/request_token?oauth_consumer_key=50658631-7f95-428e-995a-1d4a84f81255&oauth_nonce=hdfgjhsdfjGfng&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1622217745970&oauth_version=1.0&oauth_signature=Qn0ebYTOBBM7X68Ny6ZVsk10C4o%3D",
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
+    },
 
     createRelative: async function() {
       this.body = {
