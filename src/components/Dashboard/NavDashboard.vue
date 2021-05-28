@@ -14,13 +14,15 @@
     <v-navigation-drawer v-model="drawer" app class="blue">
       <v-layout column align-center>
         <v-flex class="mt-5">
-          <v-icon v-if="new Date() <= this.user.premium" color="yellow darken-1">mdi-star</v-icon>
+          <v-icon v-if="this.user.premium" color="yellow darken-1" small
+            >mdi-star</v-icon
+          >
           <span class="white--text subheading mt-1 text-center">
             {{ this.user.firstname }} {{ this.user.lastname }}
           </span>
         </v-flex>
         <v-flex class="mt-4 mb-4">
-          <PopupPremium v-bind:user="user"/>
+          <PopupPremium v-bind:user="user" />
         </v-flex>
         <v-flex class="mt-4 mb-4">
           <PopupRelative v-bind:links="links" />
@@ -76,7 +78,6 @@ export default {
       type: Boolean,
       required: true,
     },
-
   },
   methods: {
     disconnect() {
@@ -108,29 +109,31 @@ export default {
       this.relative.poids = tab.text[4];
       this.relative.taille = tab.text[5];
     },
-    getRelatives: async function () {
+    getRelatives: async function() {
       let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
-      await fetch(url2).then((responseJSON) => {
-        responseJSON.json().then((user) => {
-          user.relatives.forEach((rel) => {
-            let newRelative = {
-              icon: "mdi-account",
-              text: [
-                rel.firstname,
-                rel.lastname,
-                rel.age,
-                rel.gender,
-                rel.weight,
-                rel.height,
-              ],
-              route: "Dashboard",
-            };
-            this.links.push(newRelative);
+      await fetch(url2)
+        .then((responseJSON) => {
+          responseJSON.json().then((user) => {
+            user.relatives.forEach((rel) => {
+              let newRelative = {
+                icon: "mdi-account",
+                text: [
+                  rel.firstname,
+                  rel.lastname,
+                  rel.age,
+                  rel.gender,
+                  rel.weight,
+                  rel.height,
+                ],
+                route: "Dashboard",
+              };
+              this.links.push(newRelative);
+            });
           });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      }).catch((err) => {
-        console.log(err);
-      });
     },
     setDemarrage() {
       let mydemarrage = this.demarrage;

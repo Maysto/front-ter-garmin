@@ -3,13 +3,13 @@
     <v-dialog v-model="dialog" persistent max-width="500px">
       <template v-slot:activator="{ on }">
         <v-btn outlined color="yellow darken-1" text v-on="on">
-          <span >Premium</span>
+          <span>Premium</span>
           <v-icon right>mdi-star</v-icon>
         </v-btn>
       </template>
       <div v-if="this.mois">
         <v-card class="mx-auto" max-width="500">
-          <v-card-title> 
+          <v-card-title>
             <h2 class="display-1">{{ this.selectOffre.nom }}</h2>
             <v-spacer></v-spacer>
             <span class="title">{{ this.selectOffre.prix }} €</span>
@@ -63,12 +63,7 @@
                 type="text"
                 color="blue darken-1"
                 prepend-icon="mdi-account"
-                :rules="[
-                  rules.required,
-                  rules.length,
-                  rules.space,
-                  rules.letter,
-                ]"
+                :rules="[rules.required, rules.space, rules.letter]"
               />
               <v-text-field
                 label="Numéro de Carte"
@@ -141,9 +136,6 @@
   </v-row>
 </template>
 
-
-
-
 <script>
 export default {
   data: () => ({
@@ -214,7 +206,9 @@ export default {
     },
     async getPremium() {
       this.user.premium = true;
-      this.user.premiumDate = new Date;
+      if (this.user.premiumDate === null) {
+        this.user.premiumDate = new Date();
+      }
       switch (this.selectOffre.tier) {
         case 1:
           this.user.premiumDate.setMonth(this.user.premiumDate.getMonth() + 1);
@@ -238,18 +232,15 @@ export default {
       };
       console.log(body);
       let token = this.$session.get("token");
-      const res = await fetch(
-        "http://localhost:5000/api/users/updatePremium",
-        {
-          method: "POST",
-          body: JSON.stringify(body),
-          headers: {
-            Authorization: token,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = await fetch("http://localhost:5000/api/users/updatePremium", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: token,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
       if (res.ok) {
         console.log("You're a premium member !");
       }
