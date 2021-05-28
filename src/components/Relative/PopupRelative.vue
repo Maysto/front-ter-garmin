@@ -233,6 +233,71 @@ export default {
     },
   },
   methods: {
+    // confirmRelative: async function() {
+    //   var url =
+    //     "https://connectapi.garmin.com/oauth-service/oauth/request_token";
+    //   var xhr = new XMLHttpRequest();
+    //   var oauth_nonce = "thhgh";
+    //   var oauth_signature = "znQDCThOO3r7%2B1Ou70ErvUBLYiY%3D";
+    //   var oauth_consumer_key = "50658631-7f95-428e-995a-1d4a84f81255";
+    //   var oauth_timestamp = "1622124533806";
+    //   var oauth_signature_method = "HMAC-SHA1";
+    //   var oauth_version = "1.0";
+
+    //   xhr.open("POST", url);
+    //   xhr.setRequestHeader('Access-Control-Allow-Methods', '*');
+    //   xhr.setRequestHeader('Access-Control-Allow-Origin', 'https://apis.garmin.com');
+    //   xhr.setRequestHeader(
+    //     "Authorization",
+    //     "OAuth oauth_nonce=",
+    //     oauth_nonce,
+    //     ", oauth_signature=",
+    //     oauth_signature,
+    //     ", oauth_consumer_key=",
+    //     oauth_consumer_key,
+    //     ", oauth_timestamp=",
+    //     oauth_timestamp,
+    //     ", oauth_signature_method=",
+    //     oauth_signature_method,
+    //     ", oauth_version=",
+    //     oauth_version,
+    //     ""
+    //   );
+    //   xhr.setRequestHeader("Content-Type", "application/json");
+
+    //   xhr.onreadystatechange = function() {
+    //     if (xhr.readyState === 4) {
+    //       console.log(xhr.status);
+    //       console.log(xhr.responseText);
+    //     }
+    //   };
+
+    //   xhr.send();
+    // },
+
+    // confirmRelative: async function() {
+    //   var myHeaders = new Headers();
+    //   myHeaders.append(
+    //     "Authorization",
+    //     'OAuth oauth_nonce="zegzrhg%27g%27g", oauth_signature="Qv4%2B1sruthWL46QbW48m8bfk10c%3D", oauth_consumer_key="50658631-7f95-428e-995a-1d4a84f81255", oauth_timestamp="1622126398961", oauth_signature_method="HMAC-SHA1", oauth_version="1.0"'
+    //   );
+
+    //   var requestOptions = {
+    //     method: "POST",
+    //     mode: 'no-cors',
+    //     headers: myHeaders,
+    //     redirect: "follow",
+    //   };
+
+    //   fetch(
+    //     "https://connectapi.garmin.com/oauth-service/oauth/request_token",
+    //     requestOptions
+    //   )
+    //     .then((response) => response.text())
+    //     .then((result) => console.log(result))
+    //     .catch((error) => console.log("error", error));
+    // },
+
     createRelative: async function() {
       this.body = {
         userEmail: localStorage.email,
@@ -306,7 +371,7 @@ export default {
     },
 
     updateUserRelative: async function() {
-      await fetch("http://localhost:5000/api/users/updateRelative", {
+      await fetch("https://ter-garmin.herokuapp.com/api/users/updateRelative", {
         method: "POST",
         body: JSON.stringify({
           email: localStorage.email,
