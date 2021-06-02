@@ -105,7 +105,7 @@
                 color="green"
                 text
                 outlined
-                @click="confirmRelative"
+                @click="createRelative"
                 :disabled="!form"
                 >Valider</v-btn
               >

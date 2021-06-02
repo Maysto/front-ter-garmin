@@ -14,7 +14,6 @@
             <v-card-title class="layout justify-center"
               >{{ relative.prenom }} {{ relative.nom }}</v-card-title
             >
-
             <v-dialog v-model="dialog" max-width="380">
               <template v-slot:activator="{ on }">
                 <v-btn v-on="on" color="error" @click="giveRelativeID"
@@ -23,15 +22,39 @@
               </template>
               <v-card>
                 <v-card-title class="justify-center blue--text">
-                  ID du proche 
+                  ID du proche
                 </v-card-title>
                 <v-card-text class="text-center ">
                   {{ relativeID }}
-                   </v-card-text>
+                </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
 
                   <v-btn color="green darken-1" text @click="dialog = false">
+                    Ok
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+
+            <v-dialog v-model="dialog2" max-width="380">
+              <template v-slot:activator="{ on }">
+                <v-btn v-on="on" color="primary" @click="shareRelative"
+                  ><v-icon> mdi-account-group</v-icon></v-btn
+                >
+              </template>
+              <v-card>
+                <v-card-title class="justify-center blue--text">
+                  Partagé par
+                </v-card-title>
+                <v-card-text class="text-center ">
+                  <li v-for="(item, index) in userList" :key="index">
+                    {{ item }}
+                  </li>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="green darken-1" text @click="dialog2 = false, resetList()">
                     Ok
                   </v-btn>
                 </v-card-actions>
@@ -227,8 +250,10 @@ export default {
     selection6: 0,
     demarrage: false,
     dialog: false,
+    dialog2: false,
     relative: { prenom: "", nom: "", age: "", sexe: "", poids: "", taille: "" },
     relativeID: "",
+    userList: [],
   }),
   methods: {
     BPMtoday: function() {
@@ -267,6 +292,33 @@ export default {
           console.log(err);
         });
     },
+    shareRelative: async function() {
+      let url = `https://ter-garmin.herokuapp.com/api/users/getAll`;
+      await fetch(url)
+        .then((responseJSON) => {
+          responseJSON.json().then((user) => {
+            if (this.userList.length == 0) {
+              user.forEach((rel) => {
+                rel.relatives.forEach((r) => {
+                  if (r.firstname == this.relative.prenom) {
+                    this.userList.push(rel.firstname + " " + rel.lastname);
+                  }
+                });
+              });
+            }
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    resetList(){
+      if(this.userList.length > 0){
+        for(let i =0; i <= this.userList.length; i++){
+          this.userList.pop();
+        }
+      }
+    }
   },
   components: {
     NavDashboard,
