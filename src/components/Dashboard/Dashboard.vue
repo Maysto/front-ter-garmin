@@ -54,7 +54,7 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="green darken-1" text @click="dialog2 = false, resetList()">
+                  <v-btn color="green darken-1" text @click="dialog2 = false">
                     Ok
                   </v-btn>
                 </v-card-actions>
@@ -312,17 +312,20 @@ export default {
           console.log(err);
         });
     },
-    resetList(){
-      if(this.userList.length > 0){
-        for(let i =0; i <= this.userList.length; i++){
-          this.userList.pop();
-        }
-      }
-    }
   },
   components: {
     NavDashboard,
   },
+  watch:{
+    dialog2: function(val){
+      if(val == false){
+        const longeur = this.userList.length;
+        for(let i =0; i < longeur; i++){
+          this.userList.pop();
+        }
+      }
+    }
+  }
 };
 </script>
 

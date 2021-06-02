@@ -40,7 +40,14 @@
 
           <v-card-actions>
             <v-btn
-              block
+              width="49%"
+              class="red--text"
+              @click="dialog = false"
+            >
+              Retour
+            </v-btn>
+            <v-btn
+              width="50%"
               class="white--text"
               color="blue darken-1"
               @click="setPay()"
@@ -208,6 +215,8 @@ export default {
       this.user.premium = true;
       if (this.user.premiumDate === null) {
         this.user.premiumDate = new Date();
+      }else{
+        this.user.premiumDate = new Date(this.user.premiumDate)
       }
       switch (this.selectOffre.tier) {
         case 1:
@@ -230,10 +239,12 @@ export default {
         premium: this.user.premium,
         premiumDate: this.user.premiumDate,
       };
-      console.log(body);
+      //console.log(this.user.premiumDate);
+      //console.log(this.user.premiumDate.getMonth());
       let token = this.$session.get("token");
-      const res = await fetch("http://localhost:5000/api/users/updatePremium", {
+      const res = await fetch("https://ter-garmin.herokuapp.com/api/users/updatePremium", {
         method: "POST",
+        
         body: JSON.stringify(body),
         headers: {
           Authorization: token,
