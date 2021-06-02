@@ -37,6 +37,12 @@
               </v-card>
             </v-dialog>
 
+            <!-- button copy a voir si on laisse-->
+            <v-btn icon x-small @click="doCopy">
+              <v-icon>mdi-content-copy</v-icon>
+            </v-btn>
+
+
             <v-dialog v-model="dialog2" max-width="380">
               <template v-slot:activator="{ on }">
                 <v-btn v-on="on" color="primary" @click="shareRelative"
@@ -254,6 +260,7 @@ export default {
     relative: { prenom: "", nom: "", age: "", sexe: "", poids: "", taille: "" },
     relativeID: "",
     userList: [],
+    message: '',
   }),
   methods: {
     BPMtoday: function() {
@@ -311,6 +318,17 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    doCopy: function () {
+      this.message = this.relativeID;
+      console.log(this.message)
+      this.$copyText(this.message).then(function (e) {
+        alert('Copie reussi')
+        console.log(e)
+      }, function (e) {
+        alert('echec de la copie')
+        console.log(e)
+      })
     },
   },
   components: {
