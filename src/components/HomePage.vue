@@ -95,7 +95,7 @@
                             name="Name"
                             type="text"
                             color="blue darken-1"
-                            :rules="[rules.required, rules.space,rules.letter]"
+                            :rules="[rules.required, rules.space, rules.letter]"
                             prepend-icon="mdi-account"
                           />
                           <v-text-field
@@ -104,7 +104,7 @@
                             name="Name"
                             type="text"
                             color="blue darken-1"
-                            :rules="[rules.required, rules.space,rules.letter]"
+                            :rules="[rules.required, rules.space, rules.letter]"
                             prepend-icon="mdi-account"
                           />
                           <v-text-field
@@ -182,8 +182,7 @@ export default {
       letter: (v) => isNaN(v) || "chiffres interdits",
       space: (v) => (v || "").indexOf(" ") < 0 || "espaces interdits",
       phoneNumber: (taille) => (v) =>
-        ((v || "").toString().length <= taille.toString() &&
-          (v || "").toString() > 0) ||
+        (v || "").toString().length == taille.toString() ||
         `Veuillez rentrer un nombre correct`,
       password: (v) =>
         !!(v || "").match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/) ||
@@ -252,7 +251,7 @@ export default {
         }
       });
 
-    localStorage.email = this.body.email;
+      localStorage.email = this.body.email;
     },
   },
 };

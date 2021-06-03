@@ -130,10 +130,11 @@
                     Où trouver l'ID du proche ?
                   </v-card-title>
                   <v-card-text>
-                    Demandez a votre proche ayant deja ajouté la personne a
-                    surveiller en question de vous donner l'ID de ce dernier.<br />
+                    Demandez à votre proche ayant deja ajouté la personne à
+                    surveiller en question, de vous donner l'ID de ce dernier.<br />
                     Pour cela il devra selectionner la personne voulue dans son
-                    dashboard et cliquer sur le bouton ID en haut de la page.
+                    dashboard et cliquer sur le bouton rouge avec l'icône partager.<br />
+                    Il pourra alors copier l'ID et vous le transmettre.
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
@@ -211,17 +212,17 @@ export default {
       space: (v) => (v || "").indexOf(" ") < 0 || "espaces interdits",
       length: (taille) => (v) =>
         ((v || "").toString().length <= taille.toString() &&
-          (v || "").toString() > 0 &&
+          (v || "").toString() >= 20 &&
           (v || "").toString() <= 125) ||
         `Veuillez rentrer un nombre correct`,
       taille: (taille) => (v) =>
         ((v || "").toString().length <= taille.toString() &&
-          (v || "").toString() > 0 &&
+          (v || "").toString() >= 110 &&
           (v || "").toString() <= 250) ||
         `Veuillez rentrer un nombre correct`,
       poids: (taille) => (v) =>
         ((v || "").toString().length <= taille.toString() &&
-          (v || "").toString() > 0 &&
+          (v || "").toString() >= 40 &&
           (v || "").toString() <= 200) ||
         `Veuillez rentrer un nombre correct`,
     },
