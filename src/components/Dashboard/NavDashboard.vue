@@ -25,7 +25,7 @@
           <PopupPremium v-bind:user="user" />
         </v-flex>
         <v-flex class="mt-4 mb-4">
-          <PopupRelative v-bind:links="links" />
+          <PopupRelative v-bind:links="links" v-bind:user="user" />
         </v-flex>
       </v-layout>
       <p class="white--text subheading mt-1 text-center">

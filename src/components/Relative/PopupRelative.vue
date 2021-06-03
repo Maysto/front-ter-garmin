@@ -4,7 +4,7 @@
       <template v-slot:activator="{ on }">
         <v-btn outlined color="white" dark v-on="on">Ajouter un proche</v-btn>
       </template>
-      <v-card>
+      <v-card v-if="this.user.premium || this.links.length < 2">
         <v-card-title class="justify-center">
           <h3>Choisissez comment ajouter votre proche :</h3>
           <v-chip-group v-model="selec" class="ma-8" mandatory>
@@ -131,9 +131,11 @@
                   </v-card-title>
                   <v-card-text>
                     Demandez à votre proche ayant deja ajouté la personne à
-                    surveiller en question, de vous donner l'ID de ce dernier.<br />
+                    surveiller en question, de vous donner l'ID de ce
+                    dernier.<br />
                     Pour cela il devra selectionner la personne voulue dans son
-                    dashboard et cliquer sur le bouton rouge avec l'icône partager.<br />
+                    dashboard et cliquer sur le bouton rouge avec l'icône
+                    partager.<br />
                     Il pourra alors copier l'ID et vous le transmettre.
                   </v-card-text>
                   <v-card-actions>
@@ -175,15 +177,38 @@
           </div>
         </v-form>
       </v-card>
+      <v-card v-else >
+        <v-card-title class="justify-center">
+          <h3>Passez Premium !</h3>
+        </v-card-title>
+        <v-card-text class="text-center">
+          Pour ajouter plus de <b>2</b> proches a votre Dashboard passez Premium
+          !
+        </v-card-text>
+        <v-card-actions class="text-center">
+          <v-btn 
+            class="red--text"
+            id="retour"
+            outlined
+            text
+            @click="dialog = false"
+            >
+            Retour
+          </v-btn>
+          <v-flex class="justify-center">
+            <PopupPremium v-bind:user="user" />
+          </v-flex>
+        </v-card-actions>
+      </v-card>
     </v-dialog>
   </v-row>
 </template>
 
 <script>
+import PopupPremium from "../Dashboard/PopupPremium.vue";
 export default {
   name: "Test",
   data: () => ({
-    user: {},
     dialog: false,
     dialogbis: false,
     title: "",
@@ -228,10 +253,14 @@ export default {
     },
     BASEURL: "https://ter-garmin.herokuapp.com/api/relatives",
   }),
+  components: {
+    PopupPremium
+  },
   props: {
     links: {
       type: Array,
     },
+    user: {},
   },
   methods: {
     // confirmRelative: async function() {
@@ -276,7 +305,7 @@ export default {
     //   xhr.send();
     // },
 
-    confirmRelative: async function() {
+    confirmRelative: async function () {
       // var myHeaders = new Headers();
       // myHeaders.append(
       //   "Authorization",
@@ -285,7 +314,7 @@ export default {
 
       var requestOptions = {
         method: "POST",
-        mode: 'no-cors',
+        mode: "no-cors",
       };
 
       console.log(requestOptions);
@@ -299,7 +328,7 @@ export default {
         .catch((error) => console.log("error", error));
     },
 
-    createRelative: async function() {
+    createRelative: async function () {
       this.body = {
         userEmail: localStorage.email,
         firstname: this.relatives.prenom,
@@ -344,7 +373,7 @@ export default {
       this.exist = true;
       this.nouveau = false;
     },
-    addExistRelative: async function() {
+    addExistRelative: async function () {
       let url = `https://ter-garmin.herokuapp.com/api/relatives/${this.existR.id}`;
       await fetch(url)
         .then((response) => {
@@ -366,12 +395,12 @@ export default {
             this.updateUserRelative();
           });
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log(err);
         });
     },
 
-    updateUserRelative: async function() {
+    updateUserRelative: async function () {
       await fetch("https://ter-garmin.herokuapp.com/api/users/updateRelative", {
         method: "POST",
         body: JSON.stringify({
@@ -387,3 +416,9 @@ export default {
   },
 };
 </script>
+
+<style>
+  #retour{
+    margin-left: 25%;
+  }
+</style>
