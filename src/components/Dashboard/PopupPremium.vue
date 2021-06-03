@@ -2,28 +2,34 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="500px">
       <template v-slot:activator="{ on }">
-        <v-btn outlined color="yellow darken-1" text v-on="on">
+        <v-btn outlined color="yellow darken-1" text v-on="on" @click="checkPremium()">
           <span>Premium</span>
           <v-icon right>mdi-star</v-icon>
         </v-btn>
       </template>
       <div v-if="this.mois">
         <v-card class="mx-auto" max-width="500">
-          <v-card-title>
-            <h2 class="display-1">{{ this.selectOffre.nom }}</h2>
-            <v-spacer></v-spacer>
-            <span class="title">{{ this.selectOffre.prix }} €</span>
+          <v-card-title class="justify-center amber--text text--amber accent-3">
+            <h1>Premium</h1>
           </v-card-title>
-
+          <v-divider></v-divider>
+          <v-card-subtitle class="teal--text text--teal accent-4">
+            <h2 class="display-1">
+              {{ this.selectOffre.nom }} : {{ this.selectOffre.prix }} €
+            </h2>
+          </v-card-subtitle>
+          <v-card-text class="red--text" v-if="this.user.premium">
+            Vous êtes dejà premium ! <br />
+            Poursuivez l'abonnement :  {{this.premiumEnd }} jours restants
+          </v-card-text>
           <v-card-text>
-            {{ this.selectOffre.text }} <br />
-            Achetez le Premium pour ajouter plus de proches !<br />
-            A CHANGER !!!!!
+            {{ this.selectOffre.text }}
+            Permet d'ajouter plus de proches<br />
           </v-card-text>
 
           <v-divider class="mx-4"></v-divider>
 
-          <v-card-text>
+          <v-card-text class="justify-center">
             <span class="subheading">Durée de l'abonnement</span>
 
             <v-chip-group
@@ -39,11 +45,7 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn
-              width="49%"
-              class="red--text"
-              @click="dialog = false"
-            >
+            <v-btn width="49%" class="red--text" @click="dialog = false">
               Retour
             </v-btn>
             <v-btn
@@ -151,6 +153,7 @@ export default {
     pay: false,
     mois: true,
     form: false,
+    premiumEnd: 0,
     selectOffre: {
       tier: 1,
       nom: "1 Mois",
@@ -215,8 +218,8 @@ export default {
       this.user.premium = true;
       if (this.user.premiumDate === null) {
         this.user.premiumDate = new Date();
-      }else{
-        this.user.premiumDate = new Date(this.user.premiumDate)
+      } else {
+        this.user.premiumDate = new Date(this.user.premiumDate);
       }
       switch (this.selectOffre.tier) {
         case 1:
@@ -242,20 +245,31 @@ export default {
       //console.log(this.user.premiumDate);
       //console.log(this.user.premiumDate.getMonth());
       let token = this.$session.get("token");
-      const res = await fetch("https://ter-garmin.herokuapp.com/api/users/updatePremium", {
-        method: "POST",
-        
-        body: JSON.stringify(body),
-        headers: {
-          Authorization: token,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        "https://ter-garmin.herokuapp.com/api/users/updatePremium",
+        {
+          method: "POST",
+
+          body: JSON.stringify(body),
+          headers: {
+            Authorization: token,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (res.ok) {
         console.log("You're a premium member !");
       }
     },
+    checkPremium(){
+      let date = new Date();
+      let finPremium = new Date(this.user.premiumDate);
+      let d1 = date.getTime()  / 86400000;
+      let d2 = finPremium.getTime() / 86400000;
+      this.premiumEnd =  new Number( d2-d1).toFixed(0);
+      console.log(this.premiumEnd)
+    }
   },
 };
 </script>

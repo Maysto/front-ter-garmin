@@ -224,6 +224,7 @@ export default {
         alert(
           "Inscription réussie : Bienvenue à vous M(me) " + this.body.lastname
         );
+        this.step--;
       }
     },
     loginUser: async function() {
