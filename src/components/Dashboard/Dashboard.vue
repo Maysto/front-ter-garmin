@@ -133,6 +133,10 @@
                     <v-chip>Semaine</v-chip>
                   </v-chip-group>
                 </v-app-bar>
+
+                <v-card-text>
+                  {{ relative.dailies[0][0].steps }}
+                </v-card-text>
               </v-card>
             </v-col>
             <v-col sm="4" xs="3">
@@ -228,6 +232,9 @@
                     <v-chip>Semaine</v-chip>
                   </v-chip-group>
                 </v-app-bar>
+              <v-card-text>
+                 {{relative.dailies[0][0].averageStressLevel}}
+              </v-card-text>
               </v-card>
             </v-col>
           </v-row>
@@ -257,7 +264,7 @@ export default {
     demarrage: false,
     dialog: false,
     dialog2: false,
-    relative: { prenom: "", nom: "", age: "", sexe: "", poids: "", taille: "" },
+    relative: { prenom: "", nom: "", age: "", sexe: "", poids: "", taille: "",stress: "",sleep: "", activities: "", dailies:"" },
     relativeID: "",
     userList: [],
     message: '',

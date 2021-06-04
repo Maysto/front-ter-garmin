@@ -108,6 +108,10 @@ export default {
       this.relative.sexe = tab.text[3];
       this.relative.poids = tab.text[4];
       this.relative.taille = tab.text[5];
+      this.relative.stress = tab.text[6];
+      this.relative.sleep = tab.text[7];
+      this.relative.activities = tab.text[8];
+      this.relative.dailies = tab.text[9];
     },
     getRelatives: async function() {
       let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
@@ -124,10 +128,15 @@ export default {
                   rel.gender,
                   rel.weight,
                   rel.height,
+                  rel.stress,
+                  rel.sleep,
+                  rel.activities,
+                  rel.dailies
                 ],
                 route: "Dashboard",
               };
               this.links.push(newRelative);
+              console.log(newRelative.text[9][0][0].steps)
             });
           });
         })
