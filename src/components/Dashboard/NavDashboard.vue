@@ -47,9 +47,14 @@
             <v-icon>{{ link.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>
-              {{ link.text[0] }} {{ link.text[1] }}
-            </v-list-item-title>
+            <v-tooltip bottom>
+              <template #activator="{ on }">
+                <v-list-item-title v-on="on">
+                  {{ link.text[0] }} {{ link.text[1] }}
+                </v-list-item-title>
+              </template>
+              <span>{{ link.text[0] }} {{ link.text[1] }} </span>
+            </v-tooltip>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -113,7 +118,7 @@ export default {
       this.relative.activities = tab.text[8];
       this.relative.dailies = tab.text[9];
     },
-    getRelatives: async function() {
+    getRelatives: async function () {
       let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url2)
         .then((responseJSON) => {

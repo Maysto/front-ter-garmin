@@ -16,16 +16,27 @@
             >
 
             <!-- button copy a voir si on laisse-->
-            <v-btn color="error" @click="giveRelativeID">
-              <v-icon>mdi-content-copy</v-icon>
-            </v-btn>
+            <v-tooltip left>
+              <template #activator="{ on }">
+                <v-btn color="primary" @click="giveRelativeID" v-on="on" class="mr-5">
+                  <v-icon>mdi-content-copy</v-icon>
+                </v-btn>
+              </template>
+              <span>Cliquez ici pour copier l'id de votre proche !</span>
+            </v-tooltip>
 
             <v-dialog v-model="dialog2" max-width="380">
-              <template v-slot:activator="{ on }">
-                <v-btn v-on="on" color="primary" @click="shareRelative"
-                  ><v-icon> mdi-account-group</v-icon></v-btn
-                >
+              <template v-slot:activator="{ on: dialog }">
+                <v-tooltip right>
+                  <template v-slot:activator="{ on : tooltip }">
+                    <v-btn v-on="{ ...tooltip, ...dialog }" color="success" @click="shareRelative">
+                  <v-icon> mdi-account-group</v-icon>
+                </v-btn>
+                </template>
+                <span>Découvrez qui partage ce proche.</span>
+              </v-tooltip>
               </template>
+              
               <v-card>
                 <v-card-title class="justify-center blue--text">
                   Partagé par
@@ -95,8 +106,8 @@
             </v-col>
             <v-col sm="4" xs="3">
               <v-card>
-                <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-                  <v-icon large>mdi-shoe-print </v-icon>
+                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
+                  <v-icon large class="mr-2">mdi-shoe-print </v-icon>
                   <h3>Nombre de pas</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -108,18 +119,41 @@
                     <v-chip>Aujourd'hui</v-chip>
 
                     <v-chip>Semaine</v-chip>
-                  </v-chip-group>
+                  </v-chip-group>            
                 </v-app-bar>
-
+                <v-card-text>        
+                  Pas éffectué : 
+                  <b>{{ relative.dailies[0][0].steps }}</b> Pas <br>
+                  Objectif : 
+                  <b>{{ relative.dailies[0][0].stepsGoal }}</b> Pas 
+                   <!-- <span class="colorT"> pour colorPas qui doit etre appellé au bon moment mais j'y arrive pas putain
+                     faut l'appeler quand relative n'est pas null comme moi   red--text au lieu de error dans colorPas-->
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-app-bar color="rgba(0,0,0,0)" flat >
+                  <v-icon large class="mr-2">mdi-map-marker-distance </v-icon>
+                  <h3>Distance parcourue</h3>
+                </v-app-bar>
                 <v-card-text>
-                  {{ relative.dailies[0][0].steps }}
+                  <b>{{relative.dailies[0][0].distanceInMeters}}</b> mètres
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-app-bar color="rgba(0,0,0,0)" flat >
+                  <v-icon large class="mr-2">mdi-stairs-up </v-icon>
+                  <h3>Etages montés</h3>
+                </v-app-bar>
+                <v-card-text>
+                  Etage montés :
+                  <b>{{ relative.dailies[0][0].floorsClimbed }}</b> étages<br>
+                  Objectif :  
+                  <b>{{ relative.dailies[0][0].floorsClimbedGoal }}</b> étages
                 </v-card-text>
               </v-card>
             </v-col>
             <v-col sm="4" xs="3">
               <v-card>
                 <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-                  <v-icon large>mdi-map-marker-distance </v-icon>
+                  <v-icon large class="mr-2">mdi-map-marker-distance </v-icon>
                   <h3>Distance parcourue</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -140,7 +174,7 @@
             <v-col sm="5" xs="3">
               <v-card>
                 <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-                  <v-icon large>mdi-heart-pulse </v-icon>
+                  <v-icon large class="mr-2">mdi-heart-pulse </v-icon>
                   <h3>Rythme cardiaque</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -176,7 +210,7 @@
             <v-col sm="3">
               <v-card>
                 <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-                  <v-icon large>mdi-food</v-icon>
+                  <v-icon large class="mr-2">mdi-food</v-icon>
                   <h3>Calories</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -195,7 +229,7 @@
             <v-col sm="3">
               <v-card>
                 <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-                  <v-icon large>mdi-flash-alert-outline</v-icon>
+                  <v-icon large class="mr-2">mdi-flash-alert-outline</v-icon>
                   <h3>Stress</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -226,6 +260,7 @@ import NavDashboard from "./NavDashboard.vue";
 
 export default {
   data: () => ({
+    //colorT: '',
     drawer: true,
     valueBPM: [2, 3, 4, 5, 10],
     value: [2, 2, 5, 2, 2],
@@ -326,7 +361,31 @@ export default {
         }
       );
     },
+    // colorPas: function(){
+    //   console.log(this.colorT)
+    //   if(this.relative.dailies[0][0].steps < (this.relative.dailies[0][0].stepsGoal/2)){
+    //     this.colorT = "error"
+    //     console.log(this.colorT)
+    //     return
+    //   }
+    //   if(this.relative.dailies[0][0].steps < (this.relative.dailies[0][0].stepsGoal/1.25)){
+    //     this.colorT = "deep-orange"
+    //     console.log(this.colorT)
+    //     return
+    //   }
+    //   if(this.relative.dailies[0][0].steps < (this.relative.dailies[0][0].stepsGoal)){
+    //     this.colorT = "yellow"
+    //     console.log(this.colorT)
+    //     return
+    //   }
+    //   if(this.relative.dailies[0][0].steps > (this.relative.dailies[0][0].stepsGoal)){
+    //     this.colorT = "success"
+    //     console.log(this.colorT)
+    //     return
+    //   }
+    // }
   },
+
   components: {
     NavDashboard,
   },
