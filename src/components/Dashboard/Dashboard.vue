@@ -14,34 +14,11 @@
             <v-card-title class="layout justify-center"
               >{{ relative.prenom }} {{ relative.nom }}</v-card-title
             >
-            <v-dialog v-model="dialog" max-width="380">
-              <template v-slot:activator="{ on }">
-                <v-btn v-on="on" color="error" @click="giveRelativeID"
-                  ><v-icon> mdi-share</v-icon></v-btn
-                >
-              </template>
-              <v-card>
-                <v-card-title class="justify-center blue--text">
-                  ID du proche
-                </v-card-title>
-                <v-card-text class="text-center ">
-                  {{ relativeID }}
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-
-                  <v-btn color="green darken-1" text @click="dialog = false">
-                    Ok
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
 
             <!-- button copy a voir si on laisse-->
-            <v-btn icon x-small @click="doCopy">
+            <v-btn color="error" @click="giveRelativeID">
               <v-icon>mdi-content-copy</v-icon>
             </v-btn>
-
 
             <v-dialog v-model="dialog2" max-width="380">
               <template v-slot:activator="{ on }">
@@ -232,9 +209,9 @@
                     <v-chip>Semaine</v-chip>
                   </v-chip-group>
                 </v-app-bar>
-              <v-card-text>
-                 {{relative.dailies[0][0].averageStressLevel}}
-              </v-card-text>
+                <v-card-text>
+                  {{ relative.dailies[0][0].averageStressLevel }}
+                </v-card-text>
               </v-card>
             </v-col>
           </v-row>
@@ -264,10 +241,20 @@ export default {
     demarrage: false,
     dialog: false,
     dialog2: false,
-    relative: { prenom: "", nom: "", age: "", sexe: "", poids: "", taille: "",stress: "",sleep: "", activities: "", dailies:"" },
+    relative: {
+      prenom: "",
+      nom: "",
+      age: "",
+      sexe: "",
+      poids: "",
+      taille: "",
+      stress: "",
+      sleep: "",
+      activities: "",
+      dailies: "",
+    },
     relativeID: "",
     userList: [],
-    message: '',
   }),
   methods: {
     BPMtoday: function() {
@@ -298,6 +285,7 @@ export default {
             user.relatives.forEach((rel) => {
               if (this.relative.prenom == rel.firstname) {
                 this.relativeID = rel._id;
+                this.doCopy();
               }
             });
           });
@@ -326,31 +314,32 @@ export default {
           console.log(err);
         });
     },
-    doCopy: function () {
-      this.message = this.relativeID;
-      console.log(this.message)
-      this.$copyText(this.message).then(function (e) {
-        alert('Copie reussi')
-        console.log(e)
-      }, function (e) {
-        alert('echec de la copie')
-        console.log(e)
-      })
+    doCopy: function() {
+      this.$copyText(this.relativeID).then(
+        function(e) {
+          alert("Copie reussi");
+          console.log(e);
+        },
+        function(e) {
+          alert("echec de la copie");
+          console.log(e);
+        }
+      );
     },
   },
   components: {
     NavDashboard,
   },
-  watch:{
-    dialog2: function(val){
-      if(val == false){
+  watch: {
+    dialog2: function(val) {
+      if (val == false) {
         const longeur = this.userList.length;
-        for(let i =0; i < longeur; i++){
+        for (let i = 0; i < longeur; i++) {
           this.userList.pop();
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
