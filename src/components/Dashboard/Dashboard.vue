@@ -18,7 +18,12 @@
             <!-- button copy a voir si on laisse-->
             <v-tooltip left>
               <template #activator="{ on }">
-                <v-btn color="primary" @click="giveRelativeID" v-on="on" class="mr-5">
+                <v-btn
+                  color="primary"
+                  @click="giveRelativeID"
+                  v-on="on"
+                  class="mr-5"
+                >
                   <v-icon>mdi-content-copy</v-icon>
                 </v-btn>
               </template>
@@ -28,15 +33,19 @@
             <v-dialog v-model="dialog2" max-width="380">
               <template v-slot:activator="{ on: dialog }">
                 <v-tooltip right>
-                  <template v-slot:activator="{ on : tooltip }">
-                    <v-btn v-on="{ ...tooltip, ...dialog }" color="success" @click="shareRelative">
-                  <v-icon> mdi-account-group</v-icon>
-                </v-btn>
-                </template>
-                <span>Découvrez qui partage ce proche.</span>
-              </v-tooltip>
+                  <template v-slot:activator="{ on: tooltip }">
+                    <v-btn
+                      v-on="{ ...tooltip, ...dialog }"
+                      color="success"
+                      @click="shareRelative"
+                    >
+                      <v-icon> mdi-account-group</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Découvrez qui partage ce proche.</span>
+                </v-tooltip>
               </template>
-              
+
               <v-card>
                 <v-card-title class="justify-center blue--text">
                   Partagé par
@@ -77,8 +86,12 @@
           <v-row cols="12">
             <v-col sm="4" xs="3">
               <v-card>
-                <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-                  <v-icon large>mdi-weather-night </v-icon>
+                <v-img
+                  height="220"
+                  src="https://i.ibb.co/TcFp2KK/depositphotos-277879810-stock-photo-front-view-active-senior-caucasian.jpg"
+                ></v-img>
+                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
+                  <v-icon large class="mr-2">mdi-weather-night </v-icon>
                   <h3>Temps de sommeil</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -92,20 +105,56 @@
                     <v-chip @click="Sleepweek()">Semaine</v-chip>
                   </v-chip-group>
                 </v-app-bar>
-                <v-progress-circular
-                  rotate="-90"
-                  size="100"
-                  width="15"
-                  :value="valSleep"
-                  color="teal"
-                  class="mt-n5 ml-5 mb-2"
-                >
-                  {{ valSleepH / 10 }}/{{ valSleepTotal }}
-                </v-progress-circular>
+                <v-card-text>
+                  Durée du sommeil :
+                  <b>{{ dataConverted[0] }}</b> Heures
+                  <br />
+                  Heure de début : <b>{{ dataConverted[1] }}:{{dataConverted[2] }}:{{dataConverted[3]}}</b>
+                  <br />
+                  Heure de fin :
+                   <b>{{ dataConverted[4] }}:{{dataConverted[5] }}:{{dataConverted[6]}}</b>
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-app-bar color="rgba(0,0,0,0)" flat>
+                  <v-icon large class="mr-2">mdi-trophy </v-icon>
+                  <h3>Score du sommeil</h3>
+                </v-app-bar>
+                <v-card-text>
+                  Durée totale :
+                  <b>{{
+                    relative.sleep[0][0].sleepScores.totalDuration.qualifierKey
+                  }}</b>
+                  <br />
+                  Stress :
+                  <b>{{
+                    relative.sleep[0][0].sleepScores.stress.qualifierKey
+                  }}</b>
+                  <br />
+                  Agitation :
+                  <b>{{
+                    relative.sleep[0][0].sleepScores.restlessness.qualifierKey
+                  }}</b>
+                  <br />
+                  Nombre d'éveil :
+                  <b>{{
+                    relative.sleep[0][0].sleepScores.awakeCount.qualifierKey
+                  }}</b>
+                  <br />
+                  <br />
+                  <v-icon medium class="mr-2">mdi-star </v-icon>
+                  Score global du sommeil :
+                  <b>{{
+                    relative.sleep[0][0].overallSleepScore.qualifierKey
+                  }}</b>
+                </v-card-text>
               </v-card>
             </v-col>
             <v-col sm="4" xs="3">
               <v-card>
+                <v-img
+                  height="220"
+                  src="https://i.ibb.co/6Y7HL9p/650x350-do-you-know-the-benefits-of-walking-rmq.webp"
+                ></v-img>
                 <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
                   <v-icon large class="mr-2">mdi-shoe-print </v-icon>
                   <h3>Nombre de pas</h3>
@@ -119,33 +168,33 @@
                     <v-chip>Aujourd'hui</v-chip>
 
                     <v-chip>Semaine</v-chip>
-                  </v-chip-group>            
+                  </v-chip-group>
                 </v-app-bar>
-                <v-card-text>        
-                  Pas éffectué : 
-                  <b>{{ relative.dailies[0][0].steps }}</b> Pas <br>
-                  Objectif : 
-                  <b>{{ relative.dailies[0][0].stepsGoal }}</b> Pas 
-                   <!-- <span class="colorT"> pour colorPas qui doit etre appellé au bon moment mais j'y arrive pas putain
+                <v-card-text>
+                  Pas éffectué :
+                  <b>{{ relative.dailies[0][0].steps }}</b> Pas <br />
+                  Objectif :
+                  <b>{{ relative.dailies[0][0].stepsGoal }}</b> Pas
+                  <!-- <span class="colorT"> pour colorPas qui doit etre appellé au bon moment mais j'y arrive pas putain
                      faut l'appeler quand relative n'est pas null comme moi   red--text au lieu de error dans colorPas-->
                 </v-card-text>
                 <v-divider></v-divider>
-                <v-app-bar color="rgba(0,0,0,0)" flat >
+                <v-app-bar color="rgba(0,0,0,0)" flat>
                   <v-icon large class="mr-2">mdi-map-marker-distance </v-icon>
                   <h3>Distance parcourue</h3>
                 </v-app-bar>
                 <v-card-text>
-                  <b>{{relative.dailies[0][0].distanceInMeters}}</b> mètres
+                  <b>{{ relative.dailies[0][0].distanceInMeters }}</b> mètres
                 </v-card-text>
                 <v-divider></v-divider>
-                <v-app-bar color="rgba(0,0,0,0)" flat >
+                <v-app-bar color="rgba(0,0,0,0)" flat>
                   <v-icon large class="mr-2">mdi-stairs-up </v-icon>
                   <h3>Etages montés</h3>
                 </v-app-bar>
                 <v-card-text>
                   Etage montés :
-                  <b>{{ relative.dailies[0][0].floorsClimbed }}</b> étages<br>
-                  Objectif :  
+                  <b>{{ relative.dailies[0][0].floorsClimbed }}</b> étages<br />
+                  Objectif :
                   <b>{{ relative.dailies[0][0].floorsClimbedGoal }}</b> étages
                 </v-card-text>
               </v-card>
@@ -261,6 +310,7 @@ import NavDashboard from "./NavDashboard.vue";
 export default {
   data: () => ({
     //colorT: '',
+    dataConverted: [],
     drawer: true,
     valueBPM: [2, 3, 4, 5, 10],
     value: [2, 2, 5, 2, 2],
@@ -361,6 +411,44 @@ export default {
         }
       );
     },
+    convertData: async function() {
+      let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
+      await fetch(url)
+        .then((responseJSON) => {
+          responseJSON.json().then((user) => {
+            user.relatives.forEach((rel) => {
+              let data1 = rel.sleep[0][0].durationInSeconds;
+              data1 = data1 / 3600;
+              this.dataConverted.push(data1.toFixed(0));
+
+              let debutSommeil = new Date(
+                rel.sleep[0][0].startTimeInSeconds * 1000 +
+                  rel.sleep[0][0].startTimeOffsetInSeconds * 1000
+              );
+              let finalSommeil = new Date(
+                rel.sleep[0][0].startTimeInSeconds * 1000 +
+                  rel.sleep[0][0].startTimeOffsetInSeconds * 1000 +
+                  rel.sleep[0][0].durationInSeconds * 1000
+              );
+
+              this.dataConverted.push(
+                debutSommeil.getHours(),
+                debutSommeil.getMinutes(),
+                debutSommeil.getSeconds()
+              );
+              this.dataConverted.push(
+                finalSommeil.getHours(),
+                finalSommeil.getMinutes(),
+                finalSommeil.getSeconds()
+              );
+              console.log(this.dataConverted);
+            });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     // colorPas: function(){
     //   console.log(this.colorT)
     //   if(this.relative.dailies[0][0].steps < (this.relative.dailies[0][0].stepsGoal/2)){
@@ -386,6 +474,9 @@ export default {
     // }
   },
 
+  mounted() {
+    this.convertData();
+  },
   components: {
     NavDashboard,
   },
