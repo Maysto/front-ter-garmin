@@ -282,7 +282,6 @@ export default {
     confirmRelative: async function() {
       let requestOptions = {
         method: "POST",
-        mode: "no-cors",
         Accept: "application/text",
       };
 
