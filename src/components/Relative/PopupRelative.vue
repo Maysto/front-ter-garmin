@@ -105,7 +105,7 @@
                 color="green"
                 text
                 outlined
-                @click="createRelative"
+                @click="confirmRelative"
                 :disabled="!form"
                 >Valider</v-btn
               >
@@ -177,7 +177,7 @@
           </div>
         </v-form>
       </v-card>
-      <v-card v-else >
+      <v-card v-else>
         <v-card-title class="justify-center">
           <h3>Passez Premium !</h3>
         </v-card-title>
@@ -186,13 +186,13 @@
           !
         </v-card-text>
         <v-card-actions class="text-center">
-          <v-btn 
+          <v-btn
             class="red--text"
             id="retour"
             outlined
             text
             @click="dialog = false"
-            >
+          >
             Retour
           </v-btn>
           <v-flex class="justify-center">
@@ -206,8 +206,8 @@
 
 <script>
 import PopupPremium from "../Dashboard/PopupPremium.vue";
-//import Crypto from "./Sha1Encode";
-//const pack = require("locutus/php/misc/pack");
+import Crypto from "./Sha1Encode";
+const pack = require("locutus/php/misc/pack");
 
 export default {
   name: "Test",
@@ -257,7 +257,7 @@ export default {
     BASEURL: "https://ter-garmin.herokuapp.com/api/relatives",
   }),
   components: {
-    PopupPremium
+    PopupPremium,
   },
   props: {
     links: {
@@ -266,123 +266,75 @@ export default {
     user: {},
   },
   methods: {
-    // confirmRelative: async function() {
-    //   var url =
-    //     "https://connectapi.garmin.com/oauth-service/oauth/request_token";
-    //   var xhr = new XMLHttpRequest();
-    //   var oauth_nonce = "thhgh";
-    //   var oauth_signature = "znQDCThOO3r7%2B1Ou70ErvUBLYiY%3D";
-    //   var oauth_consumer_key = "50658631-7f95-428e-995a-1d4a84f81255";
-    //   var oauth_timestamp = "1622124533806";
-    //   var oauth_signature_method = "HMAC-SHA1";
-    //   var oauth_version = "1.0";
+    makeid(length) {
+      var result = [];
+      var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      var charactersLength = characters.length;
+      for (var i = 0; i < length; i++) {
+        result.push(
+          characters.charAt(Math.floor(Math.random() * charactersLength))
+        );
+      }
+      return result.join("");
+    },
 
-    //   xhr.open("POST", url);
-    //   xhr.setRequestHeader('Access-Control-Allow-Methods', '*');
-    //   xhr.setRequestHeader('Access-Control-Allow-Origin', 'https://apis.garmin.com');
-    //   xhr.setRequestHeader(
-    //     "Authorization",
-    //     "OAuth oauth_nonce=",
-    //     oauth_nonce,
-    //     ", oauth_signature=",
-    //     oauth_signature,
-    //     ", oauth_consumer_key=",
-    //     oauth_consumer_key,
-    //     ", oauth_timestamp=",
-    //     oauth_timestamp,
-    //     ", oauth_signature_method=",
-    //     oauth_signature_method,
-    //     ", oauth_version=",
-    //     oauth_version,
-    //     ""
-    //   );
-    //   xhr.setRequestHeader("Content-Type", "application/json");
+    confirmRelative: async function() {
+      let requestOptions = {
+        method: "POST",
+        mode: "no-cors",
+        Accept: "application/text",
+      };
 
-    //   xhr.onreadystatechange = function() {
-    //     if (xhr.readyState === 4) {
-    //       console.log(xhr.status);
-    //       console.log(xhr.responseText);
-    //     }
-    //   };
+      let currentURL =
+        "https://connectapi.garmin.com/oauth-service/oauth/request_token?";
+      let oauth_consumer_key = "50658631-7f95-428e-995a-1d4a84f81255";
+      let oauth_consumer_secret = "qs6QrMQtQW0W2nOo08ipzlL9sZwupmRJyjF";
+      let oauth_nonce = this.makeid(15);
+      let oauth_timestamp = Math.round(Date.now() / 1000);
+      let baseString =
+        "POST&" +
+        encodeURIComponent(
+          "https://connectapi.garmin.com/oauth-service/oauth/request_token"
+        ) +
+        "&" +
+        encodeURIComponent(
+          "oauth_consumer_key=" +
+            oauth_consumer_key +
+            "&oauth_nonce=" +
+            oauth_nonce +
+            "&oauth_signature_method=HMAC-SHA1" +
+            "&oauth_timestamp=" +
+            oauth_timestamp +
+            "&oauth_version=1.0"
+        );
+      let oauth_signature_base = Crypto.sha1_hmac(
+        baseString,
+        oauth_consumer_secret + "&"
+      );
+      let oauth_signature = encodeURIComponent(
+        btoa(pack("H*", oauth_signature_base))
+      );
 
-    //   xhr.send();
-    // },
+      fetch(
+        currentURL +
+          "oauth_consumer_key=" +
+          oauth_consumer_key +
+          "&oauth_nonce=" +
+          oauth_nonce +
+          "&oauth_signature_method=HMAC-SHA1" +
+          "&oauth_timestamp=" +
+          oauth_timestamp +
+          "&oauth_version=1.0" +
+          "&oauth_signature=" +
+          oauth_signature,
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((response) => console.log(response.type));
+    },
 
-    // confirmRelative: async function () {
-    // makeid(length) {
-    //   var result = [];
-    //   var characters =
-    //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    //   var charactersLength = characters.length;
-    //   for (var i = 0; i < length; i++) {
-    //     result.push(
-    //       characters.charAt(Math.floor(Math.random() * charactersLength))
-    //     );
-    //   }
-    //   return result.join("");
-    // },
-
-    // confirmRelative: async function() {
-    //   // var myHeaders = new Headers();
-    //   // myHeaders.append(
-    //   //   "Authorization",
-    //   //   '&oauth_consumer_key%3D50658631-7f95-428e-995a-1d4a84f81255%26oauth_nonce%3D1622215716%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1622215716%26oauth_version%3D1.0'
-    //   // );
-
-    //   let requestOptions = {
-    //     method: "POST",
-    //     mode: "no-cors",
-    //     "Accept": "application/text",
-    //   };
-
-    //   let currentURL =
-    //     "https://connectapi.garmin.com/oauth-service/oauth/request_token?";
-    //   let oauth_consumer_key = "50658631-7f95-428e-995a-1d4a84f81255";
-    //   let oauth_consumer_secret = "qs6QrMQtQW0W2nOo08ipzlL9sZwupmRJyjF";
-    //   let oauth_nonce = this.makeid(15);
-    //   let oauth_timestamp = Math.round(Date.now() / 1000);
-    //   let baseString =
-    //     "POST&" +
-    //     encodeURIComponent(
-    //       "https://connectapi.garmin.com/oauth-service/oauth/request_token"
-    //     ) +
-    //     "&" +
-    //     encodeURIComponent(
-    //       "oauth_consumer_key=" +
-    //         oauth_consumer_key +
-    //         "&oauth_nonce=" +
-    //         oauth_nonce +
-    //         "&oauth_signature_method=HMAC-SHA1" +
-    //         "&oauth_timestamp=" +
-    //         oauth_timestamp +
-    //         "&oauth_version=1.0"
-    //     );
-    //   let oauth_signature_base = Crypto.sha1_hmac(
-    //     baseString,
-    //     oauth_consumer_secret + "&"
-    //   );
-    //   let oauth_signature = encodeURIComponent(
-    //     btoa(pack("H*", oauth_signature_base))
-    //   );
-
-    //   fetch(
-    //     currentURL +
-    //       "oauth_consumer_key=" +
-    //       oauth_consumer_key +
-    //       "&oauth_nonce=" +
-    //       oauth_nonce +
-    //       "&oauth_signature_method=HMAC-SHA1" +
-    //       "&oauth_timestamp=" +
-    //       oauth_timestamp +
-    //       "&oauth_version=1.0" +
-    //       "&oauth_signature=" +
-    //       oauth_signature,
-    //     requestOptions
-    //   )
-    //     .then((response) => response.text()).then((response) => console.log(response))
-    // },
-
-    createRelative: async function () {
+    createRelative: async function() {
       this.body = {
         userEmail: localStorage.email,
         firstname: this.relatives.prenom,
@@ -425,7 +377,7 @@ export default {
           ],
           route: "Dashboard",
         };
-        console.log(result.body)
+        console.log(result.body);
         this.links.push(newRelative);
         alert("Ajout de : " + this.body.firstname + " reussi");
         location.reload();
@@ -439,7 +391,7 @@ export default {
       this.exist = true;
       this.nouveau = false;
     },
-    addExistRelative: async function () {
+    addExistRelative: async function() {
       let url = `https://ter-garmin.herokuapp.com/api/relatives/${this.existR.id}`;
       await fetch(url)
         .then((response) => {
@@ -463,15 +415,15 @@ export default {
             };
             this.links.push(newRelative);
             this.dialog = false;
-            this.updateUserRelative();        
+            this.updateUserRelative();
           });
         })
-        .catch(function (err) {
+        .catch(function(err) {
           console.log(err);
         });
     },
 
-    updateUserRelative: async function () {
+    updateUserRelative: async function() {
       await fetch("https://ter-garmin.herokuapp.com/api/users/updateRelative", {
         method: "POST",
         body: JSON.stringify({
@@ -489,7 +441,7 @@ export default {
 </script>
 
 <style>
-  #retour{
-    margin-left: 25%;
-  }
+#retour {
+  margin-left: 25%;
+}
 </style>
