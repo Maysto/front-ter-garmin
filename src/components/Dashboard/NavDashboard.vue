@@ -117,6 +117,7 @@ export default {
       this.relative.sleep = tab.text[7];
       this.relative.activities = tab.text[8];
       this.relative.dailies = tab.text[9];
+      this.relative.id = tab.text[10];
     },
     getRelatives: async function () {
       let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
@@ -136,12 +137,12 @@ export default {
                   rel.stress,
                   rel.sleep,
                   rel.activities,
-                  rel.dailies
+                  rel.dailies,
+                  rel._id
                 ],
                 route: "Dashboard",
               };
               this.links.push(newRelative);
-              console.log(newRelative.text[9][0][0].steps)
             });
           });
         })

@@ -32,18 +32,14 @@
 
             <v-dialog v-model="dialog2" max-width="380">
               <template v-slot:activator="{ on: dialog }">
-                <v-tooltip right>
-                  <template v-slot:activator="{ on: tooltip }">
-                    <v-btn
-                      v-on="{ ...tooltip, ...dialog }"
-                      color="success"
-                      @click="shareRelative"
-                    >
-                      <v-icon> mdi-account-group</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Découvrez qui partage ce proche.</span>
-                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on : tooltip }">
+                    <v-btn v-on="{ ...tooltip, ...dialog }" color="success" @click="shareRelative">
+                  <v-icon> mdi-account-group</v-icon>
+                </v-btn>
+                </template>
+                <span>Découvrez qui partage ce proche.</span>
+              </v-tooltip>
               </template>
 
               <v-card>
@@ -59,6 +55,34 @@
                   <v-spacer></v-spacer>
                   <v-btn color="green darken-1" text @click="dialog2 = false">
                     Ok
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+
+            <v-dialog v-model="dialog3" max-width="380">
+              <template v-slot:activator="{ on: dialog }">
+                <v-tooltip right>
+                  <template v-slot:activator="{ on : tooltip }">
+                    <v-btn v-on="{ ...tooltip, ...dialog }" color="error" class="ml-5">
+                  <v-icon> mdi-delete-outline</v-icon>
+                </v-btn>
+                </template>
+                <span>Cliquez ici pour supprimer ce proche !</span>
+              </v-tooltip>
+              </template>
+              
+              <v-card>
+                <v-card-title class="justify-center">
+                  Etes vous sur de vouloir supprimer ce proche ? 
+                </v-card-title>
+                <v-card-actions>
+                  <v-btn color="error" text @click="dialog3 = false">
+                    Non
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn color="green darken-1" text @click="deleteRelatve">
+                    Oui
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -85,7 +109,7 @@
         <v-flex>
           <v-row cols="12">
             <v-col sm="4" xs="3">
-              <v-card>
+              <v-card v-if="relative.sleep[0] != undefined">
                 <v-img
                   height="220"
                   src="https://i.ibb.co/TcFp2KK/depositphotos-277879810-stock-photo-front-view-active-senior-caucasian.jpg"
@@ -148,9 +172,12 @@
                   }}</b>
                 </v-card-text>
               </v-card>
+              <v-card v-if="relative.sleep[0] == undefined">
+                <v-card-title class="mt-8"> Les données n'ont pas encore étaient récupérées</v-card-title>
+              </v-card>
             </v-col>
             <v-col sm="4" xs="3">
-              <v-card>
+              <v-card v-if="relative.dailies[0] != undefined">
                 <v-img
                   height="220"
                   src="https://i.ibb.co/6Y7HL9p/650x350-do-you-know-the-benefits-of-walking-rmq.webp"
@@ -197,6 +224,9 @@
                   Objectif :
                   <b>{{ relative.dailies[0][0].floorsClimbedGoal }}</b> étages
                 </v-card-text>
+              </v-card>
+              <v-card v-if="relative.dailies[0] == undefined">
+                <v-card-title class="mt-8"> Les données n'ont pas encore étaient récupérées</v-card-title>
               </v-card>
             </v-col>
             <v-col sm="4" xs="3">
@@ -276,7 +306,7 @@
               </v-card>
             </v-col>
             <v-col sm="3">
-              <v-card>
+              <v-card v-if="relative.dailies[0] != undefined">
                 <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
                   <v-icon large class="mr-2">mdi-flash-alert-outline</v-icon>
                   <h3>Stress</h3>
@@ -295,6 +325,9 @@
                 <v-card-text>
                   {{ relative.dailies[0][0].averageStressLevel }}
                 </v-card-text>
+              </v-card>
+              <v-card v-if="relative.dailies[0] == undefined">
+                <v-card-title class="mt-8"> Les données n'ont pas encore étaient récupérées</v-card-title>
               </v-card>
             </v-col>
           </v-row>
@@ -326,6 +359,7 @@ export default {
     demarrage: false,
     dialog: false,
     dialog2: false,
+    dialog3: false,
     relative: {
       prenom: "",
       nom: "",
@@ -337,6 +371,7 @@ export default {
       sleep: "",
       activities: "",
       dailies: "",
+      id:"",
     },
     relativeID: "",
     userList: [],
@@ -411,6 +446,24 @@ export default {
         }
       );
     },
+
+    deleteRelatve: async function(){
+      this.dialog3 = false
+      let url = `https://ter-garmin.herokuapp.com/api/users/deleteRelative`
+      await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          email: localStorage.email,
+          id: this.relative.id,
+        }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(this.relative.id)
+      location.reload();
+    },
     convertData: async function() {
       let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url)
@@ -423,12 +476,12 @@ export default {
 
               let debutSommeil = new Date(
                 rel.sleep[0][0].startTimeInSeconds * 1000 +
-                  rel.sleep[0][0].startTimeOffsetInSeconds * 1000
+                rel.sleep[0][0].startTimeOffsetInSeconds * 1000
               );
               let finalSommeil = new Date(
                 rel.sleep[0][0].startTimeInSeconds * 1000 +
-                  rel.sleep[0][0].startTimeOffsetInSeconds * 1000 +
-                  rel.sleep[0][0].durationInSeconds * 1000
+                rel.sleep[0][0].startTimeOffsetInSeconds * 1000 +
+                rel.sleep[0][0].durationInSeconds * 1000
               );
 
               this.dataConverted.push(

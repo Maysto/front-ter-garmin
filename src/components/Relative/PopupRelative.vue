@@ -206,8 +206,8 @@
 
 <script>
 import PopupPremium from "../Dashboard/PopupPremium.vue";
-import Crypto from "./Sha1Encode";
-const pack = require("locutus/php/misc/pack");
+//import Crypto from "./Sha1Encode";
+//const pack = require("locutus/php/misc/pack");
 
 export default {
   name: "Test",
@@ -308,79 +308,79 @@ export default {
     //   xhr.send();
     // },
 
-    confirmRelative: async function () {
-    makeid(length) {
-      var result = [];
-      var characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      var charactersLength = characters.length;
-      for (var i = 0; i < length; i++) {
-        result.push(
-          characters.charAt(Math.floor(Math.random() * charactersLength))
-        );
-      }
-      return result.join("");
-    },
+    // confirmRelative: async function () {
+    // makeid(length) {
+    //   var result = [];
+    //   var characters =
+    //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    //   var charactersLength = characters.length;
+    //   for (var i = 0; i < length; i++) {
+    //     result.push(
+    //       characters.charAt(Math.floor(Math.random() * charactersLength))
+    //     );
+    //   }
+    //   return result.join("");
+    // },
 
-    confirmRelative: async function() {
-      // var myHeaders = new Headers();
-      // myHeaders.append(
-      //   "Authorization",
-      //   '&oauth_consumer_key%3D50658631-7f95-428e-995a-1d4a84f81255%26oauth_nonce%3D1622215716%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1622215716%26oauth_version%3D1.0'
-      // );
+    // confirmRelative: async function() {
+    //   // var myHeaders = new Headers();
+    //   // myHeaders.append(
+    //   //   "Authorization",
+    //   //   '&oauth_consumer_key%3D50658631-7f95-428e-995a-1d4a84f81255%26oauth_nonce%3D1622215716%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1622215716%26oauth_version%3D1.0'
+    //   // );
 
-      let requestOptions = {
-        method: "POST",
-        mode: "no-cors",
-        "Accept": "application/text",
-      };
+    //   let requestOptions = {
+    //     method: "POST",
+    //     mode: "no-cors",
+    //     "Accept": "application/text",
+    //   };
 
-      let currentURL =
-        "https://connectapi.garmin.com/oauth-service/oauth/request_token?";
-      let oauth_consumer_key = "50658631-7f95-428e-995a-1d4a84f81255";
-      let oauth_consumer_secret = "qs6QrMQtQW0W2nOo08ipzlL9sZwupmRJyjF";
-      let oauth_nonce = this.makeid(15);
-      let oauth_timestamp = Math.round(Date.now() / 1000);
-      let baseString =
-        "POST&" +
-        encodeURIComponent(
-          "https://connectapi.garmin.com/oauth-service/oauth/request_token"
-        ) +
-        "&" +
-        encodeURIComponent(
-          "oauth_consumer_key=" +
-            oauth_consumer_key +
-            "&oauth_nonce=" +
-            oauth_nonce +
-            "&oauth_signature_method=HMAC-SHA1" +
-            "&oauth_timestamp=" +
-            oauth_timestamp +
-            "&oauth_version=1.0"
-        );
-      let oauth_signature_base = Crypto.sha1_hmac(
-        baseString,
-        oauth_consumer_secret + "&"
-      );
-      let oauth_signature = encodeURIComponent(
-        btoa(pack("H*", oauth_signature_base))
-      );
+    //   let currentURL =
+    //     "https://connectapi.garmin.com/oauth-service/oauth/request_token?";
+    //   let oauth_consumer_key = "50658631-7f95-428e-995a-1d4a84f81255";
+    //   let oauth_consumer_secret = "qs6QrMQtQW0W2nOo08ipzlL9sZwupmRJyjF";
+    //   let oauth_nonce = this.makeid(15);
+    //   let oauth_timestamp = Math.round(Date.now() / 1000);
+    //   let baseString =
+    //     "POST&" +
+    //     encodeURIComponent(
+    //       "https://connectapi.garmin.com/oauth-service/oauth/request_token"
+    //     ) +
+    //     "&" +
+    //     encodeURIComponent(
+    //       "oauth_consumer_key=" +
+    //         oauth_consumer_key +
+    //         "&oauth_nonce=" +
+    //         oauth_nonce +
+    //         "&oauth_signature_method=HMAC-SHA1" +
+    //         "&oauth_timestamp=" +
+    //         oauth_timestamp +
+    //         "&oauth_version=1.0"
+    //     );
+    //   let oauth_signature_base = Crypto.sha1_hmac(
+    //     baseString,
+    //     oauth_consumer_secret + "&"
+    //   );
+    //   let oauth_signature = encodeURIComponent(
+    //     btoa(pack("H*", oauth_signature_base))
+    //   );
 
-      fetch(
-        currentURL +
-          "oauth_consumer_key=" +
-          oauth_consumer_key +
-          "&oauth_nonce=" +
-          oauth_nonce +
-          "&oauth_signature_method=HMAC-SHA1" +
-          "&oauth_timestamp=" +
-          oauth_timestamp +
-          "&oauth_version=1.0" +
-          "&oauth_signature=" +
-          oauth_signature,
-        requestOptions
-      )
-        .then((response) => response.text()).then((response) => console.log(response))
-    },
+    //   fetch(
+    //     currentURL +
+    //       "oauth_consumer_key=" +
+    //       oauth_consumer_key +
+    //       "&oauth_nonce=" +
+    //       oauth_nonce +
+    //       "&oauth_signature_method=HMAC-SHA1" +
+    //       "&oauth_timestamp=" +
+    //       oauth_timestamp +
+    //       "&oauth_version=1.0" +
+    //       "&oauth_signature=" +
+    //       oauth_signature,
+    //     requestOptions
+    //   )
+    //     .then((response) => response.text()).then((response) => console.log(response))
+    // },
 
     createRelative: async function () {
       this.body = {
@@ -391,6 +391,11 @@ export default {
         gender: this.relatives.sexe,
         weight: this.relatives.poids,
         height: this.relatives.taille,
+        stress: [],
+        sleep: [],
+        activites: [],
+        dailies: [],
+        _id: [], //a changer pour la suppression
       };
 
       const result = await fetch(this.BASEURL + "/addOne", {
@@ -412,11 +417,18 @@ export default {
             this.body.gender,
             this.body.weight,
             this.body.height,
+            this.body.stress,
+            this.body.sleep,
+            this.body.activites,
+            this.body.dailies,
+            this.body._id,
           ],
           route: "Dashboard",
         };
+        console.log(result.body)
         this.links.push(newRelative);
         alert("Ajout de : " + this.body.firstname + " reussi");
+        location.reload();
       }
     },
     setNouveau() {
@@ -441,12 +453,17 @@ export default {
                 relative.gender,
                 relative.weight,
                 relative.height,
+                relative.stress,
+                relative.sleep,
+                relative.activites,
+                relative.dailies,
+                relative._id,
               ],
               route: "Dashboard",
             };
             this.links.push(newRelative);
             this.dialog = false;
-            this.updateUserRelative();
+            this.updateUserRelative();        
           });
         })
         .catch(function (err) {
