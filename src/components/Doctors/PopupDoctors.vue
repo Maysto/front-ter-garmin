@@ -71,7 +71,7 @@
                 color="green"
                 text
                 outlined
-                @click="dialog = false"
+                @click="createDoctors"
                 :disabled="!form"
                 >Valider</v-btn
               >
@@ -89,6 +89,7 @@ export default {
   data: () => ({
     dialog: false,
     form: false,
+    relativeID: "",
     doctors: {
       prenom: "",
       nom: "",
@@ -127,22 +128,38 @@ export default {
     },
     BASEURL: "https://ter-garmin.herokuapp.com/api/relatives",
   }),
-    props: {
-    lists: {
+  props: {
+    listDoctors: {
       type: Array,
+    },
+    relative: {
+      type: Object,
     },
   },
   methods: {
+    getFuckingId: async function() {
+      let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
+      await fetch(url).then((responseJSON) => {
+        responseJSON.json().then((user) => {
+          user.relatives.forEach((rel) => {
+            if (this.relative.prenom == rel.firstname && this.relative.nom == rel.lastname) {
+              this.relativeID = rel._id;
+            }
+          });
+        });
+      });
+    },
     createDoctors: async function() {
+      this.getFuckingId();
+
       this.body = {
-        userEmail: localStorage.email,
+        relativeId: this.relativeID,
         firstname: this.doctors.prenom,
         lastname: this.doctors.nom,
-        phone: this.doctors.telephone,
         specialities: this.doctors.specialite,
+        phone: this.doctors.telephone,
       };
-
-      const result = await fetch(this.BASEURL + "", {
+      const result = await fetch(this.BASEURL + "/addDoctor", {
         method: "POST",
         body: JSON.stringify(this.body),
         headers: {
@@ -152,7 +169,7 @@ export default {
       });
       if (result.ok) {
         this.dialog = false;
-        let newDoctors = {
+        let newDoctor = {
           icon: "mdi-doctor",
           text: [
             this.body.firstname,
@@ -162,11 +179,13 @@ export default {
           ],
           route: "Dashboard",
         };
-        this.listDoctors.push(newDoctors);
+        this.listDoctors.push(newDoctor);
         alert("Ajout du docteur : " + this.body.lastname + " reussi");
-        location.reload();
       }
     },
   },
+  mounted() {
+    this.getFuckingId();
+  }
 };
 </script>

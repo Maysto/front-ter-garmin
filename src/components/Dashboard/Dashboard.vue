@@ -293,7 +293,10 @@
                     </v-list-item-content>
                   </v-list-item>
                 </v-list> -->
-                <PopupDoctors v-bind:listDoctors="listDoctors" />
+                <PopupDoctors
+                  v-bind:listDoctors="listDoctors"
+                  v-bind:relative="relative"
+                />
               </v-card>
             </v-col>
           </v-row>
