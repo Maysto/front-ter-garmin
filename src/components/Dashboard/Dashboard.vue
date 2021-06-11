@@ -33,13 +33,17 @@
             <v-dialog v-model="dialog2" max-width="380">
               <template v-slot:activator="{ on: dialog }">
                 <v-tooltip bottom>
-                  <template v-slot:activator="{ on : tooltip }">
-                    <v-btn v-on="{ ...tooltip, ...dialog }" color="success" @click="shareRelative">
-                  <v-icon> mdi-account-group</v-icon>
-                </v-btn>
-                </template>
-                <span>Découvrez qui partage ce proche.</span>
-              </v-tooltip>
+                  <template v-slot:activator="{ on: tooltip }">
+                    <v-btn
+                      v-on="{ ...tooltip, ...dialog }"
+                      color="success"
+                      @click="shareRelative"
+                    >
+                      <v-icon> mdi-account-group</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Découvrez qui partage ce proche.</span>
+                </v-tooltip>
               </template>
 
               <v-card>
@@ -63,18 +67,22 @@
             <v-dialog v-model="dialog3" max-width="380">
               <template v-slot:activator="{ on: dialog }">
                 <v-tooltip right>
-                  <template v-slot:activator="{ on : tooltip }">
-                    <v-btn v-on="{ ...tooltip, ...dialog }" color="error" class="ml-5">
-                  <v-icon> mdi-delete-outline</v-icon>
-                </v-btn>
-                </template>
-                <span>Cliquez ici pour supprimer ce proche !</span>
-              </v-tooltip>
+                  <template v-slot:activator="{ on: tooltip }">
+                    <v-btn
+                      v-on="{ ...tooltip, ...dialog }"
+                      color="error"
+                      class="ml-5"
+                    >
+                      <v-icon> mdi-delete-outline</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Cliquez ici pour supprimer ce proche !</span>
+                </v-tooltip>
               </template>
-              
+
               <v-card>
                 <v-card-title class="justify-center">
-                  Etes vous sur de vouloir supprimer ce proche ? 
+                  Etes vous sur de vouloir supprimer ce proche ?
                 </v-card-title>
                 <v-card-actions>
                   <v-btn color="error" text @click="dialog3 = false">
@@ -115,7 +123,9 @@
                   src="https://i.ibb.co/TcFp2KK/depositphotos-277879810-stock-photo-front-view-active-senior-caucasian.jpg"
                 ></v-img>
                 <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
-                  <v-icon large class="mr-2">mdi-weather-night </v-icon>
+                  <v-icon large class="mr-2" color="indigo"
+                    >mdi-weather-night
+                  </v-icon>
                   <h3>Temps de sommeil</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -133,14 +143,23 @@
                   Durée du sommeil :
                   <b>{{ dataConverted[0] }}</b> Heures
                   <br />
-                  Heure de début : <b>{{ dataConverted[1] }}:{{dataConverted[2] }}:{{dataConverted[3]}}</b>
+                  Heure de début :
+                  <b
+                    >{{ dataConverted[1] }}:{{ dataConverted[2] }}:{{
+                      dataConverted[3]
+                    }}</b
+                  >
                   <br />
                   Heure de fin :
-                   <b>{{ dataConverted[4] }}:{{dataConverted[5] }}:{{dataConverted[6]}}</b>
+                  <b
+                    >{{ dataConverted[4] }}:{{ dataConverted[5] }}:{{
+                      dataConverted[6]
+                    }}</b
+                  >
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-app-bar color="rgba(0,0,0,0)" flat>
-                  <v-icon large class="mr-2">mdi-trophy </v-icon>
+                  <v-icon large class="mr-2" color="amber">mdi-trophy </v-icon>
                   <h3>Score du sommeil</h3>
                 </v-app-bar>
                 <v-card-text>
@@ -165,7 +184,7 @@
                   }}</b>
                   <br />
                   <br />
-                  <v-icon medium class="mr-2">mdi-star </v-icon>
+                  <v-icon medium color="yellow">mdi-star </v-icon>
                   Score global du sommeil :
                   <b>{{
                     relative.sleep[0][0].overallSleepScore.qualifierKey
@@ -173,7 +192,9 @@
                 </v-card-text>
               </v-card>
               <v-card v-if="relative.sleep[0] == undefined">
-                <v-card-title class="mt-8"> Les données n'ont pas encore étaient récupérées</v-card-title>
+                <v-card-title class="mt-8">
+                  Les données n'ont pas encore étaient récupérées</v-card-title
+                >
               </v-card>
             </v-col>
             <v-col sm="4" xs="3">
@@ -183,7 +204,9 @@
                   src="https://i.ibb.co/6Y7HL9p/650x350-do-you-know-the-benefits-of-walking-rmq.webp"
                 ></v-img>
                 <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
-                  <v-icon large class="mr-2">mdi-shoe-print </v-icon>
+                  <v-icon large class="mr-2" color="brown"
+                    >mdi-shoe-print
+                  </v-icon>
                   <h3>Nombre de pas</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -193,13 +216,13 @@
                     mandatory
                   >
                     <v-chip>Aujourd'hui</v-chip>
-
                     <v-chip>Semaine</v-chip>
                   </v-chip-group>
                 </v-app-bar>
                 <v-card-text>
-                  Pas éffectué :
+                  Pas éffectués :
                   <b>{{ relative.dailies[0][0].steps }}</b> Pas <br />
+                  <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
                   Objectif :
                   <b>{{ relative.dailies[0][0].stepsGoal }}</b> Pas
                   <!-- <span class="colorT"> pour colorPas qui doit etre appellé au bon moment mais j'y arrive pas putain
@@ -207,10 +230,13 @@
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-app-bar color="rgba(0,0,0,0)" flat>
-                  <v-icon large class="mr-2">mdi-map-marker-distance </v-icon>
+                  <v-icon large class="mr-2" color="blue-grey"
+                    >mdi-map-marker-distance
+                  </v-icon>
                   <h3>Distance parcourue</h3>
                 </v-app-bar>
                 <v-card-text>
+                  Distance effectuée :
                   <b>{{ relative.dailies[0][0].distanceInMeters }}</b> mètres
                 </v-card-text>
                 <v-divider></v-divider>
@@ -219,41 +245,69 @@
                   <h3>Etages montés</h3>
                 </v-app-bar>
                 <v-card-text>
-                  Etage montés :
+                  Etages montés :
                   <b>{{ relative.dailies[0][0].floorsClimbed }}</b> étages<br />
+                  <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
                   Objectif :
                   <b>{{ relative.dailies[0][0].floorsClimbedGoal }}</b> étages
                 </v-card-text>
               </v-card>
               <v-card v-if="relative.dailies[0] == undefined">
-                <v-card-title class="mt-8"> Les données n'ont pas encore étaient récupérées</v-card-title>
+                <v-card-title class="mt-8">
+                  Les données n'ont pas encore étaient récupérées</v-card-title
+                >
               </v-card>
             </v-col>
             <v-col sm="4" xs="3">
               <v-card>
-                <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-                  <v-icon large class="mr-2">mdi-map-marker-distance </v-icon>
-                  <h3>Distance parcourue</h3>
+                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
+                  <v-icon large class="mr-2" color="teal">mdi-doctor </v-icon>
+                  <h3>Liste des médecins du proche</h3>
                   <v-spacer></v-spacer>
-                  <v-chip-group
-                    v-model="selection3"
-                    active-class="teal accent-4 white--text"
-                    class="ma-8"
-                    mandatory
-                  >
-                    <v-chip>Aujourd'hui</v-chip>
-
-                    <v-chip>Semaine</v-chip>
-                  </v-chip-group>
                 </v-app-bar>
+                <v-divider></v-divider>
+                <!-- <v-list flat>
+                  <v-list-item
+                    v-for="link in listDoctors"
+                    :key="link.text[0]"
+                    router
+                    :to="link.route"
+                    active-class="blue"
+                    @click="
+                      showData(link);
+                      setDemarrage();
+                    "
+                  >
+                    <v-list-item-action>
+                      <v-icon>{{ link.icon }}</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                      <v-tooltip bottom>
+                        <template #activator="{ on }">
+                          <v-list-item-title v-on="on">
+                            {{ link.text[0] }} {{ link.text[1] }}
+                          </v-list-item-title>
+                        </template>
+                        <span>{{ link.text[0] }} {{ link.text[1] }} </span>
+                      </v-tooltip>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list> -->
+                <PopupDoctors v-bind:listDoctors="listDoctors" />
               </v-card>
             </v-col>
           </v-row>
           <v-row cols="12">
             <v-col sm="5" xs="3">
-              <v-card>
-                <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-                  <v-icon large class="mr-2">mdi-heart-pulse </v-icon>
+              <v-card v-if="relative.dailies[0] != undefined">
+                <v-img
+                  height="150"
+                  src="https://i.ibb.co/6Y7HL9p/650x350-do-you-know-the-benefits-of-walking-rmq.webp"
+                ></v-img>
+                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
+                  <v-icon large class="mr-2" color="error"
+                    >mdi-heart-pulse
+                  </v-icon>
                   <h3>Rythme cardiaque</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -285,11 +339,20 @@
                   ></v-sparkline>
                 </template>
               </v-card>
+              <v-card v-if="relative.dailies[0] == undefined">
+                <v-card-title class="mt-8">
+                  Les données n'ont pas encore étaient récupérées</v-card-title
+                >
+              </v-card>
             </v-col>
             <v-col sm="3">
-              <v-card>
-                <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-                  <v-icon large class="mr-2">mdi-food</v-icon>
+              <v-card v-if="relative.dailies[0] != undefined">
+                <v-img
+                  height="150"
+                  src="https://i.ibb.co/DpwD38v/Calories-1200x628-1200x610.jpg"
+                ></v-img>
+                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
+                  <v-icon large class="mr-2" color="green">mdi-food</v-icon>
                   <h3>Calories</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -303,12 +366,34 @@
                     <v-chip>Semaine</v-chip>
                   </v-chip-group>
                 </v-app-bar>
+                <v-card-text>
+                  Calories actives :
+                  <b>{{ relative.dailies[0][0].activeKilocalories }}</b> <br />
+                  BMR Kilocalories :
+                  <b>{{ relative.dailies[0][0].bmrKilocalories }}</b
+                  ><br />
+                  <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
+                  Objectif :
+                  <b>{{ relative.dailies[0][0].netKilocaloriesGoal }}</b
+                  ><br />
+                </v-card-text>
+              </v-card>
+              <v-card v-if="relative.dailies[0] == undefined">
+                <v-card-title class="mt-8">
+                  Les données n'ont pas encore étaient récupérées</v-card-title
+                >
               </v-card>
             </v-col>
             <v-col sm="3">
               <v-card v-if="relative.dailies[0] != undefined">
-                <v-app-bar color="rgba(0,0,0,0)" flat class="ma-8">
-                  <v-icon large class="mr-2">mdi-flash-alert-outline</v-icon>
+                <v-img
+                  height="150"
+                  src="https://i.ibb.co/Fx4Dzmv/10204e2cf94ed01b71805a97cdf1047b.jpg"
+                ></v-img>
+                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
+                  <v-icon large class="mr-2" color="deep-orange"
+                    >mdi-flash-alert-outline</v-icon
+                  >
                   <h3>Stress</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -323,11 +408,38 @@
                   </v-chip-group>
                 </v-app-bar>
                 <v-card-text>
-                  {{ relative.dailies[0][0].averageStressLevel }}
+                  Niveau de stress moyen :
+                  <b> {{ relative.dailies[0][0].averageStressLevel }} </b>
+                  <br />
+                  Niveau de stress maximal :
+                  <b> {{ relative.dailies[0][0].maxStressLevel }} </b>
+                  <br />
+                  Heure de début :
+                  <b
+                    >{{ dataConverted[7] }}:{{ dataConverted[8] }}:{{
+                      dataConverted[9]
+                    }}</b
+                  >
+                  <br />
+                  Heure de fin :
+                  <b
+                    >{{ dataConverted[10] }}:{{ dataConverted[11] }}:{{
+                      dataConverted[12]
+                    }}</b
+                  >
+                  <br />
+                  Durée du stress :
+                  <b>
+                    {{ relative.stress[0][0].durationInSeconds }}
+                    secondes
+                  </b>
+                  <br />
                 </v-card-text>
               </v-card>
               <v-card v-if="relative.dailies[0] == undefined">
-                <v-card-title class="mt-8"> Les données n'ont pas encore étaient récupérées</v-card-title>
+                <v-card-title class="mt-8">
+                  Les données n'ont pas encore étaient récupérées</v-card-title
+                >
               </v-card>
             </v-col>
           </v-row>
@@ -339,6 +451,7 @@
 
 <script>
 import NavDashboard from "./NavDashboard.vue";
+import PopupDoctors from "../Doctors/PopupDoctors.vue";
 
 export default {
   data: () => ({
@@ -371,10 +484,11 @@ export default {
       sleep: "",
       activities: "",
       dailies: "",
-      id:"",
+      id: "",
     },
     relativeID: "",
     userList: [],
+    listDoctors: [],
   }),
   methods: {
     BPMtoday: function() {
@@ -447,9 +561,9 @@ export default {
       );
     },
 
-    deleteRelatve: async function(){
-      this.dialog3 = false
-      let url = `https://ter-garmin.herokuapp.com/api/users/deleteRelative`
+    deleteRelatve: async function() {
+      this.dialog3 = false;
+      let url = `https://ter-garmin.herokuapp.com/api/users/deleteRelative`;
       await fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -461,7 +575,6 @@ export default {
           "Content-Type": "application/json",
         },
       });
-      console.log(this.relative.id)
       location.reload();
     },
     convertData: async function() {
@@ -476,12 +589,12 @@ export default {
 
               let debutSommeil = new Date(
                 rel.sleep[0][0].startTimeInSeconds * 1000 +
-                rel.sleep[0][0].startTimeOffsetInSeconds * 1000
+                  rel.sleep[0][0].startTimeOffsetInSeconds * 1000
               );
               let finalSommeil = new Date(
                 rel.sleep[0][0].startTimeInSeconds * 1000 +
-                rel.sleep[0][0].startTimeOffsetInSeconds * 1000 +
-                rel.sleep[0][0].durationInSeconds * 1000
+                  rel.sleep[0][0].startTimeOffsetInSeconds * 1000 +
+                  rel.sleep[0][0].durationInSeconds * 1000
               );
 
               this.dataConverted.push(
@@ -494,7 +607,28 @@ export default {
                 finalSommeil.getMinutes(),
                 finalSommeil.getSeconds()
               );
-              console.log(this.dataConverted);
+
+              let debutStress = new Date(
+                rel.stress[0][0].startTimeInSeconds * 1000 +
+                  rel.stress[0][0].startTimeOffsetInSeconds * 1000
+              );
+
+              let finalStress = new Date(
+                rel.stress[0][0].startTimeInSeconds * 1000 +
+                  rel.stress[0][0].startTimeOffsetInSeconds * 1000 +
+                  rel.stress[0][0].durationInSeconds * 1000
+              );
+
+              this.dataConverted.push(
+                debutStress.getHours(),
+                debutStress.getMinutes(),
+                debutStress.getSeconds()
+              );
+              this.dataConverted.push(
+                finalStress.getHours(),
+                finalStress.getMinutes(),
+                finalStress.getSeconds()
+              );
             });
           });
         })
@@ -502,36 +636,15 @@ export default {
           console.log(err);
         });
     },
-    // colorPas: function(){
-    //   console.log(this.colorT)
-    //   if(this.relative.dailies[0][0].steps < (this.relative.dailies[0][0].stepsGoal/2)){
-    //     this.colorT = "error"
-    //     console.log(this.colorT)
-    //     return
-    //   }
-    //   if(this.relative.dailies[0][0].steps < (this.relative.dailies[0][0].stepsGoal/1.25)){
-    //     this.colorT = "deep-orange"
-    //     console.log(this.colorT)
-    //     return
-    //   }
-    //   if(this.relative.dailies[0][0].steps < (this.relative.dailies[0][0].stepsGoal)){
-    //     this.colorT = "yellow"
-    //     console.log(this.colorT)
-    //     return
-    //   }
-    //   if(this.relative.dailies[0][0].steps > (this.relative.dailies[0][0].stepsGoal)){
-    //     this.colorT = "success"
-    //     console.log(this.colorT)
-    //     return
-    //   }
-    // }
   },
 
   mounted() {
     this.convertData();
+    console.log(this.dataConverted);
   },
   components: {
     NavDashboard,
+    PopupDoctors,
   },
   watch: {
     dialog2: function(val) {
