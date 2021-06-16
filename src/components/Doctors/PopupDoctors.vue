@@ -190,35 +190,9 @@ export default {
         alert("Ajout du docteur : " + this.body.lastname + " reussi");
       }
     },
-    getDoctors: async function() {
-      let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
-      await fetch(url2)
-        .then((responseJSON) => {
-          responseJSON.json().then((user) => {
-            user.relatives.forEach((rel) => {
-              rel.doctors.forEach((r) => {
-                if (
-                  this.relative.prenom == rel.firstname &&
-                  this.relative.nom == rel.lastname
-                ) {
-                  let newDoctor = {
-                    icon: "mdi-doctor",
-                    text: [r.firstname, r.lastname, r.phone, r.specialities],
-                  };
-                  this.listDoctors.push(newDoctor);
-                }
-              });
-            });
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
   },
   mounted() {
     this.getFuckingId();
-    this.getDoctors();
   },
 
 };

@@ -50,7 +50,7 @@
                 <v-card-title class="justify-center blue--text">
                   Partagé par
                 </v-card-title>
-                <v-card-text class="text-center ">
+                <v-card-text class="text-center">
                   <li v-for="(item, index) in userList" :key="index">
                     {{ item }}
                   </li>
@@ -58,6 +58,60 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="green darken-1" text @click="dialog2 = false">
+                    Ok
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+
+            <v-dialog v-model="dialog4" max-width="380">
+              <template v-slot:activator="{ on: dialog }">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on: tooltip }">
+                    <v-btn
+                      v-on="{ ...tooltip, ...dialog }"
+                      color="success"
+                      class="ml-5"
+                      @click="getDoctors"
+                    >
+                      <v-icon> mdi-doctor</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Consultez les médecins de votre proche.</span>
+                </v-tooltip>
+              </template>
+              <v-card>
+                <v-app-bar color="rgba(0,0,0,0)" flat>
+                  <v-icon large class="mr-2" color="teal">mdi-doctor </v-icon>
+                  <h3>Liste des médecins du proche</h3>
+                  <v-spacer></v-spacer>
+                </v-app-bar>
+                <v-divider></v-divider>
+                <v-list flat>
+                  <v-list-item
+                    v-for="doctor in listDoctors"
+                    :key="doctor.text[0]"
+                  >
+                    <v-list-item-action>
+                      <v-icon>{{ doctor.icon }}</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                      <span>
+                        Docteur. {{ doctor.text[0] }} {{ doctor.text[1] }}
+                      </span>
+                      <br />
+                      <span> Spécialité : {{ doctor.text[3] }}</span> <br />
+                      <span> Téléphone : {{ doctor.text[2] }}</span>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+                <PopupDoctors
+                  v-bind:listDoctors="listDoctors"
+                  v-bind:relative="relative"
+                />
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="green darken-1" text @click="dialog4 = false">
                     Ok
                   </v-btn>
                 </v-card-actions>
@@ -116,7 +170,7 @@
         </v-flex>
         <v-flex>
           <v-row cols="12">
-            <v-col sm="4" xs="3">
+            <v-col sm="12" md="6" lg="4">
               <v-card v-if="relative.sleep[0] != undefined">
                 <v-img
                   height="220"
@@ -197,7 +251,7 @@
                 >
               </v-card>
             </v-col>
-            <v-col sm="4" xs="3">
+            <v-col sm="12" md="6" lg="4">
               <v-card v-if="relative.dailies[0] != undefined">
                 <v-img
                   height="220"
@@ -258,52 +312,33 @@
                 >
               </v-card>
             </v-col>
-            <v-col sm="3" xs="3">
+            <v-col sm="12" md="6" lg="4">
               <v-card>
-                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
-                  <v-icon large class="mr-2" color="teal">mdi-doctor </v-icon>
-                  <h3>Liste des médecins du proche</h3>
-                  <v-spacer></v-spacer>
-                </v-app-bar>
-                <v-divider></v-divider>
-                <v-list flat>
-                  <v-list-item
-                    v-for="doctor in listDoctors"
-                    :key="doctor.text[0]"
-                  >
-                    <v-list-item-action>
-                      <v-icon>{{ doctor.icon }}</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                      <span>
-                        Docteur. {{ doctor.text[0] }} {{ doctor.text[1] }}
-                      </span>
-                      <br />
-                      <span> Spécialité : {{ doctor.text[3] }}</span> <br />
-                      <span> Téléphone : {{ doctor.text[2] }}</span>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list>
-                <PopupDoctors
-                  v-bind:listDoctors="listDoctors"
-                  v-bind:relative="relative"
-                />
-              </v-card>
-              <v-card>
-                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
+                <v-app-bar color="rgba(0,0,0,0)" flat >
                   <v-icon large class="mr-2" color="teal">mdi-calendar</v-icon>
                   <h3>Calendrier du proche</h3>
                   <v-spacer></v-spacer>
                 </v-app-bar>
                 <v-divider></v-divider>
-               <CalendarDashboard>
-               </CalendarDashboard>
+                <v-sheet height="530">
+                <v-calendar 
+                  ref="calendar"
+                  v-model="focus"
+                  color="primary"
+                  :events="[]"
+                  :type="type"
+                  max-height="200"
+                  first-interval="6"
+                  interval-count="13"
+                  
+                ></v-calendar>
+                </v-sheet>
+                <CalendarDashboard> </CalendarDashboard>
               </v-card>
             </v-col>
-            
           </v-row>
           <v-row cols="12">
-            <v-col sm="5" xs="3">
+            <v-col sm="12" md="6" lg="4">
               <v-card v-if="relative.dailies[0] != undefined">
                 <v-img
                   height="150"
@@ -350,7 +385,7 @@
                 >
               </v-card>
             </v-col>
-            <v-col sm="3">
+            <v-col sm="12" md="6" lg="4">
               <v-card v-if="relative.dailies[0] != undefined">
                 <v-img
                   height="150"
@@ -389,7 +424,7 @@
                 >
               </v-card>
             </v-col>
-            <v-col sm="3">
+            <v-col sm="12" md="6" lg="4">
               <v-card v-if="relative.dailies[0] != undefined">
                 <v-img
                   height="150"
@@ -479,6 +514,7 @@ export default {
     dialog: false,
     dialog2: false,
     dialog3: false,
+    dialog4: false,
     relative: {
       prenom: "",
       nom: "",
@@ -495,29 +531,31 @@ export default {
     relativeID: "",
     userList: [],
     listDoctors: [],
+    focus: "",
+    type: "day",
   }),
   methods: {
-    BPMtoday: function() {
+    BPMtoday: function () {
       this.valueBPM = [2, 3, 4, 5, 10];
     },
-    BPMweek: function() {
+    BPMweek: function () {
       this.valueBPM = [9, 5, 6, 4, 2, 1];
     },
-    BPMmonth: function() {
+    BPMmonth: function () {
       this.valueBPM = [1, 2, 3, 8, 3, 2, 1];
     },
-    Sleeptoday: function() {
+    Sleeptoday: function () {
       this.valSleep = 80;
       (this.valSleepH = this.valSleep), (this.valSleepTotal = 10);
     },
-    Sleepweek: function() {
+    Sleepweek: function () {
       this.valSleep = 90;
       (this.valSleepH = this.valSleep * 7), (this.valSleepTotal = 70);
     },
     update(demarrage) {
       this.demarrage = demarrage;
     },
-    giveRelativeID: async function() {
+    giveRelativeID: async function () {
       let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url)
         .then((responseJSON) => {
@@ -534,7 +572,7 @@ export default {
           console.log(err);
         });
     },
-    shareRelative: async function() {
+    shareRelative: async function () {
       let url = `https://ter-garmin.herokuapp.com/api/users/getAll`;
       await fetch(url)
         .then((responseJSON) => {
@@ -554,19 +592,19 @@ export default {
           console.log(err);
         });
     },
-    doCopy: function() {
+    doCopy: function () {
       this.$copyText(this.relativeID).then(
-        function(e) {
+        function (e) {
           alert("Copie reussi");
           console.log(e);
         },
-        function(e) {
+        function (e) {
           alert("echec de la copie");
           console.log(e);
         }
       );
     },
-    deleteRelatve: async function() {
+    deleteRelatve: async function () {
       this.dialog3 = false;
       let url = `https://ter-garmin.herokuapp.com/api/users/deleteRelative`;
       await fetch(url, {
@@ -582,7 +620,7 @@ export default {
       });
       location.reload();
     },
-    convertData: async function() {
+    convertData: async function () {
       let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url)
         .then((responseJSON) => {
@@ -641,6 +679,32 @@ export default {
           console.log(err);
         });
     },
+    getDoctors: async function () {
+      this.listDoctors = [];
+      let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
+      await fetch(url2)
+        .then((responseJSON) => {
+          responseJSON.json().then((user) => {
+            user.relatives.forEach((rel) => {
+              rel.doctors.forEach((r) => {
+                if (
+                  this.relative.prenom == rel.firstname &&
+                  this.relative.nom == rel.lastname
+                ) {
+                  let newDoctor = {
+                    icon: "mdi-doctor",
+                    text: [r.firstname, r.lastname, r.phone, r.specialities],
+                  };
+                  this.listDoctors.push(newDoctor);
+                }
+              });
+            });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 
   mounted() {
@@ -659,7 +723,7 @@ export default {
     CalendarDashboard,
   },
   watch: {
-    dialog2: function(val) {
+    dialog2: function (val) {
       if (val == false) {
         const longeur = this.userList.length;
         for (let i = 0; i < longeur; i++) {
@@ -674,5 +738,8 @@ export default {
 <style scoped>
 #dashboard {
   background-color: #add8e6;
+}
+.scroll {
+  overflow-y: scroll;
 }
 </style>

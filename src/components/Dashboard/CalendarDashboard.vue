@@ -42,7 +42,7 @@
           <v-toolbar-title v-if="$refs.calendar">
             {{ $refs.calendar.title }}
           </v-toolbar-title>
-          <v-btn color="blue darken-1" text 
+          <v-btn color="blue darken-1" text @click="dialog = false"
                 >Fermer</v-btn
               >
               <v-btn color="blue darken-1" text 
