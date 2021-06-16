@@ -258,7 +258,7 @@
                 >
               </v-card>
             </v-col>
-            <v-col sm="4" xs="3">
+            <v-col sm="3" xs="3">
               <v-card>
                 <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
                   <v-icon large class="mr-2" color="teal">mdi-doctor </v-icon>
@@ -266,33 +266,24 @@
                   <v-spacer></v-spacer>
                 </v-app-bar>
                 <v-divider></v-divider>
-                <!-- <v-list flat>
+                <v-list flat>
                   <v-list-item
-                    v-for="link in listDoctors"
-                    :key="link.text[0]"
-                    router
-                    :to="link.route"
-                    active-class="blue"
-                    @click="
-                      showData(link);
-                      setDemarrage();
-                    "
+                    v-for="doctor in listDoctors"
+                    :key="doctor.text[0]"
                   >
                     <v-list-item-action>
-                      <v-icon>{{ link.icon }}</v-icon>
+                      <v-icon>{{ doctor.icon }}</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                      <v-tooltip bottom>
-                        <template #activator="{ on }">
-                          <v-list-item-title v-on="on">
-                            {{ link.text[0] }} {{ link.text[1] }}
-                          </v-list-item-title>
-                        </template>
-                        <span>{{ link.text[0] }} {{ link.text[1] }} </span>
-                      </v-tooltip>
+                      <span>
+                        Docteur. {{ doctor.text[0] }} {{ doctor.text[1] }}
+                      </span>
+                      <br />
+                      <span> Spécialité : {{ doctor.text[3] }}</span> <br />
+                      <span> Téléphone : {{ doctor.text[2] }}</span>
                     </v-list-item-content>
                   </v-list-item>
-                </v-list> -->
+                </v-list>
                 <PopupDoctors
                   v-bind:listDoctors="listDoctors"
                   v-bind:relative="relative"
@@ -563,7 +554,6 @@ export default {
         }
       );
     },
-
     deleteRelatve: async function() {
       this.dialog3 = false;
       let url = `https://ter-garmin.herokuapp.com/api/users/deleteRelative`;
@@ -643,7 +633,11 @@ export default {
 
   mounted() {
     this.convertData();
-    console.log(this.dataConverted);
+  },
+  props: {
+    doctors: {
+      type: Object,
+    },
   },
   components: {
     NavDashboard,

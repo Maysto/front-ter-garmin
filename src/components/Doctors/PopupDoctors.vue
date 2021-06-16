@@ -2,7 +2,9 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="800px">
       <template v-slot:activator="{ on }">
-        <v-btn outlined color="black" dark v-on="on">Ajouter un Médecin</v-btn>
+        <v-btn outlined color="teal" dark v-on="on" class="mb-2" @click="test"
+          >Ajouter un Médecin</v-btn
+        >
       </template>
       <v-card>
         <v-card-title class="justify-center">
@@ -97,26 +99,26 @@ export default {
       telephone: "",
     },
     specialite: [
-      "allergologie",
-      "andrologie",
-      "cardiologie",
-      "chirurgie",
-      "anesthésiologie",
-      "dermatologie",
-      "généraliste",
-      "neurologie",
-      "radiologie",
-      "urologie",
-      "ophtalmologie",
-      "infectiologie",
-      "pneumologie",
-      "podologie",
-      "rhumatologie",
-      "gynécologie",
-      "gastro-entérologie",
-      "hématologie",
-      "hépatologie",
-      "autres",
+      "Allergologie",
+      "Andrologie",
+      "Cardiologie",
+      "Chirurgie",
+      "Anesthésiologie",
+      "Dermatologie",
+      "Généraliste",
+      "Neurologie",
+      "Radiologie",
+      "Urologie",
+      "Ophtalmologie",
+      "Infectiologie",
+      "Pneumologie",
+      "Podologie",
+      "Rhumatologie",
+      "Gynécologie",
+      "Gastro-entérologie",
+      "Hématologie",
+      "Hépatologie",
+      "Autres",
     ],
     rules: {
       required: (v) => !!v || "Ce champ est requis",
@@ -142,12 +144,18 @@ export default {
       await fetch(url).then((responseJSON) => {
         responseJSON.json().then((user) => {
           user.relatives.forEach((rel) => {
-            if (this.relative.prenom == rel.firstname && this.relative.nom == rel.lastname) {
+            if (
+              this.relative.prenom == rel.firstname &&
+              this.relative.nom == rel.lastname
+            ) {
               this.relativeID = rel._id;
             }
           });
         });
       });
+    },
+    test() {
+      console.log("idddd", this.relative.id);
     },
     createDoctors: async function() {
       this.getFuckingId();
@@ -177,15 +185,41 @@ export default {
             this.body.phone,
             this.body.specialities,
           ],
-          route: "Dashboard",
         };
         this.listDoctors.push(newDoctor);
         alert("Ajout du docteur : " + this.body.lastname + " reussi");
       }
     },
+    getDoctors: async function() {
+      let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
+      await fetch(url2)
+        .then((responseJSON) => {
+          responseJSON.json().then((user) => {
+            user.relatives.forEach((rel) => {
+              rel.doctors.forEach((r) => {
+                if (
+                  this.relative.prenom == rel.firstname &&
+                  this.relative.nom == rel.lastname
+                ) {
+                  let newDoctor = {
+                    icon: "mdi-doctor",
+                    text: [r.firstname, r.lastname, r.phone, r.specialities],
+                  };
+                  this.listDoctors.push(newDoctor);
+                }
+              });
+            });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   mounted() {
     this.getFuckingId();
-  }
+    this.getDoctors();
+  },
+
 };
 </script>

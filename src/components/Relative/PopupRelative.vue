@@ -347,6 +347,7 @@ export default {
         activites: [],
         dailies: [],
         _id: [], //a changer pour la suppression
+        doctors: [],
       };
 
       const result = await fetch(this.BASEURL + "/addOne", {
@@ -373,6 +374,7 @@ export default {
             this.body.activites,
             this.body.dailies,
             this.body._id,
+            this.body.doctors,
           ],
           route: "Dashboard",
         };
@@ -409,6 +411,7 @@ export default {
                 relative.activites,
                 relative.dailies,
                 relative._id,
+                relative.doctors
               ],
               route: "Dashboard",
             };

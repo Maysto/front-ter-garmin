@@ -118,8 +118,9 @@ export default {
       this.relative.activities = tab.text[8];
       this.relative.dailies = tab.text[9];
       this.relative.id = tab.text[10];
+      this.relative.doctors = tab.text[11];
     },
-    getRelatives: async function () {
+    getRelatives: async function() {
       let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url2)
         .then((responseJSON) => {
@@ -138,7 +139,8 @@ export default {
                   rel.sleep,
                   rel.activities,
                   rel.dailies,
-                  rel._id
+                  rel._id,
+                  rel.doctors,
                 ],
                 route: "Dashboard",
               };
@@ -159,7 +161,6 @@ export default {
   mounted() {
     this.getInfos();
     this.getRelatives();
-    console.log(this.user);
   },
 };
 </script>
