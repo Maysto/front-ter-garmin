@@ -289,7 +289,18 @@
                   v-bind:relative="relative"
                 />
               </v-card>
+              <v-card>
+                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
+                  <v-icon large class="mr-2" color="teal">mdi-calendar</v-icon>
+                  <h3>Calendrier du proche</h3>
+                  <v-spacer></v-spacer>
+                </v-app-bar>
+                <v-divider></v-divider>
+               <CalendarDashboard>
+               </CalendarDashboard>
+              </v-card>
             </v-col>
+            
           </v-row>
           <v-row cols="12">
             <v-col sm="5" xs="3">
@@ -446,6 +457,7 @@
 <script>
 import NavDashboard from "./NavDashboard.vue";
 import PopupDoctors from "../Doctors/PopupDoctors.vue";
+import CalendarDashboard from "./CalendarDashboard.vue";
 
 export default {
   data: () => ({
@@ -633,6 +645,8 @@ export default {
 
   mounted() {
     this.convertData();
+    console.log(this.dataConverted);
+    this.$refs.calendar.checkChange();
   },
   props: {
     doctors: {
@@ -642,6 +656,7 @@ export default {
   components: {
     NavDashboard,
     PopupDoctors,
+    CalendarDashboard,
   },
   watch: {
     dialog2: function(val) {
