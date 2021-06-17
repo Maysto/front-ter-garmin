@@ -83,6 +83,17 @@
                           color="blue darken-1"
                         />
                       </v-col>
+                      <v-col>
+                <v-select
+                  v-model="evenement.color"
+                  label="Couleur"
+                  name="color"
+                  :items="color"
+                  color="blue darken-1"
+                
+                  
+                ></v-select>
+              </v-col>
                     </v-row>
                     <v-divider class="mt-12"></v-divider>
                     <v-card-actions>
@@ -117,7 +128,7 @@
           <v-calendar
             ref="calendar"
             v-model="focus"
-            color="primary"
+            :event-color="getEventColor"
             :events="events"
             :type="type"
           ></v-calendar>
@@ -155,6 +166,7 @@
 <script>
 export default {
   data: () => ({
+    
     dialog: false,
     dialogEvt: false,
     focus: "",
@@ -173,7 +185,11 @@ export default {
       nom: "",
       debut: "",
       fin: "",
+      color:"",
     },
+    color:[
+      "blue","green","red","purple"
+    ],
     events: [
 ],
     stackInfo: undefined,
@@ -181,7 +197,9 @@ export default {
 
   methods: {
     getEventColor(event) {
+      console.log(event.color);
       return event.color;
+      
     },
     setToday() {
       this.focus = "";
@@ -193,16 +211,21 @@ export default {
       this.$refs.calendar.next();
     },
     addEvent: function() {
+      
+
       this.body = {
         name: this.evenement.nom,
         startdate: this.evenement.debut,
         enddate: this.evenement.fin,
+        color:this.evenement.color,
+        
       };
 
       let newEvent = {
         name: this.body.name,
         start: this.body.startdate.replace("T", " "),
         end: this.body.enddate.replace("T", " "),
+        color:this.body.color,
       };
 
       this.events.push(newEvent);
@@ -235,5 +258,27 @@ export default {
 <style>
 .fill-height {
   text-align: center;
+}
+.my-event {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 2px;
+  background-color: #1867c0;
+  color: #ffffff;
+  border: 1px solid #1867c0;
+  font-size: 12px;
+  padding: 3px;
+  cursor: pointer;
+  margin-bottom: 1px;
+  left: 4px;
+  margin-right: 8px;
+  position: relative;
+}
+
+.my-event.with-time {
+  position: absolute;
+  right: 4px;
+  margin-right: 0px;
 }
 </style>
