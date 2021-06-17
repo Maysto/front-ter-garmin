@@ -6,6 +6,8 @@
           v-bind:relative="relative"
           :demarrage="demarrage"
           @update-demarrage="update"
+          :key="key"
+          @update-key="updateK"
         />
       </v-flex>
       <v-flex v-if="demarrage">
@@ -74,6 +76,15 @@
                       dark
                       class="ml-5"
                       @click="getDoctors"
+                    >
+                      <v-icon> mdi-doctor</v-icon>
+                    </v-btn>
+                    <v-btn
+                  
+                      color="black"
+                      dark
+                      class="ml-5"
+                      @click="checkLastDayDaily"
                     >
                       <v-icon> mdi-doctor</v-icon>
                     </v-btn>
@@ -196,19 +207,19 @@
                 </v-app-bar>
                 <v-card-text>
                   Durée du sommeil :
-                  <b>{{ dataConverted[0] }}</b> Heures
+                  <b>{{ dataConverted[this.key][0] }}</b> Heures
                   <br />
                   Heure de début :
                   <b
-                    >{{ dataConverted[1] }}:{{ dataConverted[2] }}:{{
-                      dataConverted[3]
+                    >{{ dataConverted[this.key][1] }}:{{ dataConverted[this.key][2] }}:{{
+                      dataConverted[this.key][3]
                     }}</b
                   >
                   <br />
                   Heure de fin :
                   <b
-                    >{{ dataConverted[4] }}:{{ dataConverted[5] }}:{{
-                      dataConverted[6]
+                    >{{ dataConverted[this.key][4] }}:{{ dataConverted[this.key][5] }}:{{
+                      dataConverted[this.key][6]
                     }}</b
                   >
                 </v-card-text>
@@ -570,15 +581,15 @@
                   <br />
                   Heure de début :
                   <b
-                    >{{ dataConverted[7] }}:{{ dataConverted[8] }}:{{
-                      dataConverted[9]
+                    >{{ dataConverted[this.key][7] }}:{{ dataConverted[this.key][8] }}:{{
+                      dataConverted[this.key][9]
                     }}</b
                   >
                   <br />
                   Heure de fin :
                   <b
-                    >{{ dataConverted[10] }}:{{ dataConverted[11] }}:{{
-                      dataConverted[12]
+                    >{{ dataConverted[this.key][10] }}:{{ dataConverted[this.key][11] }}:{{
+                      dataConverted[this.key][12]
                     }}</b
                   >
                   <br />
@@ -643,6 +654,7 @@ export default {
   data: () => ({
     //colorT: '',
     dataConverted: [],
+    tempData:[],
     drawer: true,
     valueBPM: [2, 3, 4, 5, 10],
     value: [2, 2, 5, 2, 2],
@@ -656,6 +668,7 @@ export default {
     selection5: 0,
     selection6: 0,
     demarrage: false,
+    key: null,
     dialog: false,
     dialog2: false,
     dialog3: false,
@@ -699,6 +712,9 @@ export default {
     },
     update(demarrage) {
       this.demarrage = demarrage;
+    },
+    updateK(key){
+      this.key = key;
     },
     giveRelativeID: async function() {
       let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
@@ -773,7 +789,7 @@ export default {
             user.relatives.forEach((rel) => {
               let data1 = rel.sleep[0][0].durationInSeconds;
               data1 = data1 / 3600;
-              this.dataConverted.push(data1.toFixed(0));
+              this.tempData.push(data1.toFixed(0));
 
               let debutSommeil = new Date(
                 rel.sleep[0][0].startTimeInSeconds * 1000 +
@@ -785,12 +801,12 @@ export default {
                   rel.sleep[0][0].durationInSeconds * 1000
               );
 
-              this.dataConverted.push(
+              this.tempData.push(
                 debutSommeil.getHours(),
                 debutSommeil.getMinutes(),
                 debutSommeil.getSeconds()
               );
-              this.dataConverted.push(
+              this.tempData.push(
                 finalSommeil.getHours(),
                 finalSommeil.getMinutes(),
                 finalSommeil.getSeconds()
@@ -807,16 +823,18 @@ export default {
                   rel.stress[0][0].durationInSeconds * 1000
               );
 
-              this.dataConverted.push(
+              this.tempData.push(
                 debutStress.getHours(),
                 debutStress.getMinutes(),
                 debutStress.getSeconds()
               );
-              this.dataConverted.push(
+              this.tempData.push(
                 finalStress.getHours(),
                 finalStress.getMinutes(),
                 finalStress.getSeconds()
               );
+              this.dataConverted.push(this.tempData)
+              this.tempData = []
             });
           });
         })

@@ -41,6 +41,7 @@
           @click="
             showData(link);
             setDemarrage();
+            keyArray(link);
           "
         >
           <v-list-item-action>
@@ -70,6 +71,7 @@ export default {
     user: {},
     drawer: true,
     links: [],
+    key: null,
   }),
   components: {
     PopupRelative,
@@ -157,6 +159,15 @@ export default {
       mydemarrage = true;
       this.$emit("update-demarrage", mydemarrage);
     },
+    keyArray(link){
+        for (let index = 0; index < this.links.length; index++) {
+          if(link == this.links[index]){
+            this.key = index
+            let mykey = this.key
+            this.$emit("update-key", mykey);
+          }
+        }
+    }
   },
   mounted() {
     this.getInfos();
