@@ -391,7 +391,7 @@
                     interval-count="13"
                   ></v-calendar>
                 </v-sheet>
-                <CalendarDashboard> </CalendarDashboard>
+                <CalendarDashboard v-bind:relative="relative"> </CalendarDashboard>
               </v-card>
             </v-col>
           </v-row>

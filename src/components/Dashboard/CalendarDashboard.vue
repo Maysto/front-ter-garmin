@@ -23,14 +23,10 @@
               Today
             </v-btn>
             <v-btn fab text small color="grey darken-2" @click="prev">
-              <v-icon small>
-                mdi-chevron-left
-              </v-icon>
+              <v-icon small> mdi-chevron-left </v-icon>
             </v-btn>
             <v-btn fab text small color="grey darken-2" @click="next">
-              <v-icon small>
-                mdi-chevron-right
-              </v-icon>
+              <v-icon small> mdi-chevron-right </v-icon>
             </v-btn>
             <v-toolbar-title v-if="$refs.calendar">
               {{ $refs.calendar.title }}
@@ -84,16 +80,14 @@
                         />
                       </v-col>
                       <v-col>
-                <v-select
-                  v-model="evenement.color"
-                  label="Couleur"
-                  name="color"
-                  :items="color"
-                  color="blue darken-1"
-                
-                  
-                ></v-select>
-              </v-col>
+                        <v-select
+                          v-model="evenement.color"
+                          label="Couleur"
+                          name="color"
+                          :items="color"
+                          color="blue darken-1"
+                        ></v-select>
+                      </v-col>
                     </v-row>
                     <v-divider class="mt-12"></v-divider>
                     <v-card-actions>
@@ -166,7 +160,6 @@
 <script>
 export default {
   data: () => ({
-    
     dialog: false,
     dialogEvt: false,
     focus: "",
@@ -185,21 +178,21 @@ export default {
       nom: "",
       debut: "",
       fin: "",
-      color:"",
+      color: "",
     },
-    color:[
-      "blue","green","red","purple"
-    ],
-    events: [
-],
-    stackInfo: undefined,
+    color: ["blue", "green", "red", "purple"],
+    events: [],
+    relativeID: "",
   }),
-
+  props: {
+    relative: {
+      type: Object,
+    },
+  },
   methods: {
     getEventColor(event) {
       console.log(event.color);
       return event.color;
-      
     },
     setToday() {
       this.focus = "";
@@ -210,39 +203,56 @@ export default {
     next() {
       this.$refs.calendar.next();
     },
-    addEvent: function() {
+    addEvent: async function () {
+      this.getFuckingId();
       
 
       this.body = {
-        name: this.evenement.nom,
-        startdate: this.evenement.debut,
-        enddate: this.evenement.fin,
-        color:this.evenement.color,
+        relativeId: this.relativeID,
+        nameEvent: this.evenement.nom,
+        startEvent: this.evenement.debut,
+        endEvent: this.evenement.fin,
+        color: this.evenement.color,
+      };
+
+      const result = await fetch(
+        "https://ter-garmin.herokuapp.com/api/relatives/addEvent",
+        {
+          method: "POST",
+          body: JSON.stringify(this.body),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (result.ok) {
+        let newEvent = {
+          name: this.body.nameEvent,
+          start: this.body.startEvent.replace("T", " "),
+          end: this.body.endEvent.replace("T", " "),
+          color: this.body.color,
+        };
+
+        this.events.push(newEvent);
+        this.dialogEvt = false;
         
-      };
-
-      let newEvent = {
-        name: this.body.name,
-        start: this.body.startdate.replace("T", " "),
-        end: this.body.enddate.replace("T", " "),
-        color:this.body.color,
-      };
-
-      this.events.push(newEvent);
-      this.dialogEvt = false;
-      console.log(this.events);
+        alert("CA MARCHE LES EVENTS");
+        console.log("Relative ID",this.body.relativeId);
+      }
     },
-    getFuckingId: async function() {
+    getFuckingId: async function () {
       let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url).then((responseJSON) => {
-        responseJSON.json().then((body) => {
-          if (body.erreur) {
-            this.stackInfo = null;
-          } else {
-            this.stackInfo = body;
-            console.log("MESINFOS", this.stackInfo);
-            console.log(this.stackInfo.firstname);
-          }
+        responseJSON.json().then((user) => {
+          user.relatives.forEach((rel) => {
+           if (
+              this.relative.prenom == rel.firstname &&
+              this.relative.nom == rel.lastname
+            ) {
+              this.relativeID = rel._id;
+            }
+          });
         });
       });
     },
