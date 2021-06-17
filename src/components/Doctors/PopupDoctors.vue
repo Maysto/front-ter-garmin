@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="800px">
       <template v-slot:activator="{ on }">
-        <v-btn outlined color="teal" dark v-on="on" class="mb-2" @click="test"
+        <v-btn outlined color="teal" dark v-on="on" class="mb-2"
           >Ajouter un Médecin</v-btn
         >
       </template>
@@ -153,9 +153,6 @@ export default {
           });
         });
       });
-    },
-    test() {
-      console.log("idddd", this.relative.id);
     },
     createDoctors: async function() {
       this.getFuckingId();

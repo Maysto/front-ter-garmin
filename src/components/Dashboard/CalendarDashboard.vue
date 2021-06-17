@@ -3,7 +3,7 @@
     <v-col>
         <v-dialog v-model="dialog" persistent max-width="1000px" max-height="2000px">
       <template v-slot:activator="{ on }">
-        <v-btn outlined color="black" class="fill-height" dark v-on="on">Calendrier de l'utilisateur</v-btn>
+        <v-btn outlined color="teal" class="fill-height" dark v-on="on">Voir le calendrier</v-btn>
       </template>
       <v-sheet height="64">
         <v-toolbar

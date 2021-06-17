@@ -16,7 +16,7 @@
             >
 
             <!-- button copy a voir si on laisse-->
-            <v-tooltip left>
+            <v-tooltip bottom>
               <template #activator="{ on }">
                 <v-btn
                   color="primary"
@@ -64,13 +64,14 @@
               </v-card>
             </v-dialog>
 
-            <v-dialog v-model="dialog4" max-width="380">
+            <v-dialog v-model="dialog4" max-width="500">
               <template v-slot:activator="{ on: dialog }">
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on: tooltip }">
                     <v-btn
                       v-on="{ ...tooltip, ...dialog }"
-                      color="success"
+                      color="teal"
+                      dark
                       class="ml-5"
                       @click="getDoctors"
                     >
@@ -120,7 +121,7 @@
 
             <v-dialog v-model="dialog3" max-width="380">
               <template v-slot:activator="{ on: dialog }">
-                <v-tooltip right>
+                <v-tooltip bottom>
                   <template v-slot:activator="{ on: tooltip }">
                     <v-btn
                       v-on="{ ...tooltip, ...dialog }"
@@ -151,7 +152,7 @@
             </v-dialog>
 
             <v-list>
-              <v-list-item class="mt-n6">
+              <v-list-item class="mt-4">
                 <v-list-item-title class="teal--text"
                   >Age : {{ relative.age }}</v-list-item-title
                 >
@@ -176,7 +177,7 @@
                   height="220"
                   src="https://i.ibb.co/TcFp2KK/depositphotos-277879810-stock-photo-front-view-active-senior-caucasian.jpg"
                 ></v-img>
-                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
+                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-2">
                   <v-icon large class="mr-2" color="indigo"
                     >mdi-weather-night
                   </v-icon>
@@ -257,7 +258,7 @@
                   height="220"
                   src="https://i.ibb.co/6Y7HL9p/650x350-do-you-know-the-benefits-of-walking-rmq.webp"
                 ></v-img>
-                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
+                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-2">
                   <v-icon large class="mr-2" color="brown"
                     >mdi-shoe-print
                   </v-icon>
@@ -275,7 +276,7 @@
                 </v-app-bar>
                 <v-card-text>
                   Pas éffectués :
-                  <b>{{ relative.dailies[0][0].steps }}</b> Pas <br />
+                  <b>{{ relative.dailies[0][0].steps }}</b> Pas <br /> <br>
                   <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
                   Objectif :
                   <b>{{ relative.dailies[0][0].stepsGoal }}</b> Pas
@@ -300,7 +301,7 @@
                 </v-app-bar>
                 <v-card-text>
                   Etages montés :
-                  <b>{{ relative.dailies[0][0].floorsClimbed }}</b> étages<br />
+                  <b>{{ relative.dailies[0][0].floorsClimbed }}</b> étages<br /> <br>
                   <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
                   Objectif :
                   <b>{{ relative.dailies[0][0].floorsClimbedGoal }}</b> étages
@@ -314,24 +315,23 @@
             </v-col>
             <v-col sm="12" md="6" lg="4">
               <v-card>
-                <v-app-bar color="rgba(0,0,0,0)" flat >
+                <v-app-bar color="rgba(0,0,0,0)" flat>
                   <v-icon large class="mr-2" color="teal">mdi-calendar</v-icon>
                   <h3>Calendrier du proche</h3>
                   <v-spacer></v-spacer>
                 </v-app-bar>
                 <v-divider></v-divider>
                 <v-sheet height="530">
-                <v-calendar 
-                  ref="calendar"
-                  v-model="focus"
-                  color="primary"
-                  :events="[]"
-                  :type="type"
-                  max-height="200"
-                  first-interval="6"
-                  interval-count="13"
-                  
-                ></v-calendar>
+                  <v-calendar
+                    ref="calendar"
+                    v-model="focus"
+                    color="primary"
+                    :events="[]"
+                    :type="type"
+                    max-height="200"
+                    first-interval="6"
+                    interval-count="13"
+                  ></v-calendar>
                 </v-sheet>
                 <CalendarDashboard> </CalendarDashboard>
               </v-card>
@@ -344,7 +344,7 @@
                   height="150"
                   src="https://i.ibb.co/6Y7HL9p/650x350-do-you-know-the-benefits-of-walking-rmq.webp"
                 ></v-img>
-                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
+                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-2">
                   <v-icon large class="mr-2" color="error"
                     >mdi-heart-pulse
                   </v-icon>
@@ -359,25 +359,31 @@
                     <v-chip @click="BPMtoday()">Aujourd'hui</v-chip>
 
                     <v-chip @click="BPMweek()">Semaine</v-chip>
-
-                    <v-chip @click="BPMmonth()">Mois</v-chip>
                   </v-chip-group>
                 </v-app-bar>
-                <template>
-                  <v-sparkline
-                    :value="valueBPM"
-                    color="teal"
-                    :smooth="10 || false"
-                    :padding="8"
-                    :line-width="2"
-                    :stroke-linecap="'round'"
-                    :fill="false"
-                    :type="'trend'"
-                    :gradient="['#f72047', '#ffd200', '#1feaea']"
-                    :auto-line-width="false"
-                    auto-draw
-                  ></v-sparkline>
-                </template>
+
+                <v-card-text>
+                  Fréquence cardiaque minimum :
+                  <b>{{
+                    relative.dailies[0][0].minHeartRateInBeatsPerMinute
+                  }}</b>
+                  BPM <br />
+                  Fréquence cardiaque maximum :
+                  <b>{{
+                    relative.dailies[0][0].maxHeartRateInBeatsPerMinute
+                  }}</b>
+                  BPM <br />
+                  Fréquence cardiaque moyenne :
+                  <b>{{
+                    relative.dailies[0][0].averageHeartRateInBeatsPerMinute
+                  }}</b>
+                  BPM <br />
+                  Fréquence cardiaque au repos :
+                  <b>{{
+                    relative.dailies[0][0].restingHeartRateInBeatsPerMinute
+                  }}</b>
+                  BPM <br />
+                </v-card-text>
               </v-card>
               <v-card v-if="relative.dailies[0] == undefined">
                 <v-card-title class="mt-8">
@@ -391,8 +397,8 @@
                   height="150"
                   src="https://i.ibb.co/DpwD38v/Calories-1200x628-1200x610.jpg"
                 ></v-img>
-                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
-                  <v-icon large class="mr-2" color="green">mdi-food</v-icon>
+                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-2">
+                  <v-icon large class="mr-2" color="deep-orange">mdi-fire</v-icon>
                   <h3>Calories</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -411,8 +417,8 @@
                   <b>{{ relative.dailies[0][0].activeKilocalories }}</b> <br />
                   BMR Kilocalories :
                   <b>{{ relative.dailies[0][0].bmrKilocalories }}</b
-                  ><br />
-                  <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
+                  ><br /> <br>
+                  <v-icon medium color="error">mdi-bullseye-arrow </v-icon> 
                   Objectif :
                   <b>{{ relative.dailies[0][0].netKilocaloriesGoal }}</b
                   ><br />
@@ -430,8 +436,8 @@
                   height="150"
                   src="https://i.ibb.co/Fx4Dzmv/10204e2cf94ed01b71805a97cdf1047b.jpg"
                 ></v-img>
-                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-8">
-                  <v-icon large class="mr-2" color="deep-orange"
+                <v-app-bar color="rgba(0,0,0,0)" flat class="mt-2">
+                  <v-icon large class="mr-2" color="green"
                     >mdi-flash-alert-outline</v-icon
                   >
                   <h3>Stress</h3>
@@ -535,27 +541,27 @@ export default {
     type: "day",
   }),
   methods: {
-    BPMtoday: function () {
+    BPMtoday: function() {
       this.valueBPM = [2, 3, 4, 5, 10];
     },
-    BPMweek: function () {
+    BPMweek: function() {
       this.valueBPM = [9, 5, 6, 4, 2, 1];
     },
-    BPMmonth: function () {
+    BPMmonth: function() {
       this.valueBPM = [1, 2, 3, 8, 3, 2, 1];
     },
-    Sleeptoday: function () {
+    Sleeptoday: function() {
       this.valSleep = 80;
       (this.valSleepH = this.valSleep), (this.valSleepTotal = 10);
     },
-    Sleepweek: function () {
+    Sleepweek: function() {
       this.valSleep = 90;
       (this.valSleepH = this.valSleep * 7), (this.valSleepTotal = 70);
     },
     update(demarrage) {
       this.demarrage = demarrage;
     },
-    giveRelativeID: async function () {
+    giveRelativeID: async function() {
       let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url)
         .then((responseJSON) => {
@@ -572,7 +578,7 @@ export default {
           console.log(err);
         });
     },
-    shareRelative: async function () {
+    shareRelative: async function() {
       let url = `https://ter-garmin.herokuapp.com/api/users/getAll`;
       await fetch(url)
         .then((responseJSON) => {
@@ -592,19 +598,19 @@ export default {
           console.log(err);
         });
     },
-    doCopy: function () {
+    doCopy: function() {
       this.$copyText(this.relativeID).then(
-        function (e) {
+        function(e) {
           alert("Copie reussi");
           console.log(e);
         },
-        function (e) {
+        function(e) {
           alert("echec de la copie");
           console.log(e);
         }
       );
     },
-    deleteRelatve: async function () {
+    deleteRelatve: async function() {
       this.dialog3 = false;
       let url = `https://ter-garmin.herokuapp.com/api/users/deleteRelative`;
       await fetch(url, {
@@ -620,7 +626,7 @@ export default {
       });
       location.reload();
     },
-    convertData: async function () {
+    convertData: async function() {
       let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url)
         .then((responseJSON) => {
@@ -679,7 +685,7 @@ export default {
           console.log(err);
         });
     },
-    getDoctors: async function () {
+    getDoctors: async function() {
       this.listDoctors = [];
       let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url2)
@@ -723,7 +729,7 @@ export default {
     CalendarDashboard,
   },
   watch: {
-    dialog2: function (val) {
+    dialog2: function(val) {
       if (val == false) {
         const longeur = this.userList.length;
         for (let i = 0; i < longeur; i++) {
@@ -739,7 +745,8 @@ export default {
 #dashboard {
   background-color: #add8e6;
 }
-.scroll {
-  overflow-y: scroll;
+
+.v-dialog {
+  overflow-y: hidden !important;
 }
 </style>
