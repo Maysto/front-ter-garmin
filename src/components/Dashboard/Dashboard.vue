@@ -245,6 +245,27 @@
                     relative.sleep[0][0].overallSleepScore.qualifierKey
                   }}</b>
                 </v-card-text>
+                <v-divider></v-divider>
+                <v-expansion-panels class="mb-6">
+                  <v-expansion-panel>
+                    <v-expansion-panel-header disable-icon-rotate>
+                      Informations
+                      <template v-slot:actions>
+                        <v-icon color="teal">
+                          mdi-information
+                        </v-icon>
+                      </template>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      Les adolescents (14-17 ans) ont besoin de dormir 8 à 10
+                      heures par nuit. Les adultes (26-64 ans), entre 7 et 9
+                      heures et les personnes âgées de 65 ans et plus affichent
+                      pour leur part des besoins quelque peu plus élevés: de 7 à
+                      8 heures de sommeil journalières sont préconisées par les
+                      chercheurs.
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </v-card>
               <v-card v-if="relative.sleep[0] == undefined">
                 <v-card-title class="mt-8">
@@ -276,7 +297,8 @@
                 </v-app-bar>
                 <v-card-text>
                   Pas éffectués :
-                  <b>{{ relative.dailies[0][0].steps }}</b> Pas <br /> <br>
+                  <b>{{ relative.dailies[0][0].steps }}</b> Pas <br />
+                  <br />
                   <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
                   Objectif :
                   <b>{{ relative.dailies[0][0].stepsGoal }}</b> Pas
@@ -301,11 +323,36 @@
                 </v-app-bar>
                 <v-card-text>
                   Etages montés :
-                  <b>{{ relative.dailies[0][0].floorsClimbed }}</b> étages<br /> <br>
+                  <b>{{ relative.dailies[0][0].floorsClimbed }}</b> étages<br />
+                  <br />
                   <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
                   Objectif :
                   <b>{{ relative.dailies[0][0].floorsClimbedGoal }}</b> étages
                 </v-card-text>
+                <v-divider></v-divider>
+                <v-expansion-panels class="mb-6">
+                  <v-expansion-panel>
+                    <v-expansion-panel-header disable-icon-rotate>
+                      Informations
+                      <template v-slot:actions>
+                        <v-icon color="teal">
+                          mdi-information
+                        </v-icon>
+                      </template>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      L'OMS recommande aux personnes adultes de marcher
+                      l'équivalent de 10.000 pas par jour, ce qui équivaut à une
+                      durée de marche quotidienne de 100 minutes environ pour
+                      une distance de 8 km. Après 60 ans, on estime qu'une heure
+                      de marche quotidienne permet de maintenir une bonne
+                      condition physique. Le minimum de pas recommandés se monte
+                      à environ 4.400, soit entre 2,5 et 3 km de marche au
+                      total. Idéalement, les seniors sont encouragés à marcher
+                      entre 4.400 et 7.500 pas par jour.
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </v-card>
               <v-card v-if="relative.dailies[0] == undefined">
                 <v-card-title class="mt-8">
@@ -363,12 +410,12 @@
                 </v-app-bar>
 
                 <v-card-text>
-                  Fréquence cardiaque minimum :
+                  Fréquence cardiaque minimale :
                   <b>{{
                     relative.dailies[0][0].minHeartRateInBeatsPerMinute
                   }}</b>
                   BPM <br />
-                  Fréquence cardiaque maximum :
+                  Fréquence cardiaque maximale :
                   <b>{{
                     relative.dailies[0][0].maxHeartRateInBeatsPerMinute
                   }}</b>
@@ -384,6 +431,30 @@
                   }}</b>
                   BPM <br />
                 </v-card-text>
+                <v-expansion-panels class="mb-6">
+                  <v-expansion-panel>
+                    <v-expansion-panel-header disable-icon-rotate>
+                      Informations
+                      <template v-slot:actions>
+                        <v-icon color="teal">
+                          mdi-information
+                        </v-icon>
+                      </template>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      La fréquence cardiaque au repos varie selon l'âge :
+                      <ul>
+                        <li>adolescent ou adulte : 70 ± 10</li>
+                        <li>personne âgée : 65 ± 5</li>
+                      </ul>
+                      Chez l'adulte en bonne santé, au repos, la fréquence
+                      cardiaque se situe entre 50 (sportif pratiquant
+                      l'endurance) et 80 pulsations par minute. Pendant un
+                      effort, la fréquence cardiaque maximale théorique est de
+                      220 moins l'âge (exemple : 220 - 40 ans = 180).
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </v-card>
               <v-card v-if="relative.dailies[0] == undefined">
                 <v-card-title class="mt-8">
@@ -398,7 +469,9 @@
                   src="https://i.ibb.co/DpwD38v/Calories-1200x628-1200x610.jpg"
                 ></v-img>
                 <v-app-bar color="rgba(0,0,0,0)" flat class="mt-2">
-                  <v-icon large class="mr-2" color="deep-orange">mdi-fire</v-icon>
+                  <v-icon large class="mr-2" color="deep-orange"
+                    >mdi-fire</v-icon
+                  >
                   <h3>Calories</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -417,12 +490,47 @@
                   <b>{{ relative.dailies[0][0].activeKilocalories }}</b> <br />
                   BMR Kilocalories :
                   <b>{{ relative.dailies[0][0].bmrKilocalories }}</b
-                  ><br /> <br>
-                  <v-icon medium color="error">mdi-bullseye-arrow </v-icon> 
+                  ><br />
+                  Activité :
+                  <b>{{ relative.dailies[0][0].activityType }}</b
+                  ><br />
+                  <br />
+                  <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
                   Objectif :
                   <b>{{ relative.dailies[0][0].netKilocaloriesGoal }}</b
                   ><br />
                 </v-card-text>
+                <v-expansion-panels class="mb-6">
+                  <v-expansion-panel>
+                    <v-expansion-panel-header disable-icon-rotate>
+                      Informations
+                      <template v-slot:actions>
+                        <v-icon color="teal">
+                          mdi-information
+                        </v-icon>
+                      </template>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <h4>
+                        Qu’est-ce que le BMR ?
+                      </h4>
+                      C'est le nombre de calories nécessaires au fonctionnement
+                      de votre corps au repos. Plus votre BMR est élevé, plus
+                      vous brûlez de calories, simplement en étant vivant.<br />
+                      Pour homme adulte, la valeur normale du BMR se trouve
+                      entre 34 et 37 kcal/centimètre carré/heure.<br />
+                      Pour une femme adulte, la valeur normale du BMR se trouve
+                      entre 30 et 35 kcal/centimètre carré/heure.<br />
+                      Pour facilité les calculs, le BMR d'un adulte est fixé à
+                      24 kcal/kg poid du corps / jour<br />
+                      <h4>
+                        Calorie active
+                      </h4>
+                      Ce sont les calories que vous brûlez lors d’une activité
+                      physique, non-sédentaire.
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </v-card>
               <v-card v-if="relative.dailies[0] == undefined">
                 <v-card-title class="mt-8">
@@ -481,6 +589,37 @@
                   </b>
                   <br />
                 </v-card-text>
+                <v-expansion-panels class="mb-6">
+                  <v-expansion-panel>
+                    <v-expansion-panel-header disable-icon-rotate>
+                      Informations
+                      <template v-slot:actions>
+                        <v-icon color="teal">
+                          mdi-information
+                        </v-icon>
+                      </template>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <h4>Score inférieur à 21 </h4>
+                      C’est une personne qui sait gérer son
+                      stress, qui sait s’adapter et pour laquelle il existe
+                      toujours des solutions. <br />
+                      <h4>Score compris entre 21 et 26</h4> C’est
+                      une personne qui sait en général faire face au stress,
+                      mais il existe un certain nombres de situations qu’elle ne
+                      sait pas gérer. Elle est parfois animée d’un sentiment
+                      d’impuissance qui entraînent des perturbations
+                      émotionnelles. <br />
+                      <h4>Score supérieur à 27 </h4>
+                      La vie est une menace
+                      perpétuelle pour cette personne : elle a le sentiment de
+                      subir la plupart des situations et de ne pouvoir rien
+                      faire d’autre que de les subir. Ce fort sentiment
+                      d’impuissance lié à sa représentation de la vie peut la
+                      faire basculer dans la maladie.
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </v-card>
               <v-card v-if="relative.dailies[0] == undefined">
                 <v-card-title class="mt-8">
