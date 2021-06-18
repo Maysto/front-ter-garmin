@@ -280,7 +280,7 @@
               </v-card>
               <v-card v-if="relative.sleep[0] == undefined">
                 <v-card-title class="mt-8">
-                  Les données n'ont pas encore étaient récupérées</v-card-title
+                  Les données n'ont pas encore été récupérées</v-card-title
                 >
               </v-card>
             </v-col>
@@ -367,7 +367,7 @@
               </v-card>
               <v-card v-if="relative.dailies[0] == undefined">
                 <v-card-title class="mt-8">
-                  Les données n'ont pas encore étaient récupérées</v-card-title
+                  Les données n'ont pas encore été récupérées</v-card-title
                 >
               </v-card>
             </v-col>
@@ -469,7 +469,7 @@
               </v-card>
               <v-card v-if="relative.dailies[0] == undefined">
                 <v-card-title class="mt-8">
-                  Les données n'ont pas encore étaient récupérées</v-card-title
+                  Les données n'ont pas encore été récupérées</v-card-title
                 >
               </v-card>
             </v-col>
@@ -545,7 +545,7 @@
               </v-card>
               <v-card v-if="relative.dailies[0] == undefined">
                 <v-card-title class="mt-8">
-                  Les données n'ont pas encore étaient récupérées</v-card-title
+                  Les données n'ont pas encore été récupérées</v-card-title
                 >
               </v-card>
             </v-col>
@@ -634,7 +634,7 @@
               </v-card>
               <v-card v-if="relative.dailies[0] == undefined">
                 <v-card-title class="mt-8">
-                  Les données n'ont pas encore étaient récupérées</v-card-title
+                  Les données n'ont pas encore été récupérées</v-card-title
                 >
               </v-card>
             </v-col>
