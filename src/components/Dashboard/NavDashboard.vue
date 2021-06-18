@@ -121,6 +121,9 @@ export default {
       this.relative.dailies = tab.text[9];
       this.relative.id = tab.text[10];
       this.relative.doctors = tab.text[11];
+      this.relative.events = tab.text[12];
+      console.log("HEHO TEST",this.relative.events);
+
     },
     getRelatives: async function() {
       let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
@@ -143,6 +146,7 @@ export default {
                   rel.dailies,
                   rel._id,
                   rel.doctors,
+                  rel.events,
                 ],
                 route: "Dashboard",
               };

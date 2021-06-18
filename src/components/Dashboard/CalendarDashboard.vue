@@ -251,16 +251,19 @@ export default {
               this.relative.nom == rel.lastname
             ) {
               this.relativeID = rel._id;
+              console.log(rel.events);
             }
           });
         });
       });
     },
+    
   },
   mounted() {
     this.getFuckingId();
     this.$refs.calendar.checkChange();
     this.addEvent();
+   
   },
 };
 </script>
