@@ -79,15 +79,6 @@
                     >
                       <v-icon> mdi-doctor</v-icon>
                     </v-btn>
-                    <v-btn
-                  
-                      color="black"
-                      dark
-                      class="ml-5"
-                      @click="checkLastDayDaily"
-                    >
-                      <v-icon> mdi-doctor</v-icon>
-                    </v-btn>
                   </template>
                   <span>Consultez les médecins de votre proche.</span>
                 </v-tooltip>
@@ -200,28 +191,27 @@
                     class="ma-8"
                     mandatory
                   >
-                    <v-chip @click="Sleeptoday()">Aujourd'hui</v-chip>
+                    <v-chip>Aujourd'hui</v-chip>
 
-                    <v-chip @click="Sleepweek()">Semaine</v-chip>
+                    <v-chip>Semaine</v-chip>
                   </v-chip-group>
                 </v-app-bar>
                 <v-card-text>
                   Durée du sommeil :
-                  <b>{{ dataConverted[this.key][0] }}</b> Heures
+                  <b>{{ dataConverted[this.key][0]}}
+                  </b>
+                  Heures
                   <br />
                   Heure de début :
-                  <b
-                    >{{ dataConverted[this.key][1] }}:{{ dataConverted[this.key][2] }}:{{
-                      dataConverted[this.key][3]
-                    }}</b
-                  >
+                  <b>{{ dataConverted[this.key][1]}}:
+                    {{dataConverted[this.key][2]}}:
+                    {{ dataConverted[this.key][3]}}</b>
                   <br />
                   Heure de fin :
-                  <b
-                    >{{ dataConverted[this.key][4] }}:{{ dataConverted[this.key][5] }}:{{
-                      dataConverted[this.key][6]
-                    }}</b
-                  >
+                  <b>{{ dataConverted[this.key][4] }}:
+                    {{dataConverted[this.key][5]}}:
+                    {{ dataConverted[this.key][6]}}
+                  </b>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-app-bar color="rgba(0,0,0,0)" flat>
@@ -230,31 +220,21 @@
                 </v-app-bar>
                 <v-card-text>
                   Durée totale :
-                  <b>{{
-                    relative.sleep[0][0].sleepScores.totalDuration.qualifierKey
-                  }}</b>
+                  <b>{{relative.sleep[0][relative.sleep[0].length - 1].sleepScores.totalDuration.qualifierKey}}</b>
                   <br />
                   Stress :
-                  <b>{{
-                    relative.sleep[0][0].sleepScores.stress.qualifierKey
-                  }}</b>
+                  <b>{{relative.sleep[0][relative.sleep[0].length - 1].sleepScores.stress.qualifierKey}}</b>
                   <br />
                   Agitation :
-                  <b>{{
-                    relative.sleep[0][0].sleepScores.restlessness.qualifierKey
-                  }}</b>
+                  <b>{{relative.sleep[0][relative.sleep[0].length - 1].sleepScores.restlessness.qualifierKey}}</b>
                   <br />
                   Nombre d'éveil :
-                  <b>{{
-                    relative.sleep[0][0].sleepScores.awakeCount.qualifierKey
-                  }}</b>
+                  <b>{{relative.sleep[0][relative.sleep[0].length - 1].sleepScores.awakeCount.qualifierKey}}</b>
                   <br />
                   <br />
                   <v-icon medium color="yellow">mdi-star </v-icon>
                   Score global du sommeil :
-                  <b>{{
-                    relative.sleep[0][0].overallSleepScore.qualifierKey
-                  }}</b>
+                  <b>{{ relative.sleep[0][relative.sleep[0].length - 1].overallSleepScore.qualifierKey}}</b>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-expansion-panels class="mb-6">
@@ -262,9 +242,7 @@
                     <v-expansion-panel-header disable-icon-rotate>
                       Informations
                       <template v-slot:actions>
-                        <v-icon color="teal">
-                          mdi-information
-                        </v-icon>
+                        <v-icon color="teal"> mdi-information </v-icon>
                       </template>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
@@ -302,17 +280,21 @@
                     class="ma-8"
                     mandatory
                   >
-                    <v-chip>Aujourd'hui</v-chip>
-                    <v-chip>Semaine</v-chip>
+                    <v-chip @click="PasToday()">Aujourd'hui</v-chip>
+                    <v-chip @click="PasWeek()">Semaine</v-chip>
                   </v-chip-group>
                 </v-app-bar>
                 <v-card-text>
                   Pas éffectués :
-                  <b>{{ relative.dailies[0][0].steps }}</b> Pas <br />
+                  <b  v-if="today1">{{relative.dailies[0][relative.dailies[0].length - 1].steps}}</b>
+                  <b v-if="today1 == false">{{this.today1Table[0]}}</b>
+                  Pas <br />
                   <br />
                   <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
                   Objectif :
-                  <b>{{ relative.dailies[0][0].stepsGoal }}</b> Pas
+                  <b v-if="today1">{{relative.dailies[0][relative.dailies[0].length - 1].stepsGoal}}</b>
+                  <b v-if="today1 == false">{{this.today1Table[1]}}</b>
+                  Pas
                   <!-- <span class="colorT"> pour colorPas qui doit etre appellé au bon moment mais j'y arrive pas putain
                      faut l'appeler quand relative n'est pas null comme moi   red--text au lieu de error dans colorPas-->
                 </v-card-text>
@@ -325,7 +307,9 @@
                 </v-app-bar>
                 <v-card-text>
                   Distance effectuée :
-                  <b>{{ relative.dailies[0][0].distanceInMeters }}</b> mètres
+                  <b v-if="today1">{{relative.dailies[0][relative.dailies[0].length - 1].distanceInMeters}}</b>
+                  <b v-if="today1 == false">{{this.today1Table[2]}}</b>
+                  mètres
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-app-bar color="rgba(0,0,0,0)" flat>
@@ -334,11 +318,15 @@
                 </v-app-bar>
                 <v-card-text>
                   Etages montés :
-                  <b>{{ relative.dailies[0][0].floorsClimbed }}</b> étages<br />
+                  <b v-if="today1">{{relative.dailies[0][relative.dailies[0].length - 1].floorsClimbed}}</b>
+                  <b v-if="today1 == false">{{this.today1Table[3]}}</b>
+                  étages<br />
                   <br />
                   <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
                   Objectif :
-                  <b>{{ relative.dailies[0][0].floorsClimbedGoal }}</b> étages
+                  <b v-if="today1">{{relative.dailies[0][relative.dailies[0].length - 1].floorsClimbedGoal}}</b>
+                  <b v-if="today1 == false">{{this.today1Table[4]}}</b>
+                  étages
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-expansion-panels class="mb-6">
@@ -346,9 +334,7 @@
                     <v-expansion-panel-header disable-icon-rotate>
                       Informations
                       <template v-slot:actions>
-                        <v-icon color="teal">
-                          mdi-information
-                        </v-icon>
+                        <v-icon color="teal"> mdi-information </v-icon>
                       </template>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
@@ -391,7 +377,8 @@
                     interval-count="13"
                   ></v-calendar>
                 </v-sheet>
-                <CalendarDashboard v-bind:relative="relative"> </CalendarDashboard>
+                <CalendarDashboard v-bind:relative="relative">
+                </CalendarDashboard>
               </v-card>
             </v-col>
           </v-row>
@@ -422,24 +409,20 @@
 
                 <v-card-text>
                   Fréquence cardiaque minimale :
-                  <b>{{
-                    relative.dailies[0][0].minHeartRateInBeatsPerMinute
-                  }}</b>
+                  <b v-if="today2">{{relative.dailies[0][relative.dailies[0].length - 1].minHeartRateInBeatsPerMinute}}</b>
+                  <b v-if="today2 == false">{{this.today2Table[0]}}</b>
                   BPM <br />
                   Fréquence cardiaque maximale :
-                  <b>{{
-                    relative.dailies[0][0].maxHeartRateInBeatsPerMinute
-                  }}</b>
+                  <b v-if="today2">{{relative.dailies[0][relative.dailies[0].length - 1].maxHeartRateInBeatsPerMinute}}</b>
+                  <b v-if="today2 == false">{{this.today2Table[1]}}</b>
                   BPM <br />
                   Fréquence cardiaque moyenne :
-                  <b>{{
-                    relative.dailies[0][0].averageHeartRateInBeatsPerMinute
-                  }}</b>
+                  <b v-if="today2">{{relative.dailies[0][relative.dailies[0].length - 1].averageHeartRateInBeatsPerMinute}}</b>
+                  <b v-if="today2 == false">{{this.today2Table[2]}}</b>
                   BPM <br />
                   Fréquence cardiaque au repos :
-                  <b>{{
-                    relative.dailies[0][0].restingHeartRateInBeatsPerMinute
-                  }}</b>
+                  <b v-if="today2">{{relative.dailies[0][relative.dailies[0].length - 1].restingHeartRateInBeatsPerMinute}}</b>
+                  <b v-if="today2 == false">{{this.today2Table[3]}}</b>
                   BPM <br />
                 </v-card-text>
                 <v-expansion-panels class="mb-6">
@@ -447,9 +430,7 @@
                     <v-expansion-panel-header disable-icon-rotate>
                       Informations
                       <template v-slot:actions>
-                        <v-icon color="teal">
-                          mdi-information
-                        </v-icon>
+                        <v-icon color="teal"> mdi-information </v-icon>
                       </template>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
@@ -480,9 +461,7 @@
                   src="https://i.ibb.co/DpwD38v/Calories-1200x628-1200x610.jpg"
                 ></v-img>
                 <v-app-bar color="rgba(0,0,0,0)" flat class="mt-2">
-                  <v-icon large class="mr-2" color="deep-orange"
-                    >mdi-fire</v-icon
-                  >
+                  <v-icon large class="mr-2" color="deep-orange">mdi-fire</v-icon>
                   <h3>Calories</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -491,40 +470,41 @@
                     class="ma-8"
                     mandatory
                   >
-                    <v-chip>Aujourd'hui</v-chip>
+                    <v-chip @click="CalToday()">Aujourd'hui</v-chip>
 
-                    <v-chip>Semaine</v-chip>
+                    <v-chip @click="CalWeek()">Semaine</v-chip>
                   </v-chip-group>
                 </v-app-bar>
                 <v-card-text>
                   Calories actives :
-                  <b>{{ relative.dailies[0][0].activeKilocalories }}</b> <br />
+                  <b v-if="today3">{{relative.dailies[0][relative.dailies[0].length - 1].activeKilocalories}}</b>
+                  <b v-if="today3 == false">{{this.today3Table[0]}}</b>
+                  <br />
                   BMR Kilocalories :
-                  <b>{{ relative.dailies[0][0].bmrKilocalories }}</b
-                  ><br />
+                  <b v-if="today3">{{relative.dailies[0][relative.dailies[0].length - 1].bmrKilocalories}}</b>
+                  <b v-if="today3 == false">{{this.today3Table[1]}}</b>
+                  <br />
                   Activité :
-                  <b>{{ relative.dailies[0][0].activityType }}</b
-                  ><br />
+                  <b v-if="today3">{{relative.dailies[0][relative.dailies[0].length - 1].activityType}}</b>
+                  <b v-if="today3 == false">{{this.today3Table[2]}}</b>
+                  <br />
                   <br />
                   <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
                   Objectif :
-                  <b>{{ relative.dailies[0][0].netKilocaloriesGoal }}</b
-                  ><br />
+                  <b v-if="today3">{{relative.dailies[0][relative.dailies[0].length - 1].netKilocaloriesGoal}}</b>
+                  <b v-if="today3 == false">{{this.today3Table[3]}}</b>
+                  <br />
                 </v-card-text>
                 <v-expansion-panels class="mb-6">
                   <v-expansion-panel>
                     <v-expansion-panel-header disable-icon-rotate>
                       Informations
                       <template v-slot:actions>
-                        <v-icon color="teal">
-                          mdi-information
-                        </v-icon>
+                        <v-icon color="teal"> mdi-information </v-icon>
                       </template>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
-                      <h4>
-                        Qu’est-ce que le BMR ?
-                      </h4>
+                      <h4>Qu’est-ce que le BMR ?</h4>
                       C'est le nombre de calories nécessaires au fonctionnement
                       de votre corps au repos. Plus votre BMR est élevé, plus
                       vous brûlez de calories, simplement en étant vivant.<br />
@@ -534,9 +514,7 @@
                       entre 30 et 35 kcal/centimètre carré/heure.<br />
                       Pour facilité les calculs, le BMR d'un adulte est fixé à
                       24 kcal/kg poid du corps / jour<br />
-                      <h4>
-                        Calorie active
-                      </h4>
+                      <h4>Calorie active</h4>
                       Ce sont les calories que vous brûlez lors d’une activité
                       physique, non-sédentaire.
                     </v-expansion-panel-content>
@@ -556,9 +534,7 @@
                   src="https://i.ibb.co/Fx4Dzmv/10204e2cf94ed01b71805a97cdf1047b.jpg"
                 ></v-img>
                 <v-app-bar color="rgba(0,0,0,0)" flat class="mt-2">
-                  <v-icon large class="mr-2" color="green"
-                    >mdi-flash-alert-outline</v-icon
-                  >
+                  <v-icon large class="mr-2" color="green">mdi-flash-alert-outline</v-icon>
                   <h3>Stress</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -567,37 +543,44 @@
                     class="ma-8"
                     mandatory
                   >
-                    <v-chip>Aujourd'hui</v-chip>
+                    <v-chip @click="StressToday()">Aujourd'hui</v-chip>
 
-                    <v-chip>Semaine</v-chip>
+                    <v-chip @click="StressWeek()">Semaine</v-chip>
                   </v-chip-group>
                 </v-app-bar>
                 <v-card-text>
                   Niveau de stress moyen :
-                  <b> {{ relative.dailies[0][0].averageStressLevel }} </b>
+                  <b v-if="today4">
+                    {{relative.dailies[0][relative.dailies[0].length - 1].averageStressLevel}}
+                  </b>
+                  <b v-if="today4 == false">{{this.today4Table[0]}}</b>
                   <br />
                   Niveau de stress maximal :
-                  <b> {{ relative.dailies[0][0].maxStressLevel }} </b>
+                  <b v-if="today4">
+                    {{relative.dailies[0][relative.dailies[0].length - 1].maxStressLevel}}
+                  </b>
+                  <b v-if="today4 == false">{{this.today4Table[1]}}</b>
                   <br />
                   Heure de début :
-                  <b
-                    >{{ dataConverted[this.key][7] }}:{{ dataConverted[this.key][8] }}:{{
-                      dataConverted[this.key][9]
-                    }}</b
-                  >
+                  <b v-if="today4">{{ dataConverted[this.key][7] }}:{{
+                      dataConverted[this.key][8]
+                    }}:{{ dataConverted[this.key][9] }}
+                  </b>
+                  <b v-if="today4 == false">--</b>
                   <br />
                   Heure de fin :
-                  <b
-                    >{{ dataConverted[this.key][10] }}:{{ dataConverted[this.key][11] }}:{{
-                      dataConverted[this.key][12]
-                    }}</b
-                  >
+                  <b v-if="today4">{{ dataConverted[this.key][10] }}:
+                    {{dataConverted[this.key][11]}}:
+                    {{dataConverted[this.key][12] }}
+                  </b>
+                  <b v-if="today4 == false">--</b>
                   <br />
                   Durée du stress :
-                  <b>
-                    {{ relative.stress[0][0].durationInSeconds }}
+                  <b v-if="today4">
+                    {{ relative.stress[0][relative.stress[0].length - 1].durationInSeconds }}
                     secondes
                   </b>
+                  <b v-if="today4 == false">{{this.today4Table[2]}} secondes</b>
                   <br />
                 </v-card-text>
                 <v-expansion-panels class="mb-6">
@@ -605,29 +588,26 @@
                     <v-expansion-panel-header disable-icon-rotate>
                       Informations
                       <template v-slot:actions>
-                        <v-icon color="teal">
-                          mdi-information
-                        </v-icon>
+                        <v-icon color="teal"> mdi-information </v-icon>
                       </template>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
-                      <h4>Score inférieur à 21 </h4>
-                      C’est une personne qui sait gérer son
-                      stress, qui sait s’adapter et pour laquelle il existe
-                      toujours des solutions. <br />
-                      <h4>Score compris entre 21 et 26</h4> C’est
-                      une personne qui sait en général faire face au stress,
-                      mais il existe un certain nombres de situations qu’elle ne
-                      sait pas gérer. Elle est parfois animée d’un sentiment
-                      d’impuissance qui entraînent des perturbations
+                      <h4>Score inférieur à 21</h4>
+                      C’est une personne qui sait gérer son stress, qui sait
+                      s’adapter et pour laquelle il existe toujours des
+                      solutions. <br />
+                      <h4>Score compris entre 21 et 26</h4>
+                      C’est une personne qui sait en général faire face au
+                      stress, mais il existe un certain nombres de situations
+                      qu’elle ne sait pas gérer. Elle est parfois animée d’un
+                      sentiment d’impuissance qui entraînent des perturbations
                       émotionnelles. <br />
-                      <h4>Score supérieur à 27 </h4>
-                      La vie est une menace
-                      perpétuelle pour cette personne : elle a le sentiment de
-                      subir la plupart des situations et de ne pouvoir rien
-                      faire d’autre que de les subir. Ce fort sentiment
-                      d’impuissance lié à sa représentation de la vie peut la
-                      faire basculer dans la maladie.
+                      <h4>Score supérieur à 27</h4>
+                      La vie est une menace perpétuelle pour cette personne :
+                      elle a le sentiment de subir la plupart des situations et
+                      de ne pouvoir rien faire d’autre que de les subir. Ce fort
+                      sentiment d’impuissance lié à sa représentation de la vie
+                      peut la faire basculer dans la maladie.
                     </v-expansion-panel-content>
                   </v-expansion-panel>
                 </v-expansion-panels>
@@ -654,13 +634,8 @@ export default {
   data: () => ({
     //colorT: '',
     dataConverted: [],
-    tempData:[],
+    tempData: [],
     drawer: true,
-    valueBPM: [2, 3, 4, 5, 10],
-    value: [2, 2, 5, 2, 2],
-    valSleep: 80,
-    valSleepH: 80,
-    valSleepTotal: 10,
     selection: 0,
     selection2: 0,
     selection3: 0,
@@ -691,32 +666,172 @@ export default {
     listDoctors: [],
     focus: "",
     type: "day",
+    today1: true,
+    today1Table: [],
+    today2: true,
+    today2Table: [],
+    today3: true,
+    today3Table: [],
+    today4: true,
+    today4Table: [],
   }),
   methods: {
-    BPMtoday: function() {
-      this.valueBPM = [2, 3, 4, 5, 10];
+    BPMtoday: function () {
+      this.today2= true
     },
-    BPMweek: function() {
-      this.valueBPM = [9, 5, 6, 4, 2, 1];
+    BPMweek: function () {
+      this.today2= false
+      if (this.relative.dailies[0].length >= 7) {
+        let res1 = 0;
+        let res2 = 0;
+        let res3 = 0;
+        let res4 = 0;
+        let test = this.relative.dailies[0].length - 7;
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res1 +=
+            this.relative.dailies[0][test + index].minHeartRateInBeatsPerMinute;
+        }
+        this.today2Table.push(res1);
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res2 +=
+            this.relative.dailies[0][test + index].maxHeartRateInBeatsPerMinute;
+        }
+        this.today2Table.push(res2);
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res3 +=
+            this.relative.dailies[0][test + index].averageHeartRateInBeatsPerMinute;
+        }
+        this.today2Table.push(res3);
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res4 +=
+            this.relative.dailies[0][test + index].restingHeartRateInBeatsPerMinute;
+        }
+        this.today2Table.push(res4);
+      } else {
+        for (let index = 0; index < 5; index++) {
+          this.today2Table.push("--");
+        }
+      }
     },
-    BPMmonth: function() {
-      this.valueBPM = [1, 2, 3, 8, 3, 2, 1];
+    PasWeek: function () {
+      this.today1 = false;
+      if (this.relative.dailies[0].length >= 7) {
+        let res1 = 0;
+        let res2 = 0;
+        let res3 = 0;
+        let res4 = 0;
+        let res5 = 0;
+        let test = this.relative.dailies[0].length - 7;
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res1 +=
+            this.relative.dailies[0][test + index].steps;
+        }
+        this.today1Table.push(res1);
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res2 +=
+            this.relative.dailies[0][test + index].stepsGoal;
+        }
+        this.today1Table.push(res2);
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res3 +=
+            this.relative.dailies[0][test + index].distanceInMeters;
+        }
+        this.today1Table.push(res3);
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res4 +=
+            this.relative.dailies[0][test + index].floorsClimbed;
+        }
+        this.today1Table.push(res4);
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res5 +=
+            this.relative.dailies[0][test + index].floorsClimbedGoal;
+        }
+        this.today1Table.push(res5);
+      } else {
+        for (let index = 0; index < 5; index++) {
+          this.today1Table.push("--");
+        }
+      }
     },
-    Sleeptoday: function() {
-      this.valSleep = 80;
-      (this.valSleepH = this.valSleep), (this.valSleepTotal = 10);
+    PasToday: function () {
+      this.today1 = true;
     },
-    Sleepweek: function() {
-      this.valSleep = 90;
-      (this.valSleepH = this.valSleep * 7), (this.valSleepTotal = 70);
+    CalToday: function () {
+      this.today3 = true;
+    },
+    CalWeek: function () {
+      this.today3 = false;
+      if (this.relative.dailies[0].length >= 7) {
+        let res1 = 0;
+        let res2 = 0;
+        let res3 = "";
+        let res4 = 0;
+        let test = this.relative.dailies[0].length - 7;
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res1 +=
+            this.relative.dailies[0][test + index].activeKilocalories;
+        }
+        this.today3Table.push(res1);
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res2 +=
+            this.relative.dailies[0][test + index].bmrKilocalories;
+        }
+        this.today3Table.push(res2);        
+        res3 += "BOTH";
+        this.today3Table.push(res3);
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res4 +=
+            this.relative.dailies[0][test + index].netKilocaloriesGoal;
+        }
+        this.today3Table.push(res4);
+      } else {
+        for (let index = 0; index < 5; index++) {
+          this.today3Table.push("--");
+        }
+      }
+    },
+    StressToday: function () {
+      this.today4 = true;
+    },
+    StressWeek: function(){
+      this.today4 = false;
+      if (this.relative.dailies[0].length >= 7) {
+        let res1 = 0;
+        let res2 = 0;
+        let res3 = 0;
+        let test = this.relative.dailies[0].length - 7;
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res1 +=
+            this.relative.dailies[0][test + index].averageStressLevel;
+        }
+        this.today4Table.push(res1);
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res2 +=
+            this.relative.dailies[0][test + index].maxStressLevel;
+        }
+        this.today4Table.push(res2);
+        for (let index = 0; index < this.relative.dailies[0].length; index++) {
+          res3 +=
+            this.relative.stress[0][test + index].durationInSeconds;
+        }
+        this.today4Table.push(res3);
+      } else {
+        for (let index = 0; index < 5; index++) {
+          this.today4Table.push("--");
+        }
+      }
     },
     update(demarrage) {
       this.demarrage = demarrage;
     },
-    updateK(key){
+    updateK(key) {
       this.key = key;
+      this.today1Table = [];
+      this.today2Table = [];
+      this.today3Table = [];
+      this.today4Table = [];
     },
-    giveRelativeID: async function() {
+    giveRelativeID: async function () {
       let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url)
         .then((responseJSON) => {
@@ -733,7 +848,7 @@ export default {
           console.log(err);
         });
     },
-    shareRelative: async function() {
+    shareRelative: async function () {
       let url = `https://ter-garmin.herokuapp.com/api/users/getAll`;
       await fetch(url)
         .then((responseJSON) => {
@@ -753,19 +868,19 @@ export default {
           console.log(err);
         });
     },
-    doCopy: function() {
+    doCopy: function () {
       this.$copyText(this.relativeID).then(
-        function(e) {
+        function (e) {
           alert("Copie reussi");
           console.log(e);
         },
-        function(e) {
+        function (e) {
           alert("echec de la copie");
           console.log(e);
         }
       );
     },
-    deleteRelatve: async function() {
+    deleteRelatve: async function () {
       this.dialog3 = false;
       let url = `https://ter-garmin.herokuapp.com/api/users/deleteRelative`;
       await fetch(url, {
@@ -781,24 +896,26 @@ export default {
       });
       location.reload();
     },
-    convertData: async function() {
+    convertData: async function () {
       let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url)
         .then((responseJSON) => {
           responseJSON.json().then((user) => {
             user.relatives.forEach((rel) => {
+              let lastDataS = rel.sleep[0].length - 1;
+              let lastDataSt = rel.stress[0].length - 1;
               let data1 = rel.sleep[0][0].durationInSeconds;
               data1 = data1 / 3600;
               this.tempData.push(data1.toFixed(0));
 
               let debutSommeil = new Date(
-                rel.sleep[0][0].startTimeInSeconds * 1000 +
-                  rel.sleep[0][0].startTimeOffsetInSeconds * 1000
+                rel.sleep[0][lastDataS].startTimeInSeconds * 1000 +
+                  rel.sleep[0][lastDataS].startTimeOffsetInSeconds * 1000
               );
               let finalSommeil = new Date(
-                rel.sleep[0][0].startTimeInSeconds * 1000 +
-                  rel.sleep[0][0].startTimeOffsetInSeconds * 1000 +
-                  rel.sleep[0][0].durationInSeconds * 1000
+                rel.sleep[0][lastDataS].startTimeInSeconds * 1000 +
+                  rel.sleep[0][lastDataS].startTimeOffsetInSeconds * 1000 +
+                  rel.sleep[0][lastDataS].durationInSeconds * 1000
               );
 
               this.tempData.push(
@@ -813,14 +930,14 @@ export default {
               );
 
               let debutStress = new Date(
-                rel.stress[0][0].startTimeInSeconds * 1000 +
-                  rel.stress[0][0].startTimeOffsetInSeconds * 1000
+                rel.stress[0][lastDataSt].startTimeInSeconds * 1000 +
+                  rel.stress[0][lastDataSt].startTimeOffsetInSeconds * 1000
               );
 
               let finalStress = new Date(
-                rel.stress[0][0].startTimeInSeconds * 1000 +
-                  rel.stress[0][0].startTimeOffsetInSeconds * 1000 +
-                  rel.stress[0][0].durationInSeconds * 1000
+                rel.stress[0][lastDataSt].startTimeInSeconds * 1000 +
+                  rel.stress[0][lastDataSt].startTimeOffsetInSeconds * 1000 +
+                  rel.stress[0][lastDataSt].durationInSeconds * 1000
               );
 
               this.tempData.push(
@@ -833,8 +950,9 @@ export default {
                 finalStress.getMinutes(),
                 finalStress.getSeconds()
               );
-              this.dataConverted.push(this.tempData)
-              this.tempData = []
+
+              this.dataConverted.push(this.tempData);
+              this.tempData = [];
             });
           });
         })
@@ -842,7 +960,7 @@ export default {
           console.log(err);
         });
     },
-    getDoctors: async function() {
+    getDoctors: async function () {
       this.listDoctors = [];
       let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url2)
@@ -886,7 +1004,7 @@ export default {
     CalendarDashboard,
   },
   watch: {
-    dialog2: function(val) {
+    dialog2: function (val) {
       if (val == false) {
         const longeur = this.userList.length;
         for (let i = 0; i < longeur; i++) {
