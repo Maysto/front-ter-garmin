@@ -66,7 +66,7 @@
               </v-card>
             </v-dialog>
 
-            <v-dialog v-model="dialog4" max-width="500">
+            <v-dialog v-model="dialog4" max-width="500" class="dialogDoctor">
               <template v-slot:activator="{ on: dialog }">
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on: tooltip }">
@@ -112,6 +112,12 @@
                   v-bind:listDoctors="listDoctors"
                   v-bind:relative="relative"
                 />
+                <v-card-title class="justify-center">
+                  <v-btn  @click="goToDoctolib">
+                    Prendre rendez-vous
+                  </v-btn>
+                </v-card-title>
+
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="green darken-1" text @click="dialog4 = false">
@@ -198,19 +204,21 @@
                 </v-app-bar>
                 <v-card-text>
                   Durée du sommeil :
-                  <b>{{ dataConverted[this.key][0]}}
-                  </b>
+                  <b>{{ dataConverted[this.key][0] }} </b>
                   Heures
                   <br />
                   Heure de début :
-                  <b>{{ dataConverted[this.key][1]}}:
-                    {{dataConverted[this.key][2]}}:
-                    {{ dataConverted[this.key][3]}}</b>
+                  <b
+                    >{{ dataConverted[this.key][1] }}:
+                    {{ dataConverted[this.key][2] }}:
+                    {{ dataConverted[this.key][3] }}</b
+                  >
                   <br />
                   Heure de fin :
-                  <b>{{ dataConverted[this.key][4] }}:
-                    {{dataConverted[this.key][5]}}:
-                    {{ dataConverted[this.key][6]}}
+                  <b
+                    >{{ dataConverted[this.key][4] }}:
+                    {{ dataConverted[this.key][5] }}:
+                    {{ dataConverted[this.key][6] }}
                   </b>
                 </v-card-text>
                 <v-divider></v-divider>
@@ -220,21 +228,36 @@
                 </v-app-bar>
                 <v-card-text>
                   Durée totale :
-                  <b>{{relative.sleep[0][relative.sleep[0].length - 1].sleepScores.totalDuration.qualifierKey}}</b>
+                  <b>{{
+                    relative.sleep[0][relative.sleep[0].length - 1].sleepScores
+                      .totalDuration.qualifierKey
+                  }}</b>
                   <br />
                   Stress :
-                  <b>{{relative.sleep[0][relative.sleep[0].length - 1].sleepScores.stress.qualifierKey}}</b>
+                  <b>{{
+                    relative.sleep[0][relative.sleep[0].length - 1].sleepScores
+                      .stress.qualifierKey
+                  }}</b>
                   <br />
                   Agitation :
-                  <b>{{relative.sleep[0][relative.sleep[0].length - 1].sleepScores.restlessness.qualifierKey}}</b>
+                  <b>{{
+                    relative.sleep[0][relative.sleep[0].length - 1].sleepScores
+                      .restlessness.qualifierKey
+                  }}</b>
                   <br />
                   Nombre d'éveil :
-                  <b>{{relative.sleep[0][relative.sleep[0].length - 1].sleepScores.awakeCount.qualifierKey}}</b>
+                  <b>{{
+                    relative.sleep[0][relative.sleep[0].length - 1].sleepScores
+                      .awakeCount.qualifierKey
+                  }}</b>
                   <br />
                   <br />
                   <v-icon medium color="yellow">mdi-star </v-icon>
                   Score global du sommeil :
-                  <b>{{ relative.sleep[0][relative.sleep[0].length - 1].overallSleepScore.qualifierKey}}</b>
+                  <b>{{
+                    relative.sleep[0][relative.sleep[0].length - 1]
+                      .overallSleepScore.qualifierKey
+                  }}</b>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-expansion-panels class="mb-6">
@@ -286,14 +309,19 @@
                 </v-app-bar>
                 <v-card-text>
                   Pas éffectués :
-                  <b  v-if="today1">{{relative.dailies[0][relative.dailies[0].length - 1].steps}}</b>
-                  <b v-if="today1 == false">{{this.today1Table[0]}}</b>
+                  <b v-if="today1">{{
+                    relative.dailies[0][relative.dailies[0].length - 1].steps
+                  }}</b>
+                  <b v-if="today1 == false">{{ this.today1Table[0] }}</b>
                   Pas <br />
                   <br />
                   <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
                   Objectif :
-                  <b v-if="today1">{{relative.dailies[0][relative.dailies[0].length - 1].stepsGoal}}</b>
-                  <b v-if="today1 == false">{{this.today1Table[1]}}</b>
+                  <b v-if="today1">{{
+                    relative.dailies[0][relative.dailies[0].length - 1]
+                      .stepsGoal
+                  }}</b>
+                  <b v-if="today1 == false">{{ this.today1Table[1] }}</b>
                   Pas
                   <!-- <span class="colorT"> pour colorPas qui doit etre appellé au bon moment mais j'y arrive pas putain
                      faut l'appeler quand relative n'est pas null comme moi   red--text au lieu de error dans colorPas-->
@@ -307,8 +335,11 @@
                 </v-app-bar>
                 <v-card-text>
                   Distance effectuée :
-                  <b v-if="today1">{{relative.dailies[0][relative.dailies[0].length - 1].distanceInMeters}}</b>
-                  <b v-if="today1 == false">{{this.today1Table[2]}}</b>
+                  <b v-if="today1">{{
+                    relative.dailies[0][relative.dailies[0].length - 1]
+                      .distanceInMeters
+                  }}</b>
+                  <b v-if="today1 == false">{{ this.today1Table[2] }}</b>
                   mètres
                 </v-card-text>
                 <v-divider></v-divider>
@@ -318,14 +349,20 @@
                 </v-app-bar>
                 <v-card-text>
                   Etages montés :
-                  <b v-if="today1">{{relative.dailies[0][relative.dailies[0].length - 1].floorsClimbed}}</b>
-                  <b v-if="today1 == false">{{this.today1Table[3]}}</b>
+                  <b v-if="today1">{{
+                    relative.dailies[0][relative.dailies[0].length - 1]
+                      .floorsClimbed
+                  }}</b>
+                  <b v-if="today1 == false">{{ this.today1Table[3] }}</b>
                   étages<br />
                   <br />
                   <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
                   Objectif :
-                  <b v-if="today1">{{relative.dailies[0][relative.dailies[0].length - 1].floorsClimbedGoal}}</b>
-                  <b v-if="today1 == false">{{this.today1Table[4]}}</b>
+                  <b v-if="today1">{{
+                    relative.dailies[0][relative.dailies[0].length - 1]
+                      .floorsClimbedGoal
+                  }}</b>
+                  <b v-if="today1 == false">{{ this.today1Table[4] }}</b>
                   étages
                 </v-card-text>
                 <v-divider></v-divider>
@@ -409,20 +446,32 @@
 
                 <v-card-text>
                   Fréquence cardiaque minimale :
-                  <b v-if="today2">{{relative.dailies[0][relative.dailies[0].length - 1].minHeartRateInBeatsPerMinute}}</b>
-                  <b v-if="today2 == false">{{this.today2Table[0]}}</b>
+                  <b v-if="today2">{{
+                    relative.dailies[0][relative.dailies[0].length - 1]
+                      .minHeartRateInBeatsPerMinute
+                  }}</b>
+                  <b v-if="today2 == false">{{ this.today2Table[0] }}</b>
                   BPM <br />
                   Fréquence cardiaque maximale :
-                  <b v-if="today2">{{relative.dailies[0][relative.dailies[0].length - 1].maxHeartRateInBeatsPerMinute}}</b>
-                  <b v-if="today2 == false">{{this.today2Table[1]}}</b>
+                  <b v-if="today2">{{
+                    relative.dailies[0][relative.dailies[0].length - 1]
+                      .maxHeartRateInBeatsPerMinute
+                  }}</b>
+                  <b v-if="today2 == false">{{ this.today2Table[1] }}</b>
                   BPM <br />
                   Fréquence cardiaque moyenne :
-                  <b v-if="today2">{{relative.dailies[0][relative.dailies[0].length - 1].averageHeartRateInBeatsPerMinute}}</b>
-                  <b v-if="today2 == false">{{this.today2Table[2]}}</b>
+                  <b v-if="today2">{{
+                    relative.dailies[0][relative.dailies[0].length - 1]
+                      .averageHeartRateInBeatsPerMinute
+                  }}</b>
+                  <b v-if="today2 == false">{{ this.today2Table[2] }}</b>
                   BPM <br />
                   Fréquence cardiaque au repos :
-                  <b v-if="today2">{{relative.dailies[0][relative.dailies[0].length - 1].restingHeartRateInBeatsPerMinute}}</b>
-                  <b v-if="today2 == false">{{this.today2Table[3]}}</b>
+                  <b v-if="today2">{{
+                    relative.dailies[0][relative.dailies[0].length - 1]
+                      .restingHeartRateInBeatsPerMinute
+                  }}</b>
+                  <b v-if="today2 == false">{{ this.today2Table[3] }}</b>
                   BPM <br />
                 </v-card-text>
                 <v-expansion-panels class="mb-6">
@@ -461,7 +510,9 @@
                   src="https://i.ibb.co/DpwD38v/Calories-1200x628-1200x610.jpg"
                 ></v-img>
                 <v-app-bar color="rgba(0,0,0,0)" flat class="mt-2">
-                  <v-icon large class="mr-2" color="deep-orange">mdi-fire</v-icon>
+                  <v-icon large class="mr-2" color="deep-orange"
+                    >mdi-fire</v-icon
+                  >
                   <h3>Calories</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -477,22 +528,34 @@
                 </v-app-bar>
                 <v-card-text>
                   Calories actives :
-                  <b v-if="today3">{{relative.dailies[0][relative.dailies[0].length - 1].activeKilocalories}}</b>
-                  <b v-if="today3 == false">{{this.today3Table[0]}}</b>
+                  <b v-if="today3">{{
+                    relative.dailies[0][relative.dailies[0].length - 1]
+                      .activeKilocalories
+                  }}</b>
+                  <b v-if="today3 == false">{{ this.today3Table[0] }}</b>
                   <br />
                   BMR Kilocalories :
-                  <b v-if="today3">{{relative.dailies[0][relative.dailies[0].length - 1].bmrKilocalories}}</b>
-                  <b v-if="today3 == false">{{this.today3Table[1]}}</b>
+                  <b v-if="today3">{{
+                    relative.dailies[0][relative.dailies[0].length - 1]
+                      .bmrKilocalories
+                  }}</b>
+                  <b v-if="today3 == false">{{ this.today3Table[1] }}</b>
                   <br />
                   Activité :
-                  <b v-if="today3">{{relative.dailies[0][relative.dailies[0].length - 1].activityType}}</b>
-                  <b v-if="today3 == false">{{this.today3Table[2]}}</b>
+                  <b v-if="today3">{{
+                    relative.dailies[0][relative.dailies[0].length - 1]
+                      .activityType
+                  }}</b>
+                  <b v-if="today3 == false">{{ this.today3Table[2] }}</b>
                   <br />
                   <br />
                   <v-icon medium color="error">mdi-bullseye-arrow </v-icon>
                   Objectif :
-                  <b v-if="today3">{{relative.dailies[0][relative.dailies[0].length - 1].netKilocaloriesGoal}}</b>
-                  <b v-if="today3 == false">{{this.today3Table[3]}}</b>
+                  <b v-if="today3">{{
+                    relative.dailies[0][relative.dailies[0].length - 1]
+                      .netKilocaloriesGoal
+                  }}</b>
+                  <b v-if="today3 == false">{{ this.today3Table[3] }}</b>
                   <br />
                 </v-card-text>
                 <v-expansion-panels class="mb-6">
@@ -534,7 +597,9 @@
                   src="https://i.ibb.co/Fx4Dzmv/10204e2cf94ed01b71805a97cdf1047b.jpg"
                 ></v-img>
                 <v-app-bar color="rgba(0,0,0,0)" flat class="mt-2">
-                  <v-icon large class="mr-2" color="green">mdi-flash-alert-outline</v-icon>
+                  <v-icon large class="mr-2" color="green"
+                    >mdi-flash-alert-outline</v-icon
+                  >
                   <h3>Stress</h3>
                   <v-spacer></v-spacer>
                   <v-chip-group
@@ -551,36 +616,49 @@
                 <v-card-text>
                   Niveau de stress moyen :
                   <b v-if="today4">
-                    {{relative.dailies[0][relative.dailies[0].length - 1].averageStressLevel}}
+                    {{
+                      relative.dailies[0][relative.dailies[0].length - 1]
+                        .averageStressLevel
+                    }}
                   </b>
-                  <b v-if="today4 == false">{{this.today4Table[0]}}</b>
+                  <b v-if="today4 == false">{{ this.today4Table[0] }}</b>
                   <br />
                   Niveau de stress maximal :
                   <b v-if="today4">
-                    {{relative.dailies[0][relative.dailies[0].length - 1].maxStressLevel}}
+                    {{
+                      relative.dailies[0][relative.dailies[0].length - 1]
+                        .maxStressLevel
+                    }}
                   </b>
-                  <b v-if="today4 == false">{{this.today4Table[1]}}</b>
+                  <b v-if="today4 == false">{{ this.today4Table[1] }}</b>
                   <br />
                   Heure de début :
-                  <b v-if="today4">{{ dataConverted[this.key][7] }}:{{
+                  <b v-if="today4"
+                    >{{ dataConverted[this.key][7] }}:{{
                       dataConverted[this.key][8]
                     }}:{{ dataConverted[this.key][9] }}
                   </b>
                   <b v-if="today4 == false">--</b>
                   <br />
                   Heure de fin :
-                  <b v-if="today4">{{ dataConverted[this.key][10] }}:
-                    {{dataConverted[this.key][11]}}:
-                    {{dataConverted[this.key][12] }}
+                  <b v-if="today4"
+                    >{{ dataConverted[this.key][10] }}:
+                    {{ dataConverted[this.key][11] }}:
+                    {{ dataConverted[this.key][12] }}
                   </b>
                   <b v-if="today4 == false">--</b>
                   <br />
                   Durée du stress :
                   <b v-if="today4">
-                    {{ relative.stress[0][relative.stress[0].length - 1].durationInSeconds }}
+                    {{
+                      relative.stress[0][relative.stress[0].length - 1]
+                        .durationInSeconds
+                    }}
                     secondes
                   </b>
-                  <b v-if="today4 == false">{{this.today4Table[2]}} secondes</b>
+                  <b v-if="today4 == false"
+                    >{{ this.today4Table[2] }} secondes</b
+                  >
                   <br />
                 </v-card-text>
                 <v-expansion-panels class="mb-6">
@@ -676,11 +754,11 @@ export default {
     today4Table: [],
   }),
   methods: {
-    BPMtoday: function () {
-      this.today2= true
+    BPMtoday: function() {
+      this.today2 = true;
     },
-    BPMweek: function () {
-      this.today2= false
+    BPMweek: function() {
+      this.today2 = false;
       if (this.relative.dailies[0].length >= 7) {
         let res1 = 0;
         let res2 = 0;
@@ -688,23 +766,23 @@ export default {
         let res4 = 0;
         let test = this.relative.dailies[0].length - 7;
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res1 +=
-            this.relative.dailies[0][test + index].minHeartRateInBeatsPerMinute;
+          res1 += this.relative.dailies[0][test + index]
+            .minHeartRateInBeatsPerMinute;
         }
         this.today2Table.push(res1);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res2 +=
-            this.relative.dailies[0][test + index].maxHeartRateInBeatsPerMinute;
+          res2 += this.relative.dailies[0][test + index]
+            .maxHeartRateInBeatsPerMinute;
         }
         this.today2Table.push(res2);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res3 +=
-            this.relative.dailies[0][test + index].averageHeartRateInBeatsPerMinute;
+          res3 += this.relative.dailies[0][test + index]
+            .averageHeartRateInBeatsPerMinute;
         }
         this.today2Table.push(res3);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res4 +=
-            this.relative.dailies[0][test + index].restingHeartRateInBeatsPerMinute;
+          res4 += this.relative.dailies[0][test + index]
+            .restingHeartRateInBeatsPerMinute;
         }
         this.today2Table.push(res4);
       } else {
@@ -713,7 +791,7 @@ export default {
         }
       }
     },
-    PasWeek: function () {
+    PasWeek: function() {
       this.today1 = false;
       if (this.relative.dailies[0].length >= 7) {
         let res1 = 0;
@@ -723,28 +801,23 @@ export default {
         let res5 = 0;
         let test = this.relative.dailies[0].length - 7;
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res1 +=
-            this.relative.dailies[0][test + index].steps;
+          res1 += this.relative.dailies[0][test + index].steps;
         }
         this.today1Table.push(res1);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res2 +=
-            this.relative.dailies[0][test + index].stepsGoal;
+          res2 += this.relative.dailies[0][test + index].stepsGoal;
         }
         this.today1Table.push(res2);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res3 +=
-            this.relative.dailies[0][test + index].distanceInMeters;
+          res3 += this.relative.dailies[0][test + index].distanceInMeters;
         }
         this.today1Table.push(res3);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res4 +=
-            this.relative.dailies[0][test + index].floorsClimbed;
+          res4 += this.relative.dailies[0][test + index].floorsClimbed;
         }
         this.today1Table.push(res4);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res5 +=
-            this.relative.dailies[0][test + index].floorsClimbedGoal;
+          res5 += this.relative.dailies[0][test + index].floorsClimbedGoal;
         }
         this.today1Table.push(res5);
       } else {
@@ -753,13 +826,13 @@ export default {
         }
       }
     },
-    PasToday: function () {
+    PasToday: function() {
       this.today1 = true;
     },
-    CalToday: function () {
+    CalToday: function() {
       this.today3 = true;
     },
-    CalWeek: function () {
+    CalWeek: function() {
       this.today3 = false;
       if (this.relative.dailies[0].length >= 7) {
         let res1 = 0;
@@ -768,20 +841,17 @@ export default {
         let res4 = 0;
         let test = this.relative.dailies[0].length - 7;
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res1 +=
-            this.relative.dailies[0][test + index].activeKilocalories;
+          res1 += this.relative.dailies[0][test + index].activeKilocalories;
         }
         this.today3Table.push(res1);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res2 +=
-            this.relative.dailies[0][test + index].bmrKilocalories;
+          res2 += this.relative.dailies[0][test + index].bmrKilocalories;
         }
-        this.today3Table.push(res2);        
+        this.today3Table.push(res2);
         res3 += "BOTH";
         this.today3Table.push(res3);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res4 +=
-            this.relative.dailies[0][test + index].netKilocaloriesGoal;
+          res4 += this.relative.dailies[0][test + index].netKilocaloriesGoal;
         }
         this.today3Table.push(res4);
       } else {
@@ -790,10 +860,10 @@ export default {
         }
       }
     },
-    StressToday: function () {
+    StressToday: function() {
       this.today4 = true;
     },
-    StressWeek: function(){
+    StressWeek: function() {
       this.today4 = false;
       if (this.relative.dailies[0].length >= 7) {
         let res1 = 0;
@@ -801,18 +871,15 @@ export default {
         let res3 = 0;
         let test = this.relative.dailies[0].length - 7;
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res1 +=
-            this.relative.dailies[0][test + index].averageStressLevel;
+          res1 += this.relative.dailies[0][test + index].averageStressLevel;
         }
         this.today4Table.push(res1);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res2 +=
-            this.relative.dailies[0][test + index].maxStressLevel;
+          res2 += this.relative.dailies[0][test + index].maxStressLevel;
         }
         this.today4Table.push(res2);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res3 +=
-            this.relative.stress[0][test + index].durationInSeconds;
+          res3 += this.relative.stress[0][test + index].durationInSeconds;
         }
         this.today4Table.push(res3);
       } else {
@@ -831,7 +898,7 @@ export default {
       this.today3Table = [];
       this.today4Table = [];
     },
-    giveRelativeID: async function () {
+    giveRelativeID: async function() {
       let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url)
         .then((responseJSON) => {
@@ -848,7 +915,7 @@ export default {
           console.log(err);
         });
     },
-    shareRelative: async function () {
+    shareRelative: async function() {
       let url = `https://ter-garmin.herokuapp.com/api/users/getAll`;
       await fetch(url)
         .then((responseJSON) => {
@@ -868,19 +935,19 @@ export default {
           console.log(err);
         });
     },
-    doCopy: function () {
+    doCopy: function() {
       this.$copyText(this.relativeID).then(
-        function (e) {
+        function(e) {
           alert("Copie reussi");
           console.log(e);
         },
-        function (e) {
+        function(e) {
           alert("echec de la copie");
           console.log(e);
         }
       );
     },
-    deleteRelatve: async function () {
+    deleteRelatve: async function() {
       this.dialog3 = false;
       let url = `https://ter-garmin.herokuapp.com/api/users/deleteRelative`;
       await fetch(url, {
@@ -896,7 +963,7 @@ export default {
       });
       location.reload();
     },
-    convertData: async function () {
+    convertData: async function() {
       let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url)
         .then((responseJSON) => {
@@ -960,7 +1027,10 @@ export default {
           console.log(err);
         });
     },
-    getDoctors: async function () {
+    goToDoctolib: function() {
+      location.href = "https://www.doctolib.fr/";
+    },
+    getDoctors: async function() {
       this.listDoctors = [];
       let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url2)
@@ -1004,7 +1074,7 @@ export default {
     CalendarDashboard,
   },
   watch: {
-    dialog2: function (val) {
+    dialog2: function(val) {
       if (val == false) {
         const longeur = this.userList.length;
         for (let i = 0; i < longeur; i++) {
@@ -1021,7 +1091,7 @@ export default {
   background-color: #add8e6;
 }
 
-.v-dialog {
+.v-dialog,.dialogDoctor {
   overflow-y: hidden !important;
 }
 </style>

@@ -17,8 +17,6 @@ const routes = [
 
     component: NavBar,
     children: [
-      { path: "/", redirect: "/HomePage" },
-
       {
         path: "/HomePage",
         name: "HomePage",
@@ -32,7 +30,6 @@ const routes = [
       },
     ],
   },
-  { path: "*", redirect: "/HomePage" },
   {
     path: "/Dashboard",
     name: "Dashboard",
