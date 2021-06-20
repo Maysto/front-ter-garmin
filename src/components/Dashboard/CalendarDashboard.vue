@@ -240,36 +240,6 @@ export default {
         alert("Evenement ajouté");
       }
     },
-    getEvents: async function() {
-      this.getFuckingId();
-      let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
-      await fetch(url2)
-        .then((responseJSON) => {
-          responseJSON.json().then((user) => {
-            user.relatives.forEach((rel) => {
-              rel.events.forEach((e) => {
-                let goodStartDate = e.startEvent.replace("T", " ");
-                goodStartDate = goodStartDate.substring(0, 19);
-
-                let goodEndDate = e.endEvent.replace("T", " ");
-                goodEndDate = goodEndDate.substring(0, 19);
-
-                let newEvent = {
-                  name: e.nameEvent,
-                  start: goodStartDate,
-                  end: goodEndDate,
-                  color: e.color,
-                };
-
-                this.events.push(newEvent);
-              });
-            });
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
     getFuckingId: async function() {
       let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url).then((responseJSON) => {
@@ -288,9 +258,6 @@ export default {
     },
   },
   mounted() {
-    this.getFuckingId();
-    // this.$refs.calendar.checkChange();
-    this.getEvents();
   },
 };
 </script>
