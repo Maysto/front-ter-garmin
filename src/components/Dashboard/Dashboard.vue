@@ -942,6 +942,8 @@ export default {
       this.today2Table = [];
       this.today3Table = [];
       this.today4Table = [];
+      this.events = [];
+      this.getEvents();
     },
     giveRelativeID: async function() {
       let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
@@ -1141,7 +1143,6 @@ export default {
     this.convertData();
     console.log(this.dataConverted);
     // this.$refs.calendar.checkChange();
-    this.getEvents();
   },
   props: {
     doctors: {
