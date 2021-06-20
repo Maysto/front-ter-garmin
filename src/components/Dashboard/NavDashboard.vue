@@ -85,6 +85,9 @@ export default {
       type: Boolean,
       required: true,
     },
+    events: {
+      type: Array,
+    }
   },
   methods: {
     disconnect() {
@@ -122,7 +125,6 @@ export default {
       this.relative.id = tab.text[10];
       this.relative.doctors = tab.text[11];
       this.relative.events = tab.text[12];
-      console.log("HEHO TEST",this.relative.events);
 
     },
     getRelatives: async function() {

@@ -4,6 +4,7 @@
       <v-flex>
         <NavDashboard
           v-bind:relative="relative"
+          v-bind:events="events"
           :demarrage="demarrage"
           @update-demarrage="update"
           :key="key"
@@ -113,7 +114,7 @@
                   v-bind:relative="relative"
                 />
                 <v-card-title class="justify-center">
-                  <v-btn  @click="goToDoctolib">
+                  <v-btn @click="goToDoctolib">
                     Prendre rendez-vous
                   </v-btn>
                 </v-card-title>
@@ -198,7 +199,6 @@
                     mandatory
                   >
                     <v-chip>Aujourd'hui</v-chip>
-
                   </v-chip-group>
                 </v-app-bar>
                 <v-card-text>
@@ -228,34 +228,44 @@
                 <v-card-text>
                   Durée totale :
                   <b>{{
-                    translate(relative.sleep[0][relative.sleep[0].length - 1].sleepScores
-                      .totalDuration.qualifierKey)
+                    translate(
+                      relative.sleep[0][relative.sleep[0].length - 1]
+                        .sleepScores.totalDuration.qualifierKey
+                    )
                   }}</b>
                   <br />
                   Stress :
                   <b>{{
-                    translate(relative.sleep[0][relative.sleep[0].length - 1].sleepScores
-                      .stress.qualifierKey)
+                    translate(
+                      relative.sleep[0][relative.sleep[0].length - 1]
+                        .sleepScores.stress.qualifierKey
+                    )
                   }}</b>
                   <br />
                   Agitation :
                   <b>{{
-                    translate(relative.sleep[0][relative.sleep[0].length - 1].sleepScores
-                      .restlessness.qualifierKey)
+                    translate(
+                      relative.sleep[0][relative.sleep[0].length - 1]
+                        .sleepScores.restlessness.qualifierKey
+                    )
                   }}</b>
                   <br />
                   Nombre d'éveil :
                   <b>{{
-                    translate(relative.sleep[0][relative.sleep[0].length - 1].sleepScores
-                      .awakeCount.qualifierKey)
+                    translate(
+                      relative.sleep[0][relative.sleep[0].length - 1]
+                        .sleepScores.awakeCount.qualifierKey
+                    )
                   }}</b>
                   <br />
                   <br />
                   <v-icon medium color="yellow">mdi-star </v-icon>
                   Score global du sommeil :
                   <b>{{
-                    translate(relative.sleep[0][relative.sleep[0].length - 1]
-                      .overallSleepScore.qualifierKey)
+                    translate(
+                      relative.sleep[0][relative.sleep[0].length - 1]
+                        .overallSleepScore.qualifierKey
+                    )
                   }}</b>
                 </v-card-text>
                 <v-divider></v-divider>
@@ -405,15 +415,18 @@
                   <v-calendar
                     ref="calendar"
                     v-model="focus"
-                    color="primary"
-                    :events="[]"
+                    :events="events"
+                    :event-color="getEventColor"
                     :type="type"
                     max-height="200"
                     first-interval="6"
                     interval-count="13"
                   ></v-calendar>
                 </v-sheet>
-                <CalendarDashboard v-bind:relative="relative">
+                <CalendarDashboard
+                  v-bind:relative="relative"
+                  v-bind:events="events"
+                >
                 </CalendarDashboard>
               </v-card>
             </v-col>
@@ -542,8 +555,10 @@
                   <br />
                   Activité :
                   <b v-if="today3">{{
-                    translate(relative.dailies[0][relative.dailies[0].length - 1]
-                      .activityType)
+                    translate(
+                      relative.dailies[0][relative.dailies[0].length - 1]
+                        .activityType
+                    )
                   }}</b>
                   <b v-if="today3 == false">{{ this.today3Table[2] }}</b>
                   <br />
@@ -751,11 +766,14 @@ export default {
     today3Table: [],
     today4: true,
     today4Table: [],
-    sommeil:[],
+    events: [],
   }),
   methods: {
     BPMtoday: function() {
       this.today2 = true;
+    },
+    getEventColor(event) {
+      return event.color;
     },
     BPMweek: function() {
       this.today2 = false;
@@ -769,22 +787,26 @@ export default {
           res1 += this.relative.dailies[0][test + index]
             .minHeartRateInBeatsPerMinute;
         }
-        this.today2Table.push((res1/7).toFixed(0));
+        this.today2Table.push((res1 / 7).toFixed(0));
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          if(res2 < this.relative.dailies[0][test + index].maxHeartRateInBeatsPerMinute)
-            res2 = this.relative.dailies[0][test + index].maxHeartRateInBeatsPerMinute;
+          if (
+            res2 <
+            this.relative.dailies[0][test + index].maxHeartRateInBeatsPerMinute
+          )
+            res2 = this.relative.dailies[0][test + index]
+              .maxHeartRateInBeatsPerMinute;
         }
         this.today2Table.push(res2);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res3 += this.relative.dailies[0][test + index]
             .averageHeartRateInBeatsPerMinute;
         }
-        this.today2Table.push((res3/7).toFixed(0));
+        this.today2Table.push((res3 / 7).toFixed(0));
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res4 += this.relative.dailies[0][test + index]
             .restingHeartRateInBeatsPerMinute;
         }
-        this.today2Table.push((res4/7).toFixed(0));
+        this.today2Table.push((res4 / 7).toFixed(0));
       } else {
         for (let index = 0; index < 5; index++) {
           this.today2Table.push("--");
@@ -843,17 +865,17 @@ export default {
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res1 += this.relative.dailies[0][test + index].activeKilocalories;
         }
-        this.today3Table.push((res1/7).toFixed(0));
+        this.today3Table.push((res1 / 7).toFixed(0));
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res2 += this.relative.dailies[0][test + index].bmrKilocalories;
         }
-        this.today3Table.push((res2/7).toFixed(0));
+        this.today3Table.push((res2 / 7).toFixed(0));
         res3 = "Varié";
         this.today3Table.push(res3);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res4 += this.relative.dailies[0][test + index].netKilocaloriesGoal;
         }
-        this.today3Table.push((res4/7).toFixed(0));
+        this.today3Table.push((res4 / 7).toFixed(0));
       } else {
         for (let index = 0; index < 5; index++) {
           this.today3Table.push("--");
@@ -873,43 +895,43 @@ export default {
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res1 += this.relative.dailies[0][test + index].averageStressLevel;
         }
-        this.today4Table.push((res1/7).toFixed(0));
+        this.today4Table.push((res1 / 7).toFixed(0));
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          if(res2 < this.relative.dailies[0][test + index].maxStressLevel){
+          if (res2 < this.relative.dailies[0][test + index].maxStressLevel) {
             res2 = this.relative.dailies[0][test + index].maxStressLevel;
-          }  
+          }
         }
         this.today4Table.push(res2);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res3 += this.relative.stress[0][test + index].durationInSeconds;
         }
-        this.today4Table.push((res3/7).toFixed(0));
+        this.today4Table.push((res3 / 7).toFixed(0));
       } else {
         for (let index = 0; index < 5; index++) {
           this.today4Table.push("--");
         }
       }
     },
-    translate: function(val){
-       switch (val) {
-          case 'EXCELLENT':
-          return "Excellent"
+    translate: function(val) {
+      switch (val) {
+        case "EXCELLENT":
+          return "Excellent";
 
-          case 'GOOD':
-          return "Bon"
+        case "GOOD":
+          return "Bon";
 
-          case 'FAIR':
-          return "Convenable"
+        case "FAIR":
+          return "Convenable";
 
-          case 'POOR':
-          return "Mauvais"
+        case "POOR":
+          return "Mauvais";
 
-          case 'WALKING':
-          return "Marche"
+        case "WALKING":
+          return "Marche";
 
-          default:
+        default:
           break;
-       }
+      }
     },
     update(demarrage) {
       this.demarrage = demarrage;
@@ -1079,12 +1101,47 @@ export default {
           console.log(err);
         });
     },
+    getEvents: async function() {
+      let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
+      await fetch(url2)
+        .then((responseJSON) => {
+          responseJSON.json().then((user) => {
+            user.relatives.forEach((rel) => {
+              if (
+                this.relative.prenom == rel.firstname &&
+                this.relative.nom == rel.lastname
+              ) {
+                rel.events.forEach((e) => {
+                  let goodStartDate = e.startEvent.replace("T", " ");
+                  goodStartDate = goodStartDate.substring(0, 19);
+
+                  let goodEndDate = e.endEvent.replace("T", " ");
+                  goodEndDate = goodEndDate.substring(0, 19);
+
+                  let newEvent = {
+                    name: e.nameEvent,
+                    start: goodStartDate,
+                    end: goodEndDate,
+                    color: e.color,
+                  };
+
+                  this.events.push(newEvent);
+                });
+              }
+            });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 
   mounted() {
     this.convertData();
     console.log(this.dataConverted);
-    this.$refs.calendar.checkChange();
+    // this.$refs.calendar.checkChange();
+    this.getEvents();
   },
   props: {
     doctors: {
@@ -1114,7 +1171,8 @@ export default {
   background-color: #add8e6;
 }
 
-.v-dialog,.dialogDoctor {
+.v-dialog,
+.dialogDoctor {
   overflow-y: hidden !important;
 }
 </style>

@@ -31,9 +31,7 @@
             <v-toolbar-title v-if="$refs.calendar">
               {{ $refs.calendar.title }}
             </v-toolbar-title>
-            <v-btn color="blue darken-1" text @click="dialog = false"
-              >Fermer</v-btn
-            >
+            <v-btn color="blue darken-1" text @click="dialog= false">Fermer</v-btn>
             <v-dialog
               v-model="dialogEvt"
               persistent
@@ -181,17 +179,18 @@ export default {
       color: "",
     },
     color: ["blue", "green", "red", "purple"],
-    events: [],
     relativeID: "",
   }),
   props: {
     relative: {
       type: Object,
     },
+    events: {
+      type: Array,
+    },
   },
   methods: {
     getEventColor(event) {
-      console.log(event.color);
       return event.color;
     },
     setToday() {
@@ -203,9 +202,8 @@ export default {
     next() {
       this.$refs.calendar.next();
     },
-    addEvent: async function () {
+    addEvent: async function() {
       this.getFuckingId();
-      
 
       this.body = {
         relativeId: this.relativeID,
@@ -236,17 +234,50 @@ export default {
 
         this.events.push(newEvent);
         this.dialogEvt = false;
-        
-        alert("CA MARCHE LES EVENTS");
-        console.log("Relative ID",this.body.relativeId);
+
+        alert("Evenement ajouté");
       }
     },
-    getFuckingId: async function () {
+    getEvents: async function() {
+      let url2 = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
+      await fetch(url2)
+        .then((responseJSON) => {
+          responseJSON.json().then((user) => {
+            user.relatives.forEach((rel) => {
+              if (
+                this.relative.prenom == rel.firstname &&
+                this.relative.nom == rel.lastname
+              ) {
+                rel.events.forEach((e) => {
+                  let goodStartDate = e.startEvent.replace("T", " ");
+                  goodStartDate = goodStartDate.substring(0, 19);
+
+                  let goodEndDate = e.endEvent.replace("T", " ");
+                  goodEndDate = goodEndDate.substring(0, 19);
+
+                  let newEvent = {
+                    name: e.nameEvent,
+                    start: goodStartDate,
+                    end: goodEndDate,
+                    color: e.color
+                  };
+
+                  this.events.push(newEvent);
+                });
+              }
+            });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getFuckingId: async function() {
       let url = `https://ter-garmin.herokuapp.com/api/users/${localStorage.email}`;
       await fetch(url).then((responseJSON) => {
         responseJSON.json().then((user) => {
           user.relatives.forEach((rel) => {
-           if (
+            if (
               this.relative.prenom == rel.firstname &&
               this.relative.nom == rel.lastname
             ) {
@@ -257,13 +288,11 @@ export default {
         });
       });
     },
-    
   },
   mounted() {
     this.getFuckingId();
-    this.$refs.calendar.checkChange();
-    this.addEvent();
-   
+    // this.$refs.calendar.checkChange();
+    this.getEvents();
   },
 };
 </script>
