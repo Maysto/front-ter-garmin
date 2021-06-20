@@ -411,7 +411,6 @@ export default {
           ],
           route: "Dashboard",
         };
-        console.log(result.body);
         this.links.push(newRelative);
         alert("Ajout de : " + this.body.firstname + " reussi");
         location.reload();
