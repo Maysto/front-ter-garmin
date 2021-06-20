@@ -1113,6 +1113,7 @@ export default {
                 this.relative.prenom == rel.firstname &&
                 this.relative.nom == rel.lastname
               ) {
+                if(rel.events != null){
                 rel.events.forEach((e) => {
                   let goodStartDate = e.startEvent.replace("T", " ");
                   goodStartDate = goodStartDate.substring(0, 19);
@@ -1129,6 +1130,7 @@ export default {
 
                   this.events.push(newEvent);
                 });
+                }
               }
             });
           });
