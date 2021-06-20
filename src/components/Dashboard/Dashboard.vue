@@ -769,22 +769,22 @@ export default {
           res1 += this.relative.dailies[0][test + index]
             .minHeartRateInBeatsPerMinute;
         }
-        this.today2Table.push(res1);
+        this.today2Table.push((res1/7).toFixed(0));
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res2 += this.relative.dailies[0][test + index]
             .maxHeartRateInBeatsPerMinute;
         }
-        this.today2Table.push(res2);
+        this.today2Table.push((res2 /7).toFixed(0));
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res3 += this.relative.dailies[0][test + index]
             .averageHeartRateInBeatsPerMinute;
         }
-        this.today2Table.push(res3);
+        this.today2Table.push((res3/7).toFixed(0));
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res4 += this.relative.dailies[0][test + index]
             .restingHeartRateInBeatsPerMinute;
         }
-        this.today2Table.push(res4);
+        this.today2Table.push((res4/7).toFixed(0));
       } else {
         for (let index = 0; index < 5; index++) {
           this.today2Table.push("--");
