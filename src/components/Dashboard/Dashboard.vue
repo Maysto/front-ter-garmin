@@ -199,7 +199,6 @@
                   >
                     <v-chip>Aujourd'hui</v-chip>
 
-                    <v-chip>Semaine</v-chip>
                   </v-chip-group>
                 </v-app-bar>
                 <v-card-text>
@@ -229,34 +228,34 @@
                 <v-card-text>
                   Durée totale :
                   <b>{{
-                    relative.sleep[0][relative.sleep[0].length - 1].sleepScores
-                      .totalDuration.qualifierKey
+                    translate(relative.sleep[0][relative.sleep[0].length - 1].sleepScores
+                      .totalDuration.qualifierKey)
                   }}</b>
                   <br />
                   Stress :
                   <b>{{
-                    relative.sleep[0][relative.sleep[0].length - 1].sleepScores
-                      .stress.qualifierKey
+                    translate(relative.sleep[0][relative.sleep[0].length - 1].sleepScores
+                      .stress.qualifierKey)
                   }}</b>
                   <br />
                   Agitation :
                   <b>{{
-                    relative.sleep[0][relative.sleep[0].length - 1].sleepScores
-                      .restlessness.qualifierKey
+                    translate(relative.sleep[0][relative.sleep[0].length - 1].sleepScores
+                      .restlessness.qualifierKey)
                   }}</b>
                   <br />
                   Nombre d'éveil :
                   <b>{{
-                    relative.sleep[0][relative.sleep[0].length - 1].sleepScores
-                      .awakeCount.qualifierKey
+                    translate(relative.sleep[0][relative.sleep[0].length - 1].sleepScores
+                      .awakeCount.qualifierKey)
                   }}</b>
                   <br />
                   <br />
                   <v-icon medium color="yellow">mdi-star </v-icon>
                   Score global du sommeil :
                   <b>{{
-                    relative.sleep[0][relative.sleep[0].length - 1]
-                      .overallSleepScore.qualifierKey
+                    translate(relative.sleep[0][relative.sleep[0].length - 1]
+                      .overallSleepScore.qualifierKey)
                   }}</b>
                 </v-card-text>
                 <v-divider></v-divider>
@@ -543,8 +542,8 @@
                   <br />
                   Activité :
                   <b v-if="today3">{{
-                    relative.dailies[0][relative.dailies[0].length - 1]
-                      .activityType
+                    translate(relative.dailies[0][relative.dailies[0].length - 1]
+                      .activityType)
                   }}</b>
                   <b v-if="today3 == false">{{ this.today3Table[2] }}</b>
                   <br />
@@ -752,6 +751,7 @@ export default {
     today3Table: [],
     today4: true,
     today4Table: [],
+    sommeil:[],
   }),
   methods: {
     BPMtoday: function() {
@@ -771,10 +771,10 @@ export default {
         }
         this.today2Table.push((res1/7).toFixed(0));
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res2 += this.relative.dailies[0][test + index]
-            .maxHeartRateInBeatsPerMinute;
+          if(res2 < this.relative.dailies[0][test + index].maxHeartRateInBeatsPerMinute)
+            res2 = this.relative.dailies[0][test + index].maxHeartRateInBeatsPerMinute;
         }
-        this.today2Table.push((res2 /7).toFixed(0));
+        this.today2Table.push(res2);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res3 += this.relative.dailies[0][test + index]
             .averageHeartRateInBeatsPerMinute;
@@ -843,17 +843,17 @@ export default {
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res1 += this.relative.dailies[0][test + index].activeKilocalories;
         }
-        this.today3Table.push(res1);
+        this.today3Table.push((res1/7).toFixed(0));
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res2 += this.relative.dailies[0][test + index].bmrKilocalories;
         }
-        this.today3Table.push(res2);
-        res3 += "BOTH";
+        this.today3Table.push((res2/7).toFixed(0));
+        res3 = "Varié";
         this.today3Table.push(res3);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res4 += this.relative.dailies[0][test + index].netKilocaloriesGoal;
         }
-        this.today3Table.push(res4);
+        this.today3Table.push((res4/7).toFixed(0));
       } else {
         for (let index = 0; index < 5; index++) {
           this.today3Table.push("--");
@@ -873,20 +873,43 @@ export default {
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res1 += this.relative.dailies[0][test + index].averageStressLevel;
         }
-        this.today4Table.push(res1);
+        this.today4Table.push((res1/7).toFixed(0));
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
-          res2 += this.relative.dailies[0][test + index].maxStressLevel;
+          if(res2 < this.relative.dailies[0][test + index].maxStressLevel){
+            res2 = this.relative.dailies[0][test + index].maxStressLevel;
+          }  
         }
         this.today4Table.push(res2);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res3 += this.relative.stress[0][test + index].durationInSeconds;
         }
-        this.today4Table.push(res3);
+        this.today4Table.push((res3/7).toFixed(0));
       } else {
         for (let index = 0; index < 5; index++) {
           this.today4Table.push("--");
         }
       }
+    },
+    translate: function(val){
+       switch (val) {
+          case 'EXCELLENT':
+          return "Excellent"
+
+          case 'GOOD':
+          return "Bon"
+
+          case 'FAIR':
+          return "Convenable"
+
+          case 'POOR':
+          return "Mauvais"
+
+          case 'WALKING':
+          return "Marche"
+
+          default:
+          break;
+       }
     },
     update(demarrage) {
       this.demarrage = demarrage;
