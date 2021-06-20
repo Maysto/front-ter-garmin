@@ -796,7 +796,7 @@ export default {
             res2 = this.relative.dailies[0][test + index]
               .maxHeartRateInBeatsPerMinute;
         }
-        this.today2Table.push((res2 / 7).toFixed(0));
+        this.today2Table.push(res2);
         for (let index = 0; index < this.relative.dailies[0].length; index++) {
           res3 += this.relative.dailies[0][test + index]
             .averageHeartRateInBeatsPerMinute;
