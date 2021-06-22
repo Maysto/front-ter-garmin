@@ -436,7 +436,7 @@
               <v-card v-if="relative.dailies[0] != undefined">
                 <v-img
                   height="150"
-                  src="https://i.ibb.co/6Y7HL9p/650x350-do-you-know-the-benefits-of-walking-rmq.webp"
+                  src="https://i.ibb.co/Jmh5dHc/rythme-cardiaque-quand-faut-consulter.jpg"
                 ></v-img>
                 <v-app-bar color="rgba(0,0,0,0)" flat class="mt-2">
                   <v-icon large class="mr-2" color="error"
